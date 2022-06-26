@@ -6,7 +6,7 @@ userRouter.get('/login', (req, res) => {
     res.send("login");
 });
 
-userRouter.get('/register', function(req, res) {
+userRouter.get('/register', (req, res) =>  {
     res.send("register");
 });
 
