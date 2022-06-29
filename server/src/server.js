@@ -1,17 +1,11 @@
 const express = require("express");
-const bodyParser = require('body-parser');
-const cors = require('cors');
-
 const app = express();
-
-app.use(cors());
-app.use(bodyParser.json());
 
 const userRouter = require('./routes/userRouter');
 const notesRouter = require('./routes/notesRouter');
 
-app.use('/api/users', userRouter);
-app.use('/api/notes', notesRouter);
+app.use('/api', userRouter);
+app.use('/api', notesRouter);
 
 app.use((req, res, next) =>
 {
