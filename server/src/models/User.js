@@ -1,2 +1,18 @@
-// define mongoose schema
-// use schema and functions created here to grab user information
+import mongoose from 'mongoose';
+const {Schema, model} = mongoose;
+
+const userSchema = new Schema({
+    firstName: {
+        type: String,
+        required: true,
+    },
+    lastName: {
+
+    }
+    email: {
+
+    }
+    password: {
+
+    }
+})
