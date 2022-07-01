@@ -10,6 +10,18 @@ const notesRouter = require('./routes/notesRouter');
 app.use('/api', userRouter);
 app.use('/api', notesRouter);
 
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production')
+{
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) =>
+    {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
+
 app.use((req, res, next) =>
 {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,18 +35,6 @@ app.use((req, res, next) =>
     );
     next();
 });
-
-// Server static assets if in production
-if (process.env.NODE_ENV === 'production') 
-{
-  // Set static folder
-  app.use(express.static('client/build'));
-
-  app.get('*', (req, res) => 
- {
-    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-  });
-}
 
 app.listen(PORT, () => 
 {

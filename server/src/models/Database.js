@@ -11,4 +11,4 @@ module.exports = {
         return client.close();
         },
     mongoDB: client.db('MarkyMark'), // Fill in DB name
-};
+}

@@ -13,7 +13,7 @@ database.connect();
 userRouter.get('/users', async (req, res) => {
     const {loginEmail, password} = req.body;
 
-    let error;
+    let ret;
     let userId = -1;
     let firstName = '';
     let lastName = '';
@@ -28,15 +28,22 @@ userRouter.get('/users', async (req, res) => {
             firstName = result.FirstName;
             lastName = result.LastName;
             tags = result.Tags;
-            error = 'User found';
+
+            try {
+                const token = require('./createJWT');
+                ret = token.createToken(userId, firstName, lastName, tags);
+            }
+            catch (e) {
+                ret = {error: "Token error:\n" + e.toString()};
+            }
         }
-        else error = 'No Such Records';
+        else ret = {error: 'No Such Records'};
     }
     catch(e) {
-        error = "Server error:\n" + e.toString();
+        ret = {error: "Server error:\n" + e.toString()};
     }
 
-    let ret = {userId: userId, firstName: firstName, lastName: lastName, tags: tags, error: error};
+    // let ret = {userId: userId, firstName: firstName, lastName: lastName, tags: tags, error: error};
     res.status(200).json(ret);
 });
 

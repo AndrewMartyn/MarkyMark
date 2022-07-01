@@ -1,5 +1,6 @@
 const express = require("express");
 const database = require("./models/Database");
+let token = require('./createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -12,7 +13,19 @@ database.connect();
 // user searches through their notes based on title and tags
 notesRouter.get("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
-  const { tags, searchText } = req.body;
+  const { tags, searchText, jwtToken } = req.body;
+
+  // check for token first
+  try {
+    if (token.isExpired(jwtToken)) {
+      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      res.status(200).json(r);
+      return
+    }
+  }
+  catch (e) {
+    console.log(e.message);
+  }
 
   let error;
   let searchResults = [];
@@ -43,41 +56,36 @@ notesRouter.get("/users/:userId/notes", async (req, res) => {
     error = "Server error:\n" + e.toString();
   }
 
-  let ret = { results: searchResults, error: error };
-  res.status(200).json(ret);
-});
-
-// user creates a new note
-notesRouter.post("/users/:userId/notes/:noteId", async (req, res) => {
-  const userId = req.params.userId;
-  const noteId = req.params.noteId;
-  const { noteTitle, noteBody, noteTags } = req.body;
-
-  let error;
-
-  let newNote = {
-    UserID: userId,
-    NoteID: noteId,
-    NoteTitle: noteTitle,
-    NoteBody: noteBody,
-    NoteTags: noteTags,
-  };
-
+  // refresh token before sending response
+  let refreshedToken;
   try {
-    const db = database.mongoDB;
-    await db.collection("Notes").insertOne(newNote);
-    error = "Note created";
-  } catch (e) {
-    error = "Server error:\n" + e.toString();
+    refreshedToken = token.refresh(jwtToken);
+  }
+  catch (e) {
+    console.log(e.message);
   }
 
-  res.status(200).json({ error: error });
+  let ret = { results: searchResults, error: error, jwtToken: refreshedToken };
+  res.status(200).json(ret);
 });
 
 // user deletes a note
 notesRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
   const userId = req.params.userId;
   const noteId = req.params.noteId;
+  const jwtToken = req.body;
+
+  // check for token first
+  try {
+    if (token.isExpired(jwtToken)) {
+      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      res.status(200).json(r);
+      return
+    }
+  }
+  catch (e) {
+    console.log(e.message);
+  }
 
   let error;
   const deleteMe = { UserID: userId, NoteId: noteId };
@@ -90,17 +98,40 @@ notesRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
     error = "Server error:\n" + e.toString();
   }
 
-  res.status(200).json({ error: error });
+  // refresh token before sending response
+  let refreshedToken;
+  try {
+    refreshedToken = token.refresh(jwtToken);
+  }
+  catch (e) {
+    console.log(e.message);
+  }
+
+  res.status(200).json({ error: error, jwtToken: refreshedToken });
 });
 
-// user saves updates to a note
+// user creates a new note or saves updates to an old note
 notesRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
   const userId = req.params.userId;
   const noteId = req.params.noteId;
-  const { title, body, tags } = req.body;
+  // !!! New note should not have empty title !!!
+  const { title, body, tags, jwtToken } = req.body;
+
+  // check for token first
+  try {
+    if (token.isExpired(jwtToken)) {
+      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      res.status(200).json(r);
+      return
+    }
+  }
+  catch (e) {
+    console.log(e.message);
+  }
 
   let error;
 
+  let newNoteOnly = {UserID: userId, NoteID: noteId};
   let edits = {};
   if (title != null) edits.NoteTitle = title;
   if (body != null) edits.NoteBody = body;
@@ -110,15 +141,72 @@ notesRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
     const db = database.mongoDB;
     await db
       .collection("Notes")
-      .updateOne({ UserID: userId, NoteID: noteId }, { $set: edits });
+      .findOneAndUpdate({ UserID: userId, NoteID: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
     error = "Note updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
 
-  res.status(200).json({ error: error });
+  // refresh token before sending response
+  let refreshedToken;
+  try {
+    refreshedToken = token.refresh(jwtToken);
+  }
+  catch (e) {
+    console.log(e.message);
+  }
+
+  res.status(200).json({ error: error, jwtToken: refreshedToken });
 });
 
 database.close();
 
 module.exports = notesRouter;
+
+// // user creates a new note (DEPRECATED)
+// notesRouter.post("/users/:userId/notes/:noteId", async (req, res) => {
+//   const userId = req.params.userId;
+//   const noteId = req.params.noteId;
+//   const { noteTitle, noteBody, noteTags, jwtToken } = req.body;
+//
+//   // check for token first
+//   try {
+//     if (token.isExpired(jwtToken)) {
+//       let r = {error: 'JWT no longer valid\n', jwtToken:''};
+//       res.status(200).json(r);
+//       return
+//     }
+//   }
+//   catch (e) {
+//     console.log(e.message);
+//   }
+//
+//   let error;
+//
+//   let newNote = {
+//     UserID: userId,
+//     NoteID: noteId,
+//     NoteTitle: noteTitle,
+//     NoteBody: noteBody,
+//     NoteTags: noteTags,
+//   };
+//
+//   try {
+//     const db = database.mongoDB;
+//     await db.collection("Notes").insertOne(newNote);
+//     error = "Note created";
+//   } catch (e) {
+//     error = "Server error:\n" + e.toString();
+//   }
+//
+//   // refresh token before sending response
+//   let refreshedToken;
+//   try {
+//     refreshedToken = token.refresh(jwtToken);
+//   }
+//   catch (e) {
+//     console.log(e.message);
+//   }
+//
+//   res.status(200).json({ error: error, jwtToken: refreshedToken });
+// });
