@@ -1,17 +1,18 @@
-import mongoose from 'mongoose';
-const {Schema, model} = mongoose;
+const mongoose = require('mongoose')
 
 const fileSchema = new Schema({
     fileName: {
         type: String,
-        required: true, 
+        required: true
     },
-    filePath: {
+    fileId: {
         type: String,
-        required: true,
+        required: true
     },
-    fileContents: {
-        type: String,
-        required: true,
+    dateCreated: {
+        type: Date,
+        default: Date.now()
     }
 });
+
+module.exports = mongoose.model("File", fileSchema)
