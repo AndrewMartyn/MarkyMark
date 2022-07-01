@@ -40,7 +40,7 @@ notesRouter.get("/users/:userId/notes", async (req, res) => {
       error = "Note(s) found";
     } else error = "No matches found";
   } catch (e) {
-    error = e.toString();
+    error = "Server error:\n" + e.toString();
   }
 
   let ret = { results: searchResults, error: error };
