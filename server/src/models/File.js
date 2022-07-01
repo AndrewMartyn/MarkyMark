@@ -9,5 +9,9 @@ const fileSchema = new Schema({
     filePath: {
         type: String,
         required: true,
+    },
+    fileContents: {
+        type: String,
+        required: true,
     }
 });
