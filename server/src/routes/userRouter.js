@@ -21,13 +21,13 @@ userRouter.get('/users', async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db.collection('Users').findOne({Email: loginEmail, Password: password});
+        const result = await db.collection('Users').findOne({email: loginEmail, password: password});
 
         if (result != null) {
-            userId = result.UserID;
-            firstName = result.FirstName;
-            lastName = result.LastName;
-            tags = result.Tags;
+            userId = result.userID;
+            firstName = result.firstName;
+            lastName = result.lastName;
+            tags = result.tags;
 
             try {
                 const token = require('./createJWT');
@@ -52,7 +52,7 @@ userRouter.post('/users', async (req, res) =>  {
     const {firstName, lastName, loginEmail, password} = req.body;
 
     let error;
-    const newUser = {FirstName: firstName, LastName: lastName, Email: loginEmail, Password: password};
+    const newUser = {firstName: firstName, lastName: lastName, email: loginEmail, password: password};
 
     try {
         const db = database.mongoDB;
@@ -72,7 +72,7 @@ userRouter.delete('/users/:userId', async (req, res) => {
     const {loginEmail} = req.body;
 
     let error;
-    const deleteMe = {UserID: userId, Email: loginEmail};
+    const deleteMe = {userID: userId, email: loginEmail};
 
     try {
         const db = database.mongoDB;
