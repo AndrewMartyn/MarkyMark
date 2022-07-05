@@ -1,11 +1,26 @@
+const path = require('path');
 const express = require("express");
+const PORT = process.env.PORT || 5000;
 const app = express();
+app.set('port', (process.env.PORT || 5000));
 
 const userRouter = require('./routes/userRouter');
 const notesRouter = require('./routes/notesRouter');
 
 app.use('/api', userRouter);
 app.use('/api', notesRouter);
+
+// Server static assets if in production
+if (process.env.NODE_ENV === 'production')
+{
+    // Set static folder
+    app.use(express.static('client/build'));
+
+    app.get('*', (req, res) =>
+    {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+    });
+}
 
 app.use((req, res, next) =>
 {
@@ -16,12 +31,12 @@ app.use((req, res, next) =>
     );
     res.setHeader(
         'Access-Control-Allow-Methods',
-        'GET, POST, PATCH, DELETE, OPTIONS'
+        'GET, POST, PUT, PATCH, DELETE, OPTIONS'
     );
     next();
 });
 
-app.listen(5000, function(err) {
-    if (err) console.log(err);
-    console.log("Server listening on port 5000");
+app.listen(PORT, () => 
+{
+  console.log('Server listening on port ' + PORT);
 });
