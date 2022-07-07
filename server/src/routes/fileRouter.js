@@ -4,14 +4,14 @@ let token = require('./createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const notesRouter = express.Router();
-notesRouter.use(cors());
-notesRouter.use(bodyParser.json());
+const fileRouter = express.Router();
+fileRouter.use(cors());
+fileRouter.use(bodyParser.json());
 
 database.connect();
 
 // user searches through their notes based on title and tags
-notesRouter.get("/users/:userId/files", async (req, res) => {
+fileRouter.get("/users/:userId/files", async (req, res) => {
   const userId = req.params.userId;
   const { tags, searchText, jwtToken } = req.body;
 
@@ -70,7 +70,7 @@ notesRouter.get("/users/:userId/files", async (req, res) => {
 });
 
 // user deletes a note
-notesRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
+fileRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
   const userId = req.params.userId;
   const fileId = req.params.fileId;
   const jwtToken = req.body;
@@ -112,7 +112,7 @@ notesRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
 
 // user creates a new note or saves updates to an old note
 // if new file, default fileId to -1 or some invalid value
-notesRouter.put("/users/:userId/files/:fileId", async (req, res) => {
+fileRouter.put("/users/:userId/files/:fileId", async (req, res) => {
   const userId = req.params.userId;
   const fileId = req.params.fileId;
   // !!! New note should not have empty title !!!
@@ -132,7 +132,7 @@ notesRouter.put("/users/:userId/files/:fileId", async (req, res) => {
 
   let error;
 
-  let newNoteOnly = {userId: userId};
+  let newFileOnly = {userId: userId};
   let edits = {};
   if (name != null) edits.fileName = name;
   if (body != null) edits.fileBody = body;
@@ -143,7 +143,7 @@ notesRouter.put("/users/:userId/files/:fileId", async (req, res) => {
     // if file with specified userId and fileId cannot be found within collection, upsert file
     await db
       .collection("Files")
-      .findOneAndUpdate({ userId: userId, fileId: fileId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
+      .findOneAndUpdate({ userId: userId, fileId: fileId }, { $setOnInsert: newFileOnly, $set: edits }, { upsert: true });
     error = "File updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();
@@ -163,7 +163,7 @@ notesRouter.put("/users/:userId/files/:fileId", async (req, res) => {
 
 database.close();
 
-module.exports = notesRouter;
+module.exports = fileRouter;
 
 // // user creates a new note (DEPRECATED)
 // notesRouter.post("/users/:userId/notes/:noteId", async (req, res) => {
