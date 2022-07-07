@@ -5,10 +5,10 @@ const app = express();
 app.set('port', (process.env.PORT || 5000));
 
 const userRouter = require('./routes/userRouter');
-const notesRouter = require('./routes/notesRouter');
+const fileRouter = require('./routes/fileRouter');
 
 app.use('/api', userRouter);
-app.use('/api', notesRouter);
+app.use('/api', fileRouter);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production')
