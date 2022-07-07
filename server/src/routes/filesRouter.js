@@ -11,7 +11,7 @@ notesRouter.use(bodyParser.json());
 database.connect();
 
 // user searches through their notes based on title and tags
-notesRouter.get("/users/:userId/notes", async (req, res) => {
+notesRouter.get("/users/:userId/files", async (req, res) => {
   const userId = req.params.userId;
   const { tags, searchText, jwtToken } = req.body;
 
@@ -34,24 +34,24 @@ notesRouter.get("/users/:userId/notes", async (req, res) => {
   try {
     const db = database.mongoDB;
     const results = await db
-      .collection("Notes")
+      .collection("Files")
       .find({
-        UserID: userId,
-        NoteTags: { $all: tags },
-        NoteTitle: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
+        userId: userId,
+        fileTags: { $all: tags },
+        fileName: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
       })
       .toArray();
 
     if (results.length > 0) {
       for (let i = 0; i < results.length; i++)
         searchResults.push({
-          noteId: results[i].NoteID,
-          noteTitle: results[i].NoteTitle,
-          noteBody: results[i].NoteBody,
-          noteTags: results[i].NoteTags,
+          fileId: results[i].fileId,
+          fileName: results[i].fileName,
+          fileBody: results[i].fileBody,
+          fileTags: results[i].fileTags,
         });
-      error = "Note(s) found";
-    } else error = "No matches found";
+      error = "File(s) found";
+    } else error = "No files found";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
@@ -70,9 +70,9 @@ notesRouter.get("/users/:userId/notes", async (req, res) => {
 });
 
 // user deletes a note
-notesRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
+notesRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
   const userId = req.params.userId;
-  const noteId = req.params.noteId;
+  const fileId = req.params.fileId;
   const jwtToken = req.body;
 
   // check for token first
@@ -88,12 +88,12 @@ notesRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
   }
 
   let error;
-  const deleteMe = { UserID: userId, NoteId: noteId };
+  const deleteMe = { userId: userId, fileId: fileId };
 
   try {
     const db = database.mongoDB;
-    await db.collection("Notes").findOneAndDelete(deleteMe);
-    error = "Note deleted";
+    await db.collection("Files").findOneAndDelete(deleteMe);
+    error = "File deleted";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
@@ -111,11 +111,12 @@ notesRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
 });
 
 // user creates a new note or saves updates to an old note
-notesRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
+// if new file, default fileId to -1 or some invalid value
+notesRouter.put("/users/:userId/files/:fileId", async (req, res) => {
   const userId = req.params.userId;
-  const noteId = req.params.noteId;
+  const fileId = req.params.fileId;
   // !!! New note should not have empty title !!!
-  const { title, body, tags, jwtToken } = req.body;
+  const { name, body, tags, jwtToken } = req.body;
 
   // check for token first
   try {
@@ -131,18 +132,19 @@ notesRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
 
   let error;
 
-  let newNoteOnly = {UserID: userId, NoteID: noteId};
+  let newNoteOnly = {userId: userId};
   let edits = {};
-  if (title != null) edits.NoteTitle = title;
-  if (body != null) edits.NoteBody = body;
-  if (tags != null) edits.NoteTags = tags;
+  if (name != null) edits.fileName = name;
+  if (body != null) edits.fileBody = body;
+  if (tags != null) edits.fileTags = tags;
 
   try {
     const db = database.mongoDB;
+    // if file with specified userId and fileId cannot be found within collection, upsert file
     await db
-      .collection("Notes")
-      .findOneAndUpdate({ UserID: userId, NoteID: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
-    error = "Note updated";
+      .collection("Files")
+      .findOneAndUpdate({ userId: userId, fileId: fileId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
+    error = "File updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
