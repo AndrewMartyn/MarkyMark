@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
-import View from './View'
-import Editor from './Editor'
-import {darcula} from '@uiw/codemirror-theme-darcula'
+import React, { useCallback, useState } from "react";
+
+import SplitPane from "react-split-pane";
+import Preview from "./Preview";
+import Editor from "./Editor";
+import "./tailwind.css";
+import "./splitpane.css";
+
 function App() {
+    const [doc, setDoc] = useState(`# Text`);
 
-  const [text, setText] = useState("# Text")
+    const handleDocChange = useCallback((newDoc) => {
+        setDoc(newDoc);
+    }, []);
 
-  return (
-    <div>
-      <div>
-        <Editor
-          value={text}
-          onChange={setText}
-          theme={darcula}
-        />
-      </div>
-      <div>
-        <View value={text} />
-      </div>
-    </div>
-  );
+    return (
+        <SplitPane split="vertical" defaultSize="50%">
+            <SplitPane split="vertical" defaultSize="25%">
+                Sidebar
+                <Editor onChange={handleDocChange} doc={doc} />
+            </SplitPane>
+            <Preview doc={doc} />
+        </SplitPane>
+    );
 }
 export default App;
