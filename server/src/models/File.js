@@ -16,6 +16,10 @@ const fileSchema = new Schema({
     fileTags: {
         type: [String]
     },
+    dateLastModified: {
+        type: Date,
+        default: Date.now()
+    },
     dateCreated: {
         type: Date,
         default: Date.now()

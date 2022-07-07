@@ -1,3 +1,4 @@
+const { ObjectId } = require('bson');
 const mongoose = require('mongoose')
 
 const userSchema = new Schema({
@@ -17,6 +18,9 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    file_ids: {
+        type: [ObjectId]
     },
     // array of strings to store all the tags used by a particular user for easier filtered search
     tags: {
