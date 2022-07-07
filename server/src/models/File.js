@@ -5,9 +5,16 @@ const fileSchema = new Schema({
         type: String,
         required: true
     },
-    fileId: {
+    filePath: {
         type: String,
         required: true
+    },
+    fileBody: {
+        type: String,
+        required: true
+    },
+    fileTags: {
+        type: [String]
     },
     dateCreated: {
         type: Date,
