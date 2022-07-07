@@ -45,7 +45,7 @@ fileRouter.get("/users/:userId/files", async (req, res) => {
     if (results.length > 0) {
       for (let i = 0; i < results.length; i++)
         searchResults.push({
-          fileId: results[i].fileId,
+          fileId: results[i]._id,
           fileName: results[i].fileName,
           fileBody: results[i].fileBody,
           fileTags: results[i].fileTags,
@@ -88,7 +88,7 @@ fileRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
   }
 
   let error;
-  const deleteMe = { userId: userId, fileId: fileId };
+  const deleteMe = { userId: userId, _id: fileId };
 
   try {
     const db = database.mongoDB;
@@ -143,7 +143,7 @@ fileRouter.put("/users/:userId/files/:fileId", async (req, res) => {
     // if file with specified userId and fileId cannot be found within collection, upsert file
     await db
       .collection("Files")
-      .findOneAndUpdate({ userId: userId, fileId: fileId }, { $setOnInsert: newFileOnly, $set: edits }, { upsert: true });
+      .findOneAndUpdate({ userId: userId, _id: fileId }, { $setOnInsert: newFileOnly, $set: edits }, { upsert: true });
     error = "File updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();
