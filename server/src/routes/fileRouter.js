@@ -4,14 +4,14 @@ let token = require('./createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
-const fileRouter = express.Router();
-fileRouter.use(cors());
-fileRouter.use(bodyParser.json());
+const noteRouter = express.Router();
+noteRouter.use(cors());
+noteRouter.use(bodyParser.json());
 
 database.connect();
 
 // user searches through their notes based on title and tags
-fileRouter.get("/users/:userId/files", async (req, res) => {
+noteRouter.get("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
   const { tags, searchText, jwtToken } = req.body;
 
@@ -34,24 +34,24 @@ fileRouter.get("/users/:userId/files", async (req, res) => {
   try {
     const db = database.mongoDB;
     const results = await db
-      .collection("Files")
+      .collection("Notes")
       .find({
         userId: userId,
-        fileTags: { $all: tags },
-        fileName: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
+        noteTags: { $all: tags },
+        noteName: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
       })
       .toArray();
 
     if (results.length > 0) {
       for (let i = 0; i < results.length; i++)
         searchResults.push({
-          fileId: results[i]._id,
-          fileName: results[i].fileName,
-          fileBody: results[i].fileBody,
-          fileTags: results[i].fileTags,
+          noteId: results[i]._id,
+          noteName: results[i].noteName,
+          noteBody: results[i].noteBody,
+          noteTags: results[i].noteTags,
         });
-      error = "File(s) found";
-    } else error = "No files found";
+      error = "Note(s) found";
+    } else error = "No notes found";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
@@ -70,9 +70,9 @@ fileRouter.get("/users/:userId/files", async (req, res) => {
 });
 
 // user deletes a note
-fileRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
+noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
   const userId = req.params.userId;
-  const fileId = req.params.fileId;
+  const noteId = req.params.noteId;
   const jwtToken = req.body;
 
   // check for token first
@@ -88,12 +88,12 @@ fileRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
   }
 
   let error;
-  const deleteMe = { userId: userId, _id: fileId };
+  const deleteMe = { userId: userId, _id: noteId };
 
   try {
     const db = database.mongoDB;
-    await db.collection("Files").findOneAndDelete(deleteMe);
-    error = "File deleted";
+    await db.collection("Notes").findOneAndDelete(deleteMe);
+    error = "Note deleted";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
@@ -111,10 +111,10 @@ fileRouter.delete("/users/:userId/files/:fileId", async (req, res) => {
 });
 
 // user creates a new note or saves updates to an old note
-// if new file, default fileId to -1 or some invalid value
-fileRouter.put("/users/:userId/files/:fileId", async (req, res) => {
+// if new note, default fileId to -1 or some invalid value
+noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
   const userId = req.params.userId;
-  const fileId = req.params.fileId;
+  const noteId = req.params.noteId;
   // !!! New note should not have empty title !!!
   const { name, body, tags, jwtToken } = req.body;
 
@@ -132,19 +132,19 @@ fileRouter.put("/users/:userId/files/:fileId", async (req, res) => {
 
   let error;
 
-  let newFileOnly = {userId: userId};
-  let edits = {};
-  if (name != null) edits.fileName = name;
-  if (body != null) edits.fileBody = body;
-  if (tags != null) edits.fileTags = tags;
+  let newNoteOnly = {userId: userId, dateCreated: ''};
+  let edits = {dateLastModified: ''};
+  if (name != null) edits.noteName = name;
+  if (body != null) edits.noteBody = body;
+  if (tags != null) edits.noteTags = tags;
 
   try {
     const db = database.mongoDB;
-    // if file with specified userId and fileId cannot be found within collection, upsert file
+    // if note with specified userId and noteId cannot be found within collection, upsert note
     await db
-      .collection("Files")
-      .findOneAndUpdate({ userId: userId, _id: fileId }, { $setOnInsert: newFileOnly, $set: edits }, { upsert: true });
-    error = "File updated";
+      .collection("Notes")
+      .findOneAndUpdate({ userId: userId, _id: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
+    error = "Note updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();
   }
@@ -163,7 +163,7 @@ fileRouter.put("/users/:userId/files/:fileId", async (req, res) => {
 
 database.close();
 
-module.exports = fileRouter;
+module.exports = noteRouter;
 
 // // user creates a new note (DEPRECATED)
 // notesRouter.post("/users/:userId/notes/:noteId", async (req, res) => {

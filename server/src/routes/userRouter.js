@@ -52,7 +52,7 @@ userRouter.post('/users', async (req, res) =>  {
     const {firstName, lastName, loginEmail, password} = req.body;
 
     let error;
-    const newUser = {firstName: firstName, lastName: lastName, email: loginEmail, password: password};
+    const newUser = {firstName: firstName, lastName: lastName, email: loginEmail, password: password, dateCreated:''};
 
     try {
         const db = database.mongoDB;
