@@ -1,6 +1,6 @@
 const express = require("express");
-const database = require("./models/Database");
-let token = require('./createJWT');
+const database = require("../models/Database");
+let token = require('../createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 

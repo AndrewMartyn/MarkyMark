@@ -1,6 +1,11 @@
+const { ObjectId } = require('bson');
 const mongoose = require('mongoose')
 
 const fileSchema = new Schema({
+    userId: {
+        type: ObjectId,
+        required: true
+    },
     fileName: {
         type: String,
         required: true
@@ -15,6 +20,10 @@ const fileSchema = new Schema({
     },
     fileTags: {
         type: [String]
+    },
+    dateLastModified: {
+        type: Date,
+        default: Date.now()
     },
     dateCreated: {
         type: Date,
