@@ -19,9 +19,6 @@ const userSchema = new Schema({
         type: String,
         required: true
     },
-    file_ids: {
-        type: [ObjectId]
-    },
     // array of strings to store all the tags used by a particular user for easier filtered search
     tags: {
         type: [String]
