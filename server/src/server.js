@@ -1,14 +1,14 @@
 const path = require('path');
 const express = require("express");
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5001;
 const app = express();
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5001));
 
 const userRouter = require('./routes/userRouter');
-const fileRouter = require('./routes/fileRouter');
+const noteRouter = require('./routes/noteRouter');
 
 app.use('/api', userRouter);
-app.use('/api', fileRouter);
+app.use('/api', noteRouter);
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production')
