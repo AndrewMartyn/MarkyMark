@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from "react";
 
-import useCodeMirror from "./useCodeMirror";
-import "./Editor.css";
+import useCodeMirror from "../useCodeMirror";
+import "../css/Editor.css";
 
 const Editor = ({ initialDoc, onChange }) => {
     const handleChange = useCallback(
@@ -19,7 +19,7 @@ const Editor = ({ initialDoc, onChange }) => {
         }
     }, [editorView]);
 
-    return <div className="editor-wrapper" ref={refContainer}></div>;
+    return <div className="editor wrapper" ref={refContainer}></div>;
 };
 
 export default Editor;

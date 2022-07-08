@@ -5,7 +5,7 @@
     padding: 10px;
 }
 
-.editor-wrapper {
+.editor.wrapper {
     height: fit-content;
     font-family: "Roboto Mono" !important;
     font-size: 30px;

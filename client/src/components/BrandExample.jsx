@@ -5,8 +5,9 @@ function BrandExample() {
     const fileName = "examplefile.md";
     return (
         <Navbar bg="dark" variant="dark">
-            <Container>
-                <Navbar.Brand href="#home">{fileName}</Navbar.Brand>
+            <Container fluid>
+                <Navbar.Brand>{fileName}</Navbar.Brand>
+                <Navbar.Brand>{fileName}</Navbar.Brand>
             </Container>
         </Navbar>
     );

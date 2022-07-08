@@ -3,10 +3,10 @@ import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkGfm from "remark-gfm";
 import remarkReact from "remark-react";
-import RemarkCode from "./remark-code";
+import RemarkCode from "../remark-code";
 import { defaultSchema } from "hast-util-sanitize";
 import "github-markdown-css/github-markdown.css";
-import "./Preview.css";
+import "../css/Preview.css";
 
 const schema = {
     ...defaultSchema,

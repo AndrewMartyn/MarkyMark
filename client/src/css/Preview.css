@@ -1,6 +1,7 @@
 .preview.markdown-body {
     flex: 0 0 50%;
-    padding: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     font-size: 30px;
     box-sizing: border-box;
     overflow: auto;
