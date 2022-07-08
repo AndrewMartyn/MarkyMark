@@ -24,7 +24,7 @@ userRouter.get('/users', async (req, res) => {
         const result = await db.collection('Users').findOne({email: loginEmail, password: password});
 
         if (result != null) {
-            userId = result.userId;
+            userId = result._id;
             firstName = result.firstName;
             lastName = result.lastName;
             tags = result.tags;
@@ -72,7 +72,7 @@ userRouter.delete('/users/:userId', async (req, res) => {
     const {loginEmail} = req.body;
 
     let error;
-    const deleteMe = {userId: userId, email: loginEmail};
+    const deleteMe = {_id: userId, email: loginEmail};
 
     try {
         const db = database.mongoDB;
