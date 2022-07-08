@@ -36,7 +36,7 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
     const results = await db
       .collection("Notes")
       .find({
-        userId: userId,
+        userId: { _id: userId },
         noteTags: { $all: tags },
         noteName: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
       })
@@ -88,7 +88,7 @@ noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
   }
 
   let error;
-  const deleteMe = { userId: userId, _id: noteId };
+  const deleteMe = { userId: { _id: userId }, _id: noteId };
 
   try {
     const db = database.mongoDB;
@@ -132,7 +132,7 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
 
   let error;
 
-  let newNoteOnly = {userId: userId, dateCreated: ''};
+  let newNoteOnly = {userId: { _id: userId }, dateCreated: ''};
   let edits = {dateLastModified: ''};
   if (name != null) edits.noteName = name;
   if (body != null) edits.noteBody = body;
@@ -143,7 +143,7 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
     // if note with specified userId and noteId cannot be found within collection, upsert note
     await db
       .collection("Notes")
-      .findOneAndUpdate({ userId: userId, _id: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
+      .findOneAndUpdate({ userId: { _id: userId }, _id: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
     error = "Note updated";
   } catch (e) {
     error = "Server error:\n" + e.toString();

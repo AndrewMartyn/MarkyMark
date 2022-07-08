@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="Added dateCreated and dateModified to notes">
+    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/fileRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/fileRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/noteRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/noteRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +44,7 @@
       <option name="presentableId" value="Default" />
       <updated>1656646042406</updated>
       <workItem from="1656646047544" duration="9158000" />
-      <workItem from="1657055370274" duration="3699000" />
+      <workItem from="1657055370274" duration="4636000" />
     </task>
     <task id="LOCAL-00001" summary="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote.">
       <created>1656654418425</created>
@@ -60,7 +60,21 @@
       <option name="project" value="LOCAL" />
       <updated>1657237706830</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Added dateCreated and dateModified to notes. Also renamed file to note">
+      <created>1657239018799</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1657239018799</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Added dateCreated and dateModified to notes. Also renamed file to note">
+      <created>1657239086398</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1657239086398</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -79,6 +93,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote." />
+    <MESSAGE value="Added dateCreated and dateModified to notes. Also renamed file to note" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added dateCreated and dateModified to notes. Also renamed file to note" />
   </component>
 </project>
