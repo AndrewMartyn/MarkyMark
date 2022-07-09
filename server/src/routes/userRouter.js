@@ -1,5 +1,6 @@
 const express = require('express');
 const database = require('../models/Database');
+const User = require('../models/User');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -53,7 +54,7 @@ userRouter.post('/users', async (req, res) =>  {
     const {firstName, lastName, loginEmail, password} = req.body;
 
     let error;
-    const newUser = {firstName: firstName, lastName: lastName, email: loginEmail, password: password, dateCreated:''};
+    const newUser = new User({firstName: firstName, lastName: lastName, email: loginEmail, password: password, dateCreated:''});
 
     try {
         const db = database.mongoDB;

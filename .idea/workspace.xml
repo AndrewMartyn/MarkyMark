@@ -1,13 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="moved .env">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/bower.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/bower.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/bson-ts34.d.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/bson.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/bson.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.esm.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.esm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.esm.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.esm.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.umd.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.umd.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.umd.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.browser.umd.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.bundle.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.bundle.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.bundle.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.bundle.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.esm.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.esm.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/dist/bson.esm.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/dist/bson.esm.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/binary.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/binary.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/binary.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/binary.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/bson.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/bson.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/bson.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/bson.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/code.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/code.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/code.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/code.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/db_ref.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/db_ref.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/db_ref.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/db_ref.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/decimal128.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/decimal128.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/decimal128.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/decimal128.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/double.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/double.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/double.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/double.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/ensure_buffer.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/ensure_buffer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/ensure_buffer.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/ensure_buffer.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/extended_json.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/extended_json.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/extended_json.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/extended_json.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/float_parser.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/float_parser.js.map" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/int_32.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/int_32.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/int_32.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/int_32.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/long.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/long.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/long.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/long.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/map.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/map.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/map.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/map.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/objectid.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/objectid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/objectid.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/objectid.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/calculate_size.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/calculate_size.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/calculate_size.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/calculate_size.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/deserializer.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/deserializer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/deserializer.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/deserializer.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/serializer.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/serializer.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/serializer.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/serializer.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/parser/utils.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/parser/utils.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/regexp.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/regexp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/regexp.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/regexp.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/symbol.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/symbol.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/symbol.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/symbol.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/timestamp.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/timestamp.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/timestamp.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/timestamp.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/utils/global.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/utils/global.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/utils/global.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/utils/global.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/uuid.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/uuid.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/uuid.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/uuid.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/uuid_utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/uuid_utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/lib/uuid_utils.js.map" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/lib/uuid_utils.js.map" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/binary.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/binary.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/code.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/code.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/db_ref.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/db_ref.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/decimal128.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/decimal128.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/extended_json.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/extended_json.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/float_parser.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/long.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/long.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/objectid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/objectid.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/parser/calculate_size.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/parser/calculate_size.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/parser/deserializer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/parser/deserializer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/parser/serializer.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/parser/serializer.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/parser/utils.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/parser/utils.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/timestamp.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/timestamp.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/utils/global.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/utils/global.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/node_modules/bson/src/uuid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/bson/src/uuid.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/models/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/Database.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/User.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/userRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -55,7 +129,7 @@
       <updated>1656646042406</updated>
       <workItem from="1656646047544" duration="9158000" />
       <workItem from="1657055370274" duration="12407000" />
-      <workItem from="1657384272014" duration="1435000" />
+      <workItem from="1657384272014" duration="3575000" />
     </task>
     <task id="LOCAL-00001" summary="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote.">
       <created>1656654418425</created>
@@ -99,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657337975510</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="moved .env">
+      <created>1657385814056</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1657385814056</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,6 +201,7 @@
     <MESSAGE value="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote." />
     <MESSAGE value="Added dateCreated and dateModified to notes. Also renamed file to note" />
     <MESSAGE value="Fixed userId to retrieve an object instead of just a string." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed userId to retrieve an object instead of just a string." />
+    <MESSAGE value="moved .env" />
+    <option name="LAST_COMMIT_MESSAGE" value="moved .env" />
   </component>
 </project>
