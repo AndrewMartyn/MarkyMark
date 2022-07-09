@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/node_modules/.package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/node_modules/.package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/.gitignore" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/models/Database.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/Database.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/noteRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/noteRouter.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/userRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,8 +40,9 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/server/" />
       <recent name="$PROJECT_DIR$/" />
+      <recent name="$PROJECT_DIR$/server" />
+      <recent name="$PROJECT_DIR$/server/" />
     </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
@@ -54,6 +55,7 @@
       <updated>1656646042406</updated>
       <workItem from="1656646047544" duration="9158000" />
       <workItem from="1657055370274" duration="12407000" />
+      <workItem from="1657384272014" duration="1435000" />
     </task>
     <task id="LOCAL-00001" summary="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote.">
       <created>1656654418425</created>
