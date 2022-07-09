@@ -36,13 +36,13 @@ userRouter.get('/users', async (req, res) => {
                 ret = token.createToken(userId, firstName, lastName, tags);
             }
             catch (e) {
-                ret = {error: "Token error:\n" + e.toString()};
+                ret = {error: "Token error: " + e.toString()};
             }
         }
         else ret = {error: 'No Such Records'};
     }
     catch(e) {
-        ret = {error: "Server error:\n" + e.toString()};
+        ret = {error: "Server error: " + e.toString()};
     }
 
     // let ret = {userId: userId, firstName: firstName, lastName: lastName, tags: tags, error: error};
@@ -51,10 +51,10 @@ userRouter.get('/users', async (req, res) => {
 
 // user registers account
 userRouter.post('/users', async (req, res) =>  {
-    const {firstName, lastName, loginEmail, password} = req.body;
+    const {firstName, lastName, email, password} = req.body;
 
     let error;
-    const newUser = new User({firstName: firstName, lastName: lastName, email: loginEmail, password: password, dateCreated:''});
+    const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: undefined});
 
     try {
         const db = database.mongoDB;
@@ -62,7 +62,7 @@ userRouter.post('/users', async (req, res) =>  {
         error = 'User created';
     }
     catch (e) {
-        error = "Server error:\n" + e.toString();
+        error = "Server error: " + e.toString();
     }
 
     res.status(200).json({error: error});
@@ -82,7 +82,7 @@ userRouter.delete('/users/:userId', async (req, res) => {
         error = 'User deleted';
     }
     catch (e) {
-        error = "Server error:\n" + e.toString();
+        error = "Server error: " + e.toString();
     }
 
     res.status(200).json({error: error});

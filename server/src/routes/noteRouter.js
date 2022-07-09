@@ -1,5 +1,6 @@
 const express = require("express");
 const database = require("../models/Database");
+// const Note = require('../models/File');
 let token = require('../createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -18,7 +19,7 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
   // check for token first
   try {
     if (token.isExpired(jwtToken)) {
-      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      let r = {error: 'JWT no longer valid', jwtToken:''};
       res.status(200).json(r);
       return
     }
@@ -53,7 +54,7 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
       error = "Note(s) found";
     } else error = "No notes found";
   } catch (e) {
-    error = "Server error:\n" + e.toString();
+    error = "Server error: " + e.toString();
   }
 
   // refresh token before sending response
@@ -78,7 +79,7 @@ noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
   // check for token first
   try {
     if (token.isExpired(jwtToken)) {
-      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      let r = {error: 'JWT no longer valid ', jwtToken:''};
       res.status(200).json(r);
       return
     }
@@ -95,7 +96,7 @@ noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
     await db.collection("Notes").findOneAndDelete(deleteMe);
     error = "Note deleted";
   } catch (e) {
-    error = "Server error:\n" + e.toString();
+    error = "Server error: " + e.toString();
   }
 
   // refresh token before sending response
@@ -121,7 +122,7 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
   // check for token first
   try {
     if (token.isExpired(jwtToken)) {
-      let r = {error: 'JWT no longer valid\n', jwtToken:''};
+      let r = {error: 'JWT no longer valid', jwtToken:''};
       res.status(200).json(r);
       return
     }
@@ -132,8 +133,8 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
 
   let error;
 
-  let newNoteOnly = {userId: { _id: userId }, dateCreated: ''};
-  let edits = {dateLastModified: ''};
+  let newNoteOnly = {userId: { _id: userId }, dateCreated: undefined};
+  let edits = {dateLastModified: undefined};
   if (name != null) edits.noteName = name;
   if (body != null) edits.noteBody = body;
   if (tags != null) edits.noteTags = tags;
@@ -146,7 +147,7 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
       .findOneAndUpdate({ userId: { _id: userId }, _id: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
     error = "Note updated";
   } catch (e) {
-    error = "Server error:\n" + e.toString();
+    error = "Server error: " + e.toString();
   }
 
   // refresh token before sending response

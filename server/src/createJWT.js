@@ -10,7 +10,7 @@ function createToken(id, fn, ln, tags) {
         const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {'expiresIn': '15m'});
         ret = {token: accessToken, userId:id, firstName: fn, lastName: ln, tags: tags};
     } catch (e) {
-        ret = {error: "Token error:\n" + e.toString()};
+        ret = {error: "Token error: " + e.toString()};
     }
 
     return ret;

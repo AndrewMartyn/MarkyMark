@@ -1,7 +1,7 @@
 const { ObjectId } = require('bson');
 const mongoose = require('mongoose')
 
-const fileSchema = new Schema({
+const fileSchema = new mongoose.Schema({
     userId: {
         type: ObjectId,
         required: true

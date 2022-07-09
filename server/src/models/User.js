@@ -11,16 +11,16 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     email: {
         type: String,
         required: true,
-        lowercase: true
+        lowercase: true,
     },
     // array of strings to store all the tags used by a particular user for easier filtered search
     tags: {
-        type: [String]
+        type: [String],
     },
     dateCreated: {
         type: Date,
