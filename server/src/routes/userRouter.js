@@ -11,7 +11,8 @@ database.connect();
 
 // user logs in to account
 userRouter.get('/users', async (req, res) => {
-    const {loginEmail, password} = req.body;
+    const { loginEmail, password } = req.query
+    // console.log(loginEmail, password);
 
     let ret;
     let userId = -1;

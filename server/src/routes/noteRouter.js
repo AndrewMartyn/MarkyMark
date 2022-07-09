@@ -13,7 +13,7 @@ database.connect();
 // user searches through their notes based on title and tags
 noteRouter.get("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
-  const { tags, searchText, jwtToken } = req.body;
+  const { tags, searchText, jwtToken } = req.query;
 
   // check for token first
   try {
