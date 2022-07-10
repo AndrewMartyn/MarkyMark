@@ -46,24 +46,39 @@ userRouter.get('/users', async (req, res) => {
         ret = {error: "Server error: " + e.toString()};
     }
 
-    // let ret = {userId: userId, firstName: firstName, lastName: lastName, tags: tags, error: error};
     res.status(200).json(ret);
 });
 
 // user registers account
 userRouter.post('/users', async (req, res) =>  {
-    const {firstName, lastName, email, password, dateCreated} = req.body;
-
+    const {firstName, lastName, email, password} = req.body;
     let error;
-    const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: dateCreated});
 
     try {
         const db = database.mongoDB;
-        await db.collection('Users').insertOne(newUser, (err, d) => {
-            if (d.insertedId != null) console.log("User created")
-            else console.log("User could not be created")
-        });
-        error = 'POST request sent';
+
+        // first validate that email is unique and does not already exist in database
+        const result = await db.collection('Users').findOne({email: email});
+
+        if (result != null) {
+            console.log("User already exists");
+            res.status(300).json({error: "User already exists"});
+            return;
+        }
+        else {
+            const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: undefined});
+
+            try {
+                await db.collection('Users').insertOne(newUser, (err, d) => {
+                    if (d.insertedId != null) console.log("User created")
+                    else console.log("User could not be created")
+                });
+                error = 'POST request sent';
+            }
+            catch (e) {
+                error = "Server error: " + e.toString();
+            }
+        }
     }
     catch (e) {
         error = "Server error: " + e.toString();
