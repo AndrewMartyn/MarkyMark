@@ -51,10 +51,10 @@ userRouter.get('/users', async (req, res) => {
 
 // user registers account
 userRouter.post('/users', async (req, res) =>  {
-    const {firstName, lastName, email, password} = req.body;
+    const {firstName, lastName, email, password, dateCreated} = req.body;
 
     let error;
-    const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: undefined});
+    const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: dateCreated});
 
     try {
         const db = database.mongoDB;
