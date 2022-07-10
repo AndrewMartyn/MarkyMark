@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="fixed stuff">
+    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="fixed stuff again.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/createJWT.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/createJWT.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/models/File.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/File.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/models/Note.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/Note.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/models/User.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/models/User.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/noteRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/noteRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/routes/userRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRouter.js" afterDir="false" />
@@ -55,7 +55,7 @@
       <updated>1656646042406</updated>
       <workItem from="1656646047544" duration="9158000" />
       <workItem from="1657055370274" duration="12407000" />
-      <workItem from="1657384272014" duration="6141000" />
+      <workItem from="1657384272014" duration="29163000" />
     </task>
     <task id="LOCAL-00001" summary="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote.">
       <created>1656654418425</created>
@@ -113,7 +113,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657388321036</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="fixed stuff again.">
+      <created>1657390891727</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1657390891727</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,6 +143,7 @@
     <MESSAGE value="Fixed userId to retrieve an object instead of just a string." />
     <MESSAGE value="moved .env" />
     <MESSAGE value="fixed stuff" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed stuff" />
+    <MESSAGE value="fixed stuff again." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed stuff again." />
   </component>
 </project>

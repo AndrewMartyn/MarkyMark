@@ -9,14 +9,14 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    password: {
-        type: String,
-        required: true,
-    },
     email: {
         type: String,
         required: true,
         lowercase: true,
+    },
+    password: {
+        type: String,
+        required: true,
     },
     // array of strings to store all the tags used by a particular user for easier filtered search
     tags: {

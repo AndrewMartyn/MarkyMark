@@ -1,4 +1,5 @@
 const express = require('express');
+const ObjectId = require('mongodb').ObjectId;
 const database = require('../models/Database');
 const User = require('../models/User');
 const cors = require("cors");
@@ -12,7 +13,7 @@ database.connect();
 
 // user logs in to account
 userRouter.get('/users', async (req, res) => {
-    const { loginEmail, password } = req.query
+    const { email, password } = req.query
     // console.log(loginEmail, password);
 
     let ret;
@@ -23,7 +24,7 @@ userRouter.get('/users', async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db.collection('Users').findOne({email: loginEmail, password: password});
+        const result = await db.collection('Users').findOne({email: email, password: password});
 
         if (result != null) {
             userId = result._id;
@@ -32,7 +33,7 @@ userRouter.get('/users', async (req, res) => {
             tags = result.tags;
 
             try {
-                const token = require('./createJWT');
+                const token = require('../createJWT');
                 ret = token.createToken(userId, firstName, lastName, tags);
             }
             catch (e) {
@@ -58,8 +59,11 @@ userRouter.post('/users', async (req, res) =>  {
 
     try {
         const db = database.mongoDB;
-        await db.collection('Users').insertOne(newUser);
-        error = 'User created';
+        await db.collection('Users').insertOne(newUser, (err, d) => {
+            if (d.insertedId != null) console.log("User created")
+            else console.log("User could not be created")
+        });
+        error = 'POST request sent';
     }
     catch (e) {
         error = "Server error: " + e.toString();
@@ -71,15 +75,18 @@ userRouter.post('/users', async (req, res) =>  {
 // user deletes account
 userRouter.delete('/users/:userId', async (req, res) => {
     const userId = req.params.userId;
-    const {loginEmail} = req.body;
+    const {email} = req.body;
 
     let error;
-    const deleteMe = {_id: userId, email: loginEmail};
+    const deleteMe = {_id: new ObjectId(userId), email: email};
 
     try {
         const db = database.mongoDB;
-        await db.collection('Users').findOneAndDelete(deleteMe);
-        error = 'User deleted';
+        await db.collection('Users').deleteOne(deleteMe, (err, d) => {
+            if (d.deletedCount === 1) console.log("User deleted")
+            else console.log("User could not be deleted")
+        });
+        error = 'DELETE request sent';
     }
     catch (e) {
         error = "Server error: " + e.toString();

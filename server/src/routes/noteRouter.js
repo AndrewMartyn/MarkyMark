@@ -1,6 +1,6 @@
 const express = require("express");
 const database = require("../models/Database");
-// const Note = require('../models/File');
+const ObjectId = require("mongodb").ObjectId;
 let token = require('../createJWT');
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -14,7 +14,7 @@ database.connect();
 // user searches through their notes based on title and tags
 noteRouter.get("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
-  const { tags, searchText, jwtToken } = req.query;
+  const { searchText, tags, jwtToken } = req.query;
 
   // check for token first
   try {
@@ -32,15 +32,14 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
   let searchResults = [];
   let search = searchText.trim();
 
+  let query = {userId: {_id: userId}, noteName: { $regex: search + '.*', $options: "i" }};
+  if (tags.toString() !== '') query.noteTags = { $all: tags};
+
   try {
     const db = database.mongoDB;
     const results = await db
       .collection("Notes")
-      .find({
-        userId: { _id: userId },
-        noteTags: { $all: tags },
-        noteName: { $regex: search + ".", $options: "i" }, // trying to search case-insensitive
-      })
+      .find(query)
       .toArray();
 
     if (results.length > 0) {
@@ -53,7 +52,8 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
         });
       error = "Note(s) found";
     } else error = "No notes found";
-  } catch (e) {
+  }
+  catch (e) {
     error = "Server error: " + e.toString();
   }
 
@@ -71,10 +71,10 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
 });
 
 // user deletes a note
-noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
+noteRouter.delete("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
-  const noteId = req.params.noteId;
-  const jwtToken = req.body;
+  const noteId = new ObjectId(req.query.noteId);
+  const { jwtToken } = req.body;
 
   // check for token first
   try {
@@ -93,9 +93,13 @@ noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
 
   try {
     const db = database.mongoDB;
-    await db.collection("Notes").findOneAndDelete(deleteMe);
-    error = "Note deleted";
-  } catch (e) {
+    await db.collection("Notes").deleteOne(deleteMe, (err, d) => {
+      if (d.deletedCount === 1) console.log("Note deleted")
+      else console.log("Note could not be deleted")
+    });
+    error = "DELETE request sent";
+  }
+  catch (e) {
     error = "Server error: " + e.toString();
   }
 
@@ -112,11 +116,12 @@ noteRouter.delete("/users/:userId/notes/:noteId", async (req, res) => {
 });
 
 // user creates a new note or saves updates to an old note
-// if new note, default fileId to -1 or some invalid value
-noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
+// if updating old note, query in path with noteId, else leave empty
+noteRouter.put("/users/:userId/notes/", async (req, res) => {
   const userId = req.params.userId;
-  const noteId = req.params.noteId;
-  // !!! New note should not have empty title !!!
+  let noteId = new ObjectId(req.query.noteId);
+
+  // !!! New note should not have empty name !!!
   const { name, body, tags, jwtToken } = req.body;
 
   // check for token first
@@ -133,8 +138,7 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
 
   let error;
 
-  let newNoteOnly = {userId: { _id: userId }, dateCreated: undefined};
-  let edits = {dateLastModified: undefined};
+  let edits = {};
   if (name != null) edits.noteName = name;
   if (body != null) edits.noteBody = body;
   if (tags != null) edits.noteTags = tags;
@@ -144,8 +148,17 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
     // if note with specified userId and noteId cannot be found within collection, upsert note
     await db
       .collection("Notes")
-      .findOneAndUpdate({ userId: { _id: userId }, _id: noteId }, { $setOnInsert: newNoteOnly, $set: edits }, { upsert: true });
-    error = "Note updated";
+      .updateOne(
+          { userId: { _id: userId }, _id: noteId },
+          { $setOnInsert: {dateCreated: new Date()}, $set: edits, $currentDate: { dateLastModified: true } },
+          { upsert: true },
+          (err, d) => {
+            if (d.matchedCount === 1) console.log("Note updated");
+            else if (d.upsertedCount === 1) console.log("Note created");
+            else console.log("Note could not be created/updated")
+          }
+      );
+    error = "PUT request sent";
   } catch (e) {
     error = "Server error: " + e.toString();
   }
@@ -165,51 +178,3 @@ noteRouter.put("/users/:userId/notes/:noteId", async (req, res) => {
 database.close();
 
 module.exports = noteRouter;
-
-// // user creates a new note (DEPRECATED)
-// notesRouter.post("/users/:userId/notes/:noteId", async (req, res) => {
-//   const userId = req.params.userId;
-//   const noteId = req.params.noteId;
-//   const { noteTitle, noteBody, noteTags, jwtToken } = req.body;
-//
-//   // check for token first
-//   try {
-//     if (token.isExpired(jwtToken)) {
-//       let r = {error: 'JWT no longer valid\n', jwtToken:''};
-//       res.status(200).json(r);
-//       return
-//     }
-//   }
-//   catch (e) {
-//     console.log(e.message);
-//   }
-//
-//   let error;
-//
-//   let newNote = {
-//     UserID: userId,
-//     NoteID: noteId,
-//     NoteTitle: noteTitle,
-//     NoteBody: noteBody,
-//     NoteTags: noteTags,
-//   };
-//
-//   try {
-//     const db = database.mongoDB;
-//     await db.collection("Notes").insertOne(newNote);
-//     error = "Note created";
-//   } catch (e) {
-//     error = "Server error:\n" + e.toString();
-//   }
-//
-//   // refresh token before sending response
-//   let refreshedToken;
-//   try {
-//     refreshedToken = token.refresh(jwtToken);
-//   }
-//   catch (e) {
-//     console.log(e.message);
-//   }
-//
-//   res.status(200).json({ error: error, jwtToken: refreshedToken });
-// });
