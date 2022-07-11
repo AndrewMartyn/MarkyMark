@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="Fixed all the APIs. All of them should be working. Tested with ARC. noteRouter does not use Note.js schema; couldn't figure out how to integrate it without breaking the PUT request. Added error messages where appropriate to help with debugging. Changed JWT expiry time from 15m to 30m.">
+    <list default="true" id="bd897ab5-db29-452f-bb24-b5a89fb8f301" name="Changes" comment="Fixed register API to check for email uniqueness before creating new user.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/routes/userRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/userRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/routes/noteRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/routes/noteRouter.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +51,7 @@
       <updated>1656646042406</updated>
       <workItem from="1656646047544" duration="9158000" />
       <workItem from="1657055370274" duration="12407000" />
-      <workItem from="1657384272014" duration="33676000" />
+      <workItem from="1657384272014" duration="37688000" />
     </task>
     <task id="LOCAL-00001" summary="Added tokens. Also decided to deprecate the createNote api and combine it with updateNote.">
       <created>1656654418425</created>
@@ -123,7 +123,14 @@
       <option name="project" value="LOCAL" />
       <updated>1657422487162</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Fixed register API to check for email uniqueness before creating new user.">
+      <created>1657487377233</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1657487377233</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -148,6 +155,7 @@
     <MESSAGE value="fixed stuff" />
     <MESSAGE value="fixed stuff again." />
     <MESSAGE value="Fixed all the APIs. All of them should be working. Tested with ARC. noteRouter does not use Note.js schema; couldn't figure out how to integrate it without breaking the PUT request. Added error messages where appropriate to help with debugging. Changed JWT expiry time from 15m to 30m." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed all the APIs. All of them should be working. Tested with ARC. noteRouter does not use Note.js schema; couldn't figure out how to integrate it without breaking the PUT request. Added error messages where appropriate to help with debugging. Changed JWT expiry time from 15m to 30m." />
+    <MESSAGE value="Fixed register API to check for email uniqueness before creating new user." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixed register API to check for email uniqueness before creating new user." />
   </component>
 </project>
