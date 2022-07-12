@@ -10,10 +10,10 @@ const noteSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // notePath: {
-    //     type: String,
-    //     required: true
-    // },
+    notePath: {
+        type: String,
+        required: true
+    },
     noteBody: {
         type: String,
         required: true
