@@ -1,0 +1,39 @@
+.wrapper {
+    margin-left: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+.app-body {
+    height: 95vh;
+    width: 100vw;
+}
+
+.footer {
+    background-color: bisque;
+}
+.side-panel {
+    background-color: blue;
+    width: 100%;
+}
+
+.app-main {
+    width: 100%;
+}
+
+.split-pane {
+    width: 100%;
+}
+
+.editor-wrapper {
+    height: fit-content;
+    font-family: "Roboto Mono" !important;
+    font-size: 30px;
+    background-color: lightblue;
+}
+
+.preview-wrapper {
+    background-color: lightcoral;
+}

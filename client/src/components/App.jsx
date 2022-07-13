@@ -1,10 +1,11 @@
 import React, { useCallback, useState } from "react";
 
-import SplitPane from "react-split-pane";
+import SplitPane, { Pane } from "react-split-pane";
 import Preview from "./Preview";
 import Editor from "./Editor";
 import "../css/tailwind.css";
 import "../css/splitpane.css";
+import "../css/App.css";
 import BrandExample from "./BrandExample";
 
 import Container from "react-bootstrap/Container";
@@ -20,15 +21,25 @@ function App() {
 
     return (
         <div>
-            <BrandExample />
-            <SplitPane split="vertical" defaultSize="20%">
-                {/* <Browser /> */}
-                Browser
-                <SplitPane split="vertical" defaultSize="50%">
-                    <Editor onChange={handleDocChange} doc={doc} />
-                    <Preview doc={doc} />
-                </SplitPane>
-            </SplitPane>
+            <Container fluid className="wrapper">
+                <Row className="">Navbar</Row>
+                <Row className="app-body">
+                    <Col className="side-panel" md={2}>
+                        Explorer
+                    </Col>
+                    <Col className="app-main">
+                        <SplitPane
+                            className="split-pane"
+                            split="vertical"
+                            defaultSize="50%"
+                        >
+                            <div className="editor-wrapper">Editor</div>
+                            <div className="preview-wrapper">Preview</div>
+                        </SplitPane>
+                    </Col>
+                </Row>
+                <Row className="app footer">Footer</Row>
+            </Container>
         </div>
     );
 
