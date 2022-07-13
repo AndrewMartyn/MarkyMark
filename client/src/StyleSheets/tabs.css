@@ -1,0 +1,15 @@
+.dropdownContainer{
+    display: inline-block;
+}
+
+.super-colors{
+    background-color: none;
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+}
+
+.dropdown-toggle:hover{
+    background-color: lightgrey;
+}
