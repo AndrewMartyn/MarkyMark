@@ -1,0 +1,4 @@
+.App{
+    position: flex;
+    flex-direction: column;
+}
