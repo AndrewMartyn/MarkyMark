@@ -25,7 +25,11 @@ userRouter.get('/users', async (req, res) => {
     try {
         const db = database.mongoDB;
         const result = await db.collection('Users').findOne({email: email, password: password});
+<<<<<<< HEAD
+
+=======
         
+>>>>>>> Felipe
         if (result != null) {
             userId = result._id;
             firstName = result.firstName;
