@@ -7,10 +7,10 @@ function createToken(id, fn, ln, tags) {
     try {
         const expiration = new Date();
         const user = {userId: id, firstName: fn, lastName: ln, tags: tags};
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {'expiresIn': '15m'});
+        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {'expiresIn': '30m'});
         ret = {token: accessToken, userId:id, firstName: fn, lastName: ln, tags: tags};
     } catch (e) {
-        ret = {error: "Token error:\n" + e.toString()};
+        ret = {error: "Token error: " + e.toString()};
     }
 
     return ret;
