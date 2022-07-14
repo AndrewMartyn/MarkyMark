@@ -16,8 +16,10 @@ class _NoteViewState extends State<noteView> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white, opacity: 1, size: 40),
-          title: Text('View Note'),
+          iconTheme:
+              IconThemeData(color: Color(0xFF6CA8F1), opacity: 1, size: 40),
+          title: Text('View Note', style: TextStyle(color: Colors.white)),
+          backgroundColor: Color(0xFF212121),
           leading: IconButton(
             icon: Icon(Icons.toc_rounded),
             onPressed: () {
@@ -30,6 +32,7 @@ class _NoteViewState extends State<noteView> {
           ),
         ),
         body: Scaffold(
+          backgroundColor: Color(0xFF424242),
           key: _drawerscaffoldkey,
           drawer: NavBar(),
         ));
