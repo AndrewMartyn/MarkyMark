@@ -1,5 +1,7 @@
 const express = require('express');
-const database = require('./models/Database');
+const ObjectId = require('mongodb').ObjectId;
+const database = require('../models/Database');
+const User = require('../models/User');
 const cors = require("cors");
 const bodyParser = require("body-parser");
 
@@ -11,7 +13,8 @@ database.connect();
 
 // user logs in to account
 userRouter.get('/users', async (req, res) => {
-    const {loginEmail, password} = req.body;
+    const { email, password } = req.query
+    // console.log(loginEmail, password);
 
     let ret;
     let userId = -1;
@@ -21,46 +24,64 @@ userRouter.get('/users', async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db.collection('Users').findOne({email: loginEmail, password: password});
-
+        const result = await db.collection('Users').findOne({email: email, password: password});
+        
         if (result != null) {
-            userId = result.userId;
+            userId = result._id;
             firstName = result.firstName;
             lastName = result.lastName;
             tags = result.tags;
 
             try {
-                const token = require('./createJWT');
+                const token = require('../createJWT');
                 ret = token.createToken(userId, firstName, lastName, tags);
             }
             catch (e) {
-                ret = {error: "Token error:\n" + e.toString()};
+                ret = {error: "Token error: " + e.toString()};
             }
         }
         else ret = {error: 'No Such Records'};
     }
     catch(e) {
-        ret = {error: "Server error:\n" + e.toString()};
+        ret = {error: "Server error: " + e.toString()};
     }
 
-    // let ret = {userId: userId, firstName: firstName, lastName: lastName, tags: tags, error: error};
     res.status(200).json(ret);
 });
 
 // user registers account
 userRouter.post('/users', async (req, res) =>  {
-    const {firstName, lastName, loginEmail, password} = req.body;
-
+    const {firstName, lastName, email, password} = req.body;
     let error;
-    const newUser = {firstName: firstName, lastName: lastName, email: loginEmail, password: password};
 
     try {
         const db = database.mongoDB;
-        await db.collection('Users').insertOne(newUser);
-        error = 'User created';
+
+        // first validate that email is unique and does not already exist in database
+        const result = await db.collection('Users').findOne({email: email});
+
+        if (result != null) {
+            console.log("User already exists");
+            res.status(300).json({error: "User already exists"});
+            return;
+        }
+        else {
+            const newUser = new User({firstName: firstName, lastName: lastName, email: email, password: password, dateCreated: undefined});
+
+            try {
+                await db.collection('Users').insertOne(newUser, (err, d) => {
+                    if (d.insertedId != null) console.log("User created")
+                    else console.log("User could not be created")
+                });
+                error = 'POST request sent';
+            }
+            catch (e) {
+                error = "Server error: " + e.toString();
+            }
+        }
     }
     catch (e) {
-        error = "Server error:\n" + e.toString();
+        error = "Server error: " + e.toString();
     }
 
     res.status(200).json({error: error});
@@ -69,18 +90,21 @@ userRouter.post('/users', async (req, res) =>  {
 // user deletes account
 userRouter.delete('/users/:userId', async (req, res) => {
     const userId = req.params.userId;
-    const {loginEmail} = req.body;
+    const {email} = req.body;
 
     let error;
-    const deleteMe = {userId: userId, email: loginEmail};
+    const deleteMe = {_id: new ObjectId(userId), email: email};
 
     try {
         const db = database.mongoDB;
-        await db.collection('Users').findOneAndDelete(deleteMe);
-        error = 'User deleted';
+        await db.collection('Users').deleteOne(deleteMe, (err, d) => {
+            if (d.deletedCount === 1) console.log("User deleted")
+            else console.log("User could not be deleted")
+        });
+        error = 'DELETE request sent';
     }
     catch (e) {
-        error = "Server error:\n" + e.toString();
+        error = "Server error: " + e.toString();
     }
 
     res.status(200).json({error: error});
