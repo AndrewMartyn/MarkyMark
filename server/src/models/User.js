@@ -1,6 +1,6 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
-const userSchema = new Schema({
+const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: true,
@@ -12,20 +12,25 @@ const userSchema = new Schema({
     email: {
         type: String,
         required: true,
-        lowercase: true
+        lowercase: true,
     },
     password: {
         type: String,
-        required: true
+        required: true,
     },
     // array of strings to store all the tags used by a particular user for easier filtered search
     tags: {
-        type: [String]
+        type: [String],
     },
     dateCreated: {
         type: Date,
         default: Date.now()
+    },
+    verified:{
+        type: Boolean,
+        required: true,
     }
+
 });
 
 module.exports = mongoose.model("User", userSchema)
