@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'loginScreen.dart';
+import 'RegisterScreen.dart';
 import 'noteView.dart';
 
 void main() => runApp(MyApp());
