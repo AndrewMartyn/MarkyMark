@@ -246,7 +246,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ],
                   ),
-                  
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      Text(
+                        'At least 6 characters and must contain 1 uppercase and 1 number',
+                        style: TextStyle(
+                          color: Colors.white54,
+                          fontFamily: 'OpenSans',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10.0,
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
