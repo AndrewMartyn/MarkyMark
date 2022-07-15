@@ -87,7 +87,7 @@ class _LoginScreenState extends State<loginScreen> {
                                 Icons.email,
                                 color: Colors.white,
                               ),
-                              hintText: 'Enter your Email',
+                              hintText: 'Email Address',
                               hintStyle: TextStyle (
                                 color: Colors.white54,
                                 fontFamily: 'OpenSans',
@@ -137,7 +137,7 @@ class _LoginScreenState extends State<loginScreen> {
                                 Icons.lock,
                                 color: Colors.white,
                               ),
-                              hintText: 'Enter your Password',
+                              hintText: 'Password',
                               hintStyle: TextStyle(
                                 color: Colors.white54,
                                 fontFamily: 'OpenSans',
@@ -167,6 +167,19 @@ class _LoginScreenState extends State<loginScreen> {
                         ),
                       ),
                     ),
+                  Container(
+                    child: TextButton(
+                      onPressed: () => print("Sign Up Button Worked"),
+                      style: TextButton.styleFrom(
+                        textStyle: TextStyle(
+                          fontSize: 10.0,
+                        ),
+                      ),
+                      child: Text(
+                        'Don\'t have an account? Sign Up'
+                      ),
+                    ),
+                  ),
                   ],
                 )
               ),
