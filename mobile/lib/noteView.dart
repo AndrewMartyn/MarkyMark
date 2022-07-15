@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'navBar.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'NavBar.dart';
+import 'loginScreen.dart';
 
 class noteView extends StatefulWidget {
   @override
@@ -12,6 +14,14 @@ class _NoteViewState extends State<noteView> {
   final GlobalKey<ScaffoldState> _drawerscaffoldkey =
       new GlobalKey<ScaffoldState>();
 
+/* Not sure about this yet.
+  signOut() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('loggedin', false);
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => loginScreen()));
+  }
+*/
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,11 +40,24 @@ class _NoteViewState extends State<noteView> {
               }
             },
           ),
+          actions: [
+            IconButton(
+                icon: Icon(Icons.logout_rounded),
+                onPressed: () {
+                  //signOut();
+                }),
+            IconButton(
+                icon: Icon(Icons.search),
+                onPressed: () {
+                  //open search box
+                  //
+                }),
+          ],
         ),
         body: Scaffold(
           backgroundColor: Color(0xFF424242),
           key: _drawerscaffoldkey,
-          drawer: navBar(),
+          drawer: NavBar(),
         ));
   }
 }
