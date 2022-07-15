@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
-import 'NavBar.dart';
+import 'navBar.dart';
 
 class noteView extends StatefulWidget {
   @override
@@ -34,7 +34,7 @@ class _NoteViewState extends State<noteView> {
         body: Scaffold(
           backgroundColor: Color(0xFF424242),
           key: _drawerscaffoldkey,
-          drawer: NavBar(),
+          drawer: navBar(),
         ));
   }
 }
