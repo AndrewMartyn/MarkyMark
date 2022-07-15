@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'RegisterScreen.dart';
 
 class loginScreen extends StatefulWidget {
   @override
@@ -150,7 +151,7 @@ class _LoginScreenState extends State<loginScreen> {
                     Container(
                       alignment: Alignment.bottomLeft,
                       child: ElevatedButton(
-                        onPressed: () => print("Log In Button Works"),
+                        onPressed: () => "Log In Button Worked",
 
                         child: Text(
                           'Sign In',
@@ -169,7 +170,12 @@ class _LoginScreenState extends State<loginScreen> {
                     ),
                   Container(
                     child: TextButton(
-                      onPressed: () => print("Sign Up Button Worked"),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => RegisterScreen())
+                        );
+                      },
                       style: TextButton.styleFrom(
                         textStyle: TextStyle(
                           fontSize: 10.0,
