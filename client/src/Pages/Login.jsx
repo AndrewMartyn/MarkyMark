@@ -37,7 +37,7 @@ export default function Login() {
                     id: res.id,
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
-                navigation("app");
+                navigation("editor");
             }
         } catch (e) {
             console.log(e.toString());

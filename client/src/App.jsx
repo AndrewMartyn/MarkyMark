@@ -9,7 +9,7 @@ function App() {
         <Routes>
             <Route path="/" element={<Login />} />
             <Route path="register" element={<Register />} />
-            <Route path="app" element={<TextEditor />} />
+            <Route path="editor" element={<TextEditor />} />
         </Routes>
     );
 }
