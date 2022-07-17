@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'RegisterScreen.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class loginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
+String email = '';
+String password = '';
+
 class _LoginScreenState extends State<loginScreen> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack (
@@ -79,6 +86,9 @@ class _LoginScreenState extends State<loginScreen> {
                           ),
                           height: 60.0,
                           child: TextField(
+                            onChanged: (text) {
+                              email = text;
+                            },
                             keyboardType: TextInputType.emailAddress,
                             style:TextStyle(color: Colors.white),
                             decoration: InputDecoration(
@@ -126,6 +136,9 @@ class _LoginScreenState extends State<loginScreen> {
                           ),
                           height: 60.0,
                           child: TextField (
+                            onChanged: (text) {
+                              email = text;
+                            },
                             obscureText: true,
                             style: TextStyle(
                               color: Colors.white,
@@ -151,7 +164,7 @@ class _LoginScreenState extends State<loginScreen> {
                     Container(
                       alignment: Alignment.bottomLeft,
                       child: ElevatedButton(
-                        onPressed: () => "Log In Button Worked",
+                        onPressed: () => print("Log In Button Worked"),
 
                         child: Text(
                           'Sign In',
@@ -195,3 +208,5 @@ class _LoginScreenState extends State<loginScreen> {
     );
   }
 }
+
+
