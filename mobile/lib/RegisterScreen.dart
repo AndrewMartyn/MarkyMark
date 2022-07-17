@@ -8,15 +8,16 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        children: <Widget>[
+        children: <Widget> [
           Container(
             height: double.infinity,
             width: double.infinity,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
+            decoration: BoxDecoration (
+              gradient: LinearGradient (
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
@@ -27,11 +28,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ],
                 stops: [0.1, 0.4, 0.7, 0.9],
               ),
-            ),
+          ),
           ),
           Container(
             height: double.infinity,
-            child: SingleChildScrollView(
+            child: SingleChildScrollView (
               physics: AlwaysScrollableScrollPhysics(),
               padding: EdgeInsets.symmetric(
                 horizontal: 40.0,
@@ -39,7 +40,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: <Widget> [
                   Text(
                     'Sign Up',
                     style: TextStyle(
@@ -52,7 +53,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   SizedBox(height: 30.0),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: <Widget> [
                       Text(
                         'Email address',
                         style: TextStyle(
@@ -77,16 +78,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           ],
                         ),
                         height: 60.0,
-                        child: TextField(
+                        child: TextField (
                           keyboardType: TextInputType.emailAddress,
                           style: TextStyle(color: Colors.white),
                           decoration: InputDecoration(
-                            border: InputBorder.none,
-                            contentPadding: EdgeInsets.only(top: 14.0),
-                            prefixIcon: Icon(
-                              Icons.email,
-                              color: Colors.white,
-                            ),
+                              border: InputBorder.none,
+                              contentPadding: EdgeInsets.only(top:14.0),
+                              prefixIcon: Icon(
+                                  Icons.email,
+                                  color: Colors.white,
+                              ),
                             hintText: 'Enter email',
                             hintStyle: TextStyle(
                               color: Colors.white54,
@@ -99,7 +100,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: <Widget> [
                       Text(
                         'First Name',
                         style: TextStyle(
@@ -148,7 +149,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: <Widget> [
                       Text(
                         'Last Name',
                         style: TextStyle(
@@ -161,7 +162,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       SizedBox(height: 10.0),
                       Container(
                         alignment: Alignment.centerLeft,
-                        decoration: BoxDecoration(
+                        decoration: BoxDecoration (
                           color: Color(0xFF212121),
                           borderRadius: BorderRadius.circular(10.0),
                           boxShadow: [
@@ -197,7 +198,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
+                    children: <Widget> [
                       Text(
                         'Password',
                         style: TextStyle(
@@ -262,23 +263,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     ],
                   ),
                   Container(
-                      alignment: Alignment.bottomLeft,
-                      child: ElevatedButton(
-                        onPressed: () => "Sign Up Button Worked",
-                        child: Text(
-                          'Sign Up',
-                          style: TextStyle(
-                            color: Colors.white,
-                            letterSpacing: 1.5,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'OpenSans',
-                          ),
+                    alignment: Alignment.bottomLeft,
+                    child: ElevatedButton(
+                      onPressed: () => "Sign Up Button Worked",
+
+                      child: Text(
+                        'Sign Up',
+                        style: TextStyle(
+                          color: Colors.white,
+                          letterSpacing: 1.5,
+                          fontSize: 15.0,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'OpenSans',
                         ),
-                        style: ElevatedButton.styleFrom(
-                          primary: Color(0xFF6CA8F1),
-                        ),
-                      )),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Color(0xFF6CA8F1),
+                      ),
+                    )
+                  ),
                 ],
               ),
             ),

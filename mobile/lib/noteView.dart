@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'navBar.dart';
+import 'NavBar.dart';
 import 'loginScreen.dart';
 
 class noteView extends StatefulWidget {
@@ -57,7 +57,7 @@ class _NoteViewState extends State<noteView> {
         body: Scaffold(
           backgroundColor: Color(0xFF424242),
           key: _drawerscaffoldkey,
-          drawer: navBar(),
+          drawer: NavBar(),
         ));
   }
 }
