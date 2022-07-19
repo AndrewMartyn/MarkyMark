@@ -2,7 +2,8 @@
   "name": "backend",
   "main": "./server/src/server.js",
   "scripts": {
-    "start": "node ./server/src/server.js"
+    "start": "node ./server/src/server.js",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "dependencies": {
     "bson": "^4.6.5",
