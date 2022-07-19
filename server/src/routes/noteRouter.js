@@ -128,7 +128,7 @@ noteRouter.delete("/users/:userId/notes", async (req, res) => {
 
 // user creates a new note or saves updates to an old note
 // if updating old note, query in path with noteId, else leave empty
-noteRouter.put("/users/:userId/notes/", async (req, res) => {
+noteRouter.put("/users/:userId/notes", async (req, res) => {
   const userId = req.params.userId;
   let noteId = new ObjectId(req.query.noteId);
 

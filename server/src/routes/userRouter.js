@@ -49,13 +49,22 @@ userRouter.get('/users', async (req, res) => {
     res.status(200).json(ret);
 });
 
-// user registers account
-userRouter.post('/users', async (req, res) =>  {
+// user registers account or user requests to change password
+userRouter.put('/users', async (req, res) =>  {
     const {firstName, lastName, email, password} = req.body;
+    const userId = req.query.userId;
     let error;
 
     try {
         const db = database.mongoDB;
+
+        if (userId != null) {
+            await db.collection('Users').updateOne({_id: new ObjectId(userId), email: email}, {$set: {password: password}});
+            error = 'PUT request sent';
+            console.log("Password changed");
+            res.status(300).json({error: error});
+            return;
+        }
 
         // first validate that email is unique and does not already exist in database
         const result = await db.collection('Users').findOne({email: email});
@@ -73,7 +82,7 @@ userRouter.post('/users', async (req, res) =>  {
                     if (d.insertedId != null) console.log("User created")
                     else console.log("User could not be created")
                 });
-                error = 'POST request sent';
+                error = 'PUT request sent';
             }
             catch (e) {
                 error = "Server error: " + e.toString();
