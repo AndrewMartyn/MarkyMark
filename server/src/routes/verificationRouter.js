@@ -7,14 +7,15 @@ const bodyParser = require("body-parser");
 const nodemailer = require('nodemailer')
 const {v4: uuidv4} = require('uuid')
 require('dotenv').config()
-let transporter = nodemailer.createTransport({
-    service: "gmail",
+
+const transporter = nodemailer.createTransport({
+    host: 'smtp.ethereal.email',
+    port: 587,
     auth: {
         user: process.env.AUTH_EMAIL,
         pass: process.env.AUTH_PASS
     }
-})
-
+});
 
 const verificationRouter = express.Router()
 verificationRouter.use(cors())
