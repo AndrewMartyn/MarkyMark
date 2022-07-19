@@ -6,17 +6,11 @@ app.set('port', (process.env.PORT || 5001));
 
 const userRouter = require('./routes/userRouter');
 const noteRouter = require('./routes/noteRouter');
-<<<<<<< HEAD
-
-app.use('/api', userRouter);
-app.use('/api', noteRouter);
-=======
 const verificationRouter = require('./routes/verificationRouter');
 
 app.use('/api', userRouter);
 app.use('/api', noteRouter);
 app.use('/api', verificationRouter);
->>>>>>> Felipe
 
 // Server static assets if in production
 if (process.env.NODE_ENV === 'production')
