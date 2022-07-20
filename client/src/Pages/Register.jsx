@@ -34,7 +34,7 @@ export default function Register() {
 
             try {
                 const response = await fetch(
-                    "server-production-7213.up.railway.app:5001/api/users",
+                    "server-production-7213.up.railway.app/api/users",
                     {
                         method: "POST",
                         body: json,

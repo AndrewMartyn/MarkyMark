@@ -20,7 +20,7 @@ export default function Login() {
 
         try {
             const response = await fetch(
-                `server-production-7213.up.railway.app:5001/api/users/?email=${email.value}&password=${password.value}`
+                `server-production-7213.up.railway.app/api/users/?email=${email.value}&password=${password.value}`
             );
             let res = JSON.parse(await response.text());
 
