@@ -20,7 +20,7 @@ export default function Login() {
 
         try {
             const response = await fetch(
-                `http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`
+                `0.0.0.0:$PORT/api/users/?email=${email.value}&password=${password.value}`
             );
             let res = JSON.parse(await response.text());
 
