@@ -33,11 +33,14 @@ export default function Register() {
             let json = JSON.stringify(obj);
 
             try {
-                const response = await fetch("0.0.0.0:$PORT/api/users", {
-                    method: "POST",
-                    body: json,
-                    headers: { "Content-Type": "application/json" },
-                });
+                const response = await fetch(
+                    "server-production-7213.up.railway.app:5001/api/users",
+                    {
+                        method: "POST",
+                        body: json,
+                        headers: { "Content-Type": "application/json" },
+                    }
+                );
 
                 let res = JSON.parse(await response.text());
 
