@@ -10,5 +10,5 @@ module.exports = {
     close: () => {
         return client.close();
         },
-    mongoDB: client.db('MarkyMark'), // Fill in DB name
+    mongoDB: client.db('MarkyMark')
 }
