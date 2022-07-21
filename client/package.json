@@ -50,10 +50,7 @@
         "unified": "^10.1.2"
     },
     "scripts": {
-<<<<<<< HEAD
         "build": "react-scripts build",
-=======
->>>>>>> a2dd24b4067f4cfb743fff669989001a1fdff5f5
         "start": "react-scripts start"
     },
     "browserslist": {
