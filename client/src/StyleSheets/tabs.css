@@ -13,3 +13,9 @@
 .dropdown-toggle:hover{
     background-color: lightgrey;
 }
+
+.clickedFile{
+    color: white;
+    text-align: center !important;
+    background-color: red;
+}
