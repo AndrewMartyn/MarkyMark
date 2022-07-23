@@ -24,9 +24,16 @@ export default function Login() {
             );
             let res = JSON.parse(await response.text());
 
+            console.log(res);
+
             if (res.error === "No Such Records") {
                 setSuccess(false);
                 setError("Invalid email or password combination.");
+            } else if (res.error == "Email not verified.") {
+                setSuccess(false);
+                setError(
+                    "Please verify your email address in order to use MarkyMark."
+                );
             } else {
                 setSuccess(true);
                 setError("");
@@ -37,7 +44,7 @@ export default function Login() {
                     id: res.id,
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
-                navigation("editor");
+                navigation("texteditor");
             }
         } catch (e) {
             console.log(e.toString());
@@ -92,13 +99,19 @@ export default function Login() {
                         onClick={handleSubmit}
                         style={{ marginTop: "1em" }}
                     >
-                        Login
+                        Submit
                     </Button>
                 </Form>
 
                 <Link to="register" className="text-decoration-none">
                     <p style={{ marginTop: "1em" }}>
                         Dont have an account? Create one here!
+                    </p>
+                </Link>
+
+                <Link to="forgot" className="text-decoration-none">
+                    <p style={{ marginTop: "1em" }}>
+                        Forgot your password? Reset it here!
                     </p>
                 </Link>
             </Container>

@@ -21,8 +21,13 @@ export default function Register() {
         event.preventDefault();
 
         var passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
+        var emailRegEx =
+            /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-        if (password.value.match(passwordRegEx)) {
+        if (
+            password.value.match(passwordRegEx) &&
+            email.value.match(emailRegEx)
+        ) {
             setError("");
             let obj = {
                 firstName: firstName.value,
@@ -68,7 +73,7 @@ export default function Register() {
                 return;
             }
         } else {
-            setError("Invalid password complexity!");
+            setError("Invalid password complexity or email format!");
         }
     };
 

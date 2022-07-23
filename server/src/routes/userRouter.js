@@ -4,10 +4,15 @@ const database = require("../models/Database");
 const User = require("../models/User");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const crypto = require("crypto");
+var moment = require("moment");
 
 const userRouter = express.Router();
 userRouter.use(cors());
 userRouter.use(bodyParser.json());
+
+const { sendVerificationEmail, sendResetEmail } = require("../nodemailer");
+const { Console } = require("console");
 
 database.connect();
 
@@ -21,24 +26,29 @@ userRouter.get("/users", async (req, res) => {
     let firstName = "";
     let lastName = "";
     let tags = [];
+    let verified = false;
 
     try {
         const db = database.mongoDB;
         const result = await db
             .collection("Users")
             .findOne({ email: email, password: password });
+
         if (result != null) {
             userId = result._id;
             firstName = result.firstName;
             lastName = result.lastName;
             tags = result.tags;
+            verified = result.verified;
 
-            try {
-                const token = require("../createJWT");
-                ret = token.createToken(userId, firstName, lastName, tags);
-            } catch (e) {
-                ret = { error: "Token error: " + e.toString() };
-            }
+            if (verified) {
+                try {
+                    const token = require("../createJWT");
+                    ret = token.createToken(userId, firstName, lastName, tags);
+                } catch (e) {
+                    ret = { error: "Token error: " + e.toString() };
+                }
+            } else ret = { error: "Email not verified." };
         } else ret = { error: "No Such Records" };
     } catch (e) {
         ret = { error: "Server error: " + e.toString() };
@@ -73,8 +83,11 @@ userRouter.post("/users", async (req, res) => {
 
             try {
                 await db.collection("Users").insertOne(newUser, (err, d) => {
-                    if (d.insertedId != null) console.log("User created");
-                    else console.log("User could not be created");
+                    if (d.insertedId != null) {
+                        console.log("User created");
+                        // send email
+                        sendVerificationEmail(firstName, email);
+                    } else console.log("User could not be created");
                 });
                 error = "POST request sent";
             } catch (e) {
@@ -108,6 +121,85 @@ userRouter.delete("/users/:userId", async (req, res) => {
     }
 
     res.status(200).json({ error: error });
+});
+
+// user requests email or password reset
+userRouter.get("/users/requestreset", async (req, res) => {
+    const { email, type } = req.query;
+
+    let error = "";
+    let userId = -1;
+    let token = crypto.randomBytes(20).toString("hex");
+    let expires = moment().add(24, "hours").toDate(); // token lasts 24 hours
+
+    try {
+        const db = database.mongoDB;
+        const result = await db.collection("Users").findOne({ email: email });
+
+        if (result != null) {
+            userId = result._id;
+
+            await db.collection("Users").updateOne(
+                { email: email, _id: ObjectId(userId) },
+                {
+                    $set: {
+                        resetToken: token,
+                        resetTokenExpires: expires,
+                    },
+                }
+            );
+            sendResetEmail(email, userId, token, type);
+            error = "";
+        } else error = "No Such Records";
+    } catch (e) {
+        error = "Server error: " + e.toString();
+    }
+
+    res.status(200).json({ error: error });
+});
+
+// user email or password reset
+userRouter.post("/users/reset", async (req, res) => {
+    console.log(req);
+    const { userId, token, type } = req.body;
+
+    let error = "";
+    let tokenExpires;
+    let expired = true;
+
+    try {
+        const db = database.mongoDB;
+        const result = await db
+            .collection("Users")
+            .findOne({ _id: ObjectId(userId), resetToken: token });
+
+        if (result != null) {
+            tokenExpires = moment(result.resetTokenExpires);
+            expired = moment().diff(tokenExpires) > 0; // should work?
+
+            if (!expired && type == "password") {
+                await db
+                    .collection("Users")
+                    .updateOne(
+                        { _id: ObjectId(userId) },
+                        { $set: { password: req.body.newPassword } }
+                    );
+                error = { error: "" };
+            } else if (!expired && type == "email") {
+                await db
+                    .collection("Users")
+                    .updateOne(
+                        { _id: ObjectId(userId) },
+                        { $set: { email: req.body.newEmail } }
+                    );
+                error = { error: "" };
+            } else error = { error: "Token Expired or Invalid Type" };
+        } else error = { error: "No Such Records" };
+    } catch (e) {
+        error = { error: "Server error: " + e.toString() };
+    }
+
+    res.status(200).json(error);
 });
 
 database.close();
