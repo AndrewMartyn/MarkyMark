@@ -160,10 +160,9 @@ userRouter.get("/users/requestreset", async (req, res) => {
 
 // user email or password reset
 userRouter.post("/users/reset", async (req, res) => {
-    console.log(req);
     const { userId, token, type } = req.body;
 
-    let error = "";
+    let error;
     let tokenExpires;
     let expired = true;
 
@@ -194,6 +193,33 @@ userRouter.post("/users/reset", async (req, res) => {
                     );
                 error = { error: "" };
             } else error = { error: "Token Expired or Invalid Type" };
+        } else error = { error: "No Such Records" };
+    } catch (e) {
+        error = { error: "Server error: " + e.toString() };
+    }
+
+    res.status(200).json(error);
+});
+
+// change firstname or lastname
+userRouter.post("/users/changename", async (req, res) => {
+    const { userId, newFirstName, newLastName } = req.body;
+
+    try {
+        const db = database.mongoDB;
+        const result = await db
+            .collection("Users")
+            .find({ _id: ObjectId(userId) });
+
+        if (result != null) {
+            await db
+                .collection("Users")
+                .updateOne(
+                    { _id: ObjectId(userId) },
+                    { $set: { firstName: newFirstName, lastName: newLastName } }
+                );
+
+            error = { error: "" };
         } else error = { error: "No Such Records" };
     } catch (e) {
         error = { error: "Server error: " + e.toString() };
