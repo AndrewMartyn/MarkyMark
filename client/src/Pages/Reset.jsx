@@ -14,6 +14,7 @@ export default function Reset() {
     const [confirmNewEmail, setConfirmNewEmail] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [valid, setValid] = useState(false);
 
     const search = useLocation().search;
     const userId = new URLSearchParams(search).get("userId");
@@ -29,53 +30,62 @@ export default function Reset() {
         var emailRegEx =
             /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-        let json = {
+        let obj = {
             userId: userId,
             token: token,
             type: type,
         };
+
+        type == "password"
+            ? (obj.newPassword = newPassword.value)
+            : (obj.newEmail = newEmail.value);
+
         if (
-            type == "password" &&
-            newPassword.value == confirmNewPassword.value &&
-            newPassword.value.match(passwordRegEx)
-        ) {
-            json.newPassword = newPassword;
-        } else if (
-            type == "email" &&
-            newEmail.value == confirmNewEmail.value &&
-            newEmail.value.match(emailRegEx)
-        ) {
-            json.newEmail = newEmail;
-        } else {
-            setError("Invalid input");
-        }
+            (type == "password" &&
+                newPassword.value.match(passwordRegEx) &&
+                newPassword.value == confirmNewPassword.value) ||
+            (type == "email" &&
+                newEmail.value.match(emailRegEx) &&
+                newEmail.value == confirmNewEmail.value)
+        )
+            setValid(true);
+        else setValid(false);
+
+        let json = JSON.stringify(obj);
 
         try {
-            const response = await fetch(
-                `http://localhost:5001/api/users/reset`,
-                {
-                    method: "POST",
-                    body: json,
-                    headers: { "Content-Type": "application/json" },
-                }
-            );
-
-            let res = JSON.parse(await response.text());
-
-            console.log(res);
-
-            if (
-                res.error == "Token Expired or Invalid Type" ||
-                res.error === "No Such Records"
-            ) {
-                setSuccess(false);
-                setError(
-                    type == "password" ? "Password" : "Email" + " Reset Failed"
+            if (valid) {
+                const response = await fetch(
+                    "http://localhost:5001/api/users/reset",
+                    {
+                        method: "POST",
+                        body: json,
+                        headers: { "Content-Type": "application/json" },
+                    }
                 );
+
+                let res = JSON.parse(await response.text());
+
+                console.log(res);
+
+                if (
+                    res.error == "Token Expired or Invalid Type" ||
+                    res.error === "No Such Records"
+                ) {
+                    setSuccess(false);
+                    setError(
+                        type == "password"
+                            ? "Password"
+                            : "Email" + " Reset Failed"
+                    );
+                } else {
+                    setSuccess(true);
+                    setError("");
+                    navigation("/");
+                }
             } else {
-                setSuccess(true);
-                setError("");
-                navigation("/");
+                setSuccess(false);
+                setError("Fields do not match or improper format");
             }
         } catch (e) {
             console.log(e.toString());

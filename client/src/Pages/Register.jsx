@@ -61,9 +61,10 @@ export default function Register() {
                         firstName: res.firstName,
                         lastName: res.lastName,
                         email: res.email,
-                        password: res.password,
                         id: res.userId,
                     };
+
+                    console.log(user);
                     localStorage.setItem("user_data", JSON.stringify(user));
                 }
 
