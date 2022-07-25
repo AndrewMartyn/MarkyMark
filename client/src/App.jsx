@@ -1,14 +1,18 @@
 import React from "react";
-import SignIn from "./Pages/SignIn";
-import SignUp from "./Pages/SignUp";
+import Login from "./Pages/Login";
+import Register from "./Pages/Register";
+import ForgotPassword from "./Pages/ForgotPassword";
+import Account from "./Pages/Account";
 import TextEditor from "./Pages/TextEditor";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
     return (
         <Routes>
-            <Route path="/" element={<SignIn />} />
-            <Route path="signup" element={<SignUp />} />
+            <Route path="/" element={<Login />} />
+            <Route path="register" element={<Register />} />
+            <Route path="forgot" element={<ForgotPassword />} />
+            <Route path="account" element={<Account />} />
             <Route path="texteditor" element={<TextEditor />} />
         </Routes>
     );
