@@ -13,8 +13,13 @@ export default function Tabs(props) {
   const [fileName,setFileName] = useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const [saveAs,setSaveAs] = useState(false)
+  const handleCloseSave = () => setSaveAs(false)
+  const handleShowSave = ()=> setSaveAs(true)
 
   let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
+
+  const removeExtraSpace = (s) => s.trim().split(/ +/).join('');
 
   const AddFile = async (e)=> {
     
@@ -23,9 +28,11 @@ export default function Tabs(props) {
     try{
         
         let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
+
+        let newFileName = removeExtraSpace(fileName)
         
         let object = {
-            name:fileName,
+            name:newFileName,
             body:"",
             tags: [],
         }
@@ -35,9 +42,6 @@ export default function Tabs(props) {
         const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
 
         let res = JSON.parse(await response.text())
-
-        console.log('We did the PUT request')
-        console.log(res)
 
         setShow(false)
     
@@ -68,6 +72,69 @@ export default function Tabs(props) {
     }
   }
 
+  const handleNodeSave = React.useCallback(async()=>{
+
+    let body = JSON.parse(window.localStorage.getItem('user_body'))
+
+    console.log(body)
+    
+    try{
+    
+      let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
+      
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+
+      let object = {
+          name:props.clickedFile.node.name,
+          body:body,
+          tags: [],
+      }
+
+      let js = JSON.stringify(object)
+      
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      
+      console.log('we saved the body')
+
+    }
+    catch(e){
+      alert(e.toString())
+      return
+    }
+  })
+
+  const handleNodeSaveAs = React.useCallback(async()=>{
+
+    let body = JSON.parse(window.localStorage.getItem('user_body'))
+
+    let newFileName = removeExtraSpace(fileName)
+
+    console.log(newFileName)
+    
+    try{     
+
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+
+      let object = {
+          name:newFileName,
+          body:body,
+          tags: [],
+      }
+
+      let js = JSON.stringify(object)
+      
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      
+      console.log('we saved the body')
+
+      setSaveAs(false)
+    }
+    catch(e){
+      alert(e.toString())
+      return
+    }
+  })
+
   function logOut(){
       let user = { userId:'',firstName:'',lastName:'',tags:''}
       localStorage.setItem('user_data', JSON.stringify(user));
@@ -94,10 +161,10 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {props.newFolder}
             </Dropdown.Item>
-            <Dropdown.Item href="#">
+            <Dropdown.Item href="#" onClick={handleNodeSave}>
             {props.save}
             </Dropdown.Item>
-            <Dropdown.Item href="#">
+            <Dropdown.Item href="#" onClick={handleShowSave}>
             {props.saveAs}
             </Dropdown.Item>
           </Dropdown.Menu>
@@ -156,7 +223,7 @@ export default function Tabs(props) {
         <Dropdown>
           <Display/>
         </Dropdown>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} >
         <Modal.Header closeButton>
           <Modal.Title>Adding a File</Modal.Title>
         </Modal.Header>
@@ -177,6 +244,30 @@ export default function Tabs(props) {
           </Button>
         </Modal.Footer>
       </Modal>
+
+
+      <Modal show={saveAs} onHide={handleCloseSave} >
+        <Modal.Header closeButton>
+          <Modal.Title>Save File As</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+              <Form.Group className="mb-3" controlId="form">
+                <Form.Label>Set File Name As</Form.Label>
+                <Form.Control type="fileName" placeholder="Enter File Name" onChange={e => setFileName(e.target.value)} />
+              </Form.Group>
+            </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Close
+          </Button>
+          <Button variant="primary" onClick={handleNodeSaveAs} type='submit'>
+            Save File
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
     </div>
   );
 }
