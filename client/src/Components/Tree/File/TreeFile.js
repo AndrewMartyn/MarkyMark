@@ -50,6 +50,9 @@ const File = ({ name, id, node,setDoc,doc}) => {
 
       onNodeClick({ node });
 
+      window.localStorage.setItem('file_name',node.name)
+      window.localStorage.setItem('file_id',node.id)
+
       try{
 
         let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
@@ -59,9 +62,6 @@ const File = ({ name, id, node,setDoc,doc}) => {
         let res = JSON.parse(await response.text())
 
         let found = res.results.find(file => file.noteId === node.id)
-
-        console.log("we set the doc")
-        console.log(found)
 
         setDoc(found.noteBody)
 
