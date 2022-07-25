@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState} from "react";
 import Tree from "./Tree/Tree.js"
 import '../StyleSheets/FileTree.css'
 
@@ -56,7 +56,7 @@ const [allFiles,setFiles] = useState([])
   return (
     
     <div className="App">
-        <Tree data={allFiles} onUpdate={handleUpdate} onNodeClick={handleClick}/>
+        <Tree data={allFiles} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc = {props.setDoc} doc={props.doc}/>
     </div>
   )
 }

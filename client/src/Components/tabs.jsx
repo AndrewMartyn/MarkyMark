@@ -5,7 +5,7 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
-import ThemeProvider from 'react-bootstrap/ThemeProvider'
+import { AiOutlineUser } from "react-icons/ai";
   
 export default function Tabs(props) {
 
@@ -13,6 +13,8 @@ export default function Tabs(props) {
   const [fileName,setFileName] = useState('')
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
 
   const AddFile = async (e)=> {
     
@@ -66,29 +68,94 @@ export default function Tabs(props) {
     }
   }
 
+  function logOut(){
+      let user = { userId:'',firstName:'',lastName:'',tags:''}
+      localStorage.setItem('user_data', JSON.stringify(user));
+  }
+
+  const Display = ()=>{
+
+    if(props.file === true){
+      return(
+        <Dropdown.Toggle id="dropdown-button-dark-example1" variant="outline-secondary" size='sm' style={{backgroundColor: 'transparent',border: 'none'}} disabled> 
+            {props.name}
+        </Dropdown.Toggle>
+      )
+    }else if(props.name === 'File'){
+      return(
+        <>
+          <Dropdown.Toggle id="dropdown-button-dark-example1" variant="outline-secondary" size='sm' style={{backgroundColor: 'transparent',border: 'none'}}>
+                {props.name}
+          </Dropdown.Toggle >
+          <Dropdown.Menu className='super-colors' variant='dark'>
+            <Dropdown.Item href="#" onClick = {handleShow}>
+              {props.newFile}
+            </Dropdown.Item>
+            <Dropdown.Item href="#">
+              {props.newFolder}
+            </Dropdown.Item>
+            <Dropdown.Item href="#">
+            {props.save}
+            </Dropdown.Item>
+            <Dropdown.Item href="#">
+            {props.saveAs}
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </>
+      )
+    }else if(props.name === 'Edit'){
+      return(
+        <>
+          <Dropdown.Toggle id="dropdown-button-dark-example1" variant="outline-secondary" size='sm' style={{backgroundColor: 'transparent',border: 'none'}}>
+            {props.name} 
+          </Dropdown.Toggle >
+          <Dropdown.Menu className='super-colors' variant='dark'>
+          <Dropdown.Item href="#">
+            {props.undo}
+          </Dropdown.Item>
+          <Dropdown.Item href="#">
+            {props.redo}
+          </Dropdown.Item>
+          <Dropdown.Item href="#">
+            {props.cut}
+          </Dropdown.Item>
+          <Dropdown.Item href="#">
+            {props.copy}
+          </Dropdown.Item>
+          <Dropdown.Item href="#">
+            {props.paste}
+          </Dropdown.Item>
+          </Dropdown.Menu>
+        </>
+      )
+    }else{
+      return(
+        <>
+          <Dropdown.Toggle id="dropdown-button-dark-example1" variant="outline-secondary" size='sm' style={{backgroundColor: 'transparent',border: 'none'}}>
+                  {props.name}
+                  <AiOutlineUser/>
+          </Dropdown.Toggle >
+          <Dropdown.Menu className='super-colors' variant='dark'>
+            <Dropdown.Item href="#">
+              {userInfo.firstName} {userInfo.lastName}
+            </Dropdown.Item>
+            <Dropdown.Item href="#">
+              Manage Account
+            </Dropdown.Item>
+            <Dropdown.Item href="/" onClick={logOut} >
+                Sign Out
+            </Dropdown.Item>
+          </Dropdown.Menu>
+        </>
+      )
+    }
+  }
+
   return (
     <div className='dropdownContainer'>
-      <Dropdown>
-        <Dropdown.Toggle id="dropdown-button-dark-example1" variant="outline-secondary" size='sm' style={{backgroundColor: 'transparent',border: 'none', padding:'0.3em',marginLeft:'0.5em', marginRight:'0.5em'}}>
-          {props.name}
-        </Dropdown.Toggle >
-        <Dropdown.Toggle id="dropdown-button-dark-example1" className='text-center' variant="outline-secondary"  size='sm' style={{backgroundColor: 'transparent',position:'relative',border: 'none', padding: '0',left:'80%',transform:'-80%'}} disabled>
-          {props.fileName}
-        </Dropdown.Toggle >
-        <Dropdown.Menu className='super-colors' variant='dark'>
-          <Dropdown.Item href="#" onClick = {handleShow}>
-            New File
-          </Dropdown.Item>
-          <Dropdown.Item href="#">
-            Open File
-          </Dropdown.Item>
-          <Dropdown.Item href="#">
-            Open Folder
-          </Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-      
-
+        <Dropdown>
+          <Display/>
+        </Dropdown>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Adding a File</Modal.Title>

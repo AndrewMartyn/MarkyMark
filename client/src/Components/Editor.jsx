@@ -3,9 +3,10 @@ import useCodeMirror from "../useCodeMirror";
 import "../StyleSheets/Editor.css";
 
 const Editor = ({ initialDoc, onChange }) => {
+    
     const handleChange = useCallback(
         (state) => {
-            onChange(state.doc.toString())
+            onChange(state.doc.toString(),localStorage.setItem('user_body', JSON.stringify(state.doc.toString())))
         },
         [onChange]
     );
@@ -14,8 +15,6 @@ const Editor = ({ initialDoc, onChange }) => {
         initialDoc: initialDoc,
         onChange: handleChange,
     });
-
-    
 
     useEffect(() => {
         if (editorView) {
