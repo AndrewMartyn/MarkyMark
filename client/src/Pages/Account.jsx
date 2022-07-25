@@ -73,7 +73,7 @@ export default function Account() {
 
         try {
             const response = await fetch(
-                `http://localhost:5001/api/users/requestreset?email=${email}&type=email`
+                `http://localhost:5001/api/users/requestreset?email=${email.value}&type=email`
             );
 
             let res = JSON.parse(await response.text());
@@ -96,10 +96,14 @@ export default function Account() {
         event.preventDefault();
         try {
             const response = await fetch(
-                `http://localhost:5001/api/users/requestreset?email=${email}&type=password`
+                `http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`
             );
 
+            console.log(email);
+
             let res = JSON.parse(await response.text());
+
+            console.log(res);
 
             if (res.error == "") {
                 setError("");

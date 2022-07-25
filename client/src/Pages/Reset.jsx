@@ -176,9 +176,9 @@ export default function Reset() {
                     </Button>
                 </Form>
 
-                <Link to="register" className="text-decoration-none">
+                <Link to="/" className="text-decoration-none">
                     <p style={{ marginTop: "1em" }}>
-                        Dont have an account? Create one here!
+                        Remember your credentials? Login here!
                     </p>
                 </Link>
             </Container>

@@ -5,6 +5,8 @@ const User = require("../models/User");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const crypto = require("crypto");
+const jwt = require("../createJWT");
+
 var moment = require("moment");
 
 const userRouter = express.Router();
@@ -15,6 +17,13 @@ const { sendVerificationEmail, sendResetEmail } = require("../nodemailer");
 const { Console } = require("console");
 
 database.connect();
+
+userRouter.get("/users/auth", async (req, res) => {
+    const { token } = req.query;
+    ret = { res: jwt.isValid(token) };
+
+    res.status(200).json(ret);
+});
 
 // user logs in to account
 userRouter.get("/users", async (req, res) => {
@@ -43,8 +52,7 @@ userRouter.get("/users", async (req, res) => {
 
             if (verified) {
                 try {
-                    const token = require("../createJWT");
-                    ret = token.createToken(userId, firstName, lastName, tags);
+                    ret = jwt.createToken(userId, firstName, lastName, tags);
                 } catch (e) {
                     ret = { error: "Token error: " + e.toString() };
                 }
@@ -104,7 +112,7 @@ userRouter.post("/users", async (req, res) => {
 // user deletes account
 userRouter.delete("/users/:userId", async (req, res) => {
     const userId = req.params.userId;
-    const { email } = req.body;
+    const { email, accessToken } = req.body;
 
     let error;
     const deleteMe = { _id: new ObjectId(userId), email: email };
