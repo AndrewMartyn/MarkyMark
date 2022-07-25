@@ -6,6 +6,7 @@ import Alert from "react-bootstrap/Alert";
 import "../StyleSheets/Login.css";
 import Container from "react-bootstrap/esm/Container";
 import { useNavigate, Link } from "react-router-dom";
+import { storeToken, retrieveToken } from "../tokenStorage";
 
 export default function Login() {
     var [email, setEmail] = useState("");
@@ -19,9 +20,7 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            const response = await fetch(
-                `http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`
-            );
+            const response = await fetch(`http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
 
             console.log(res);
@@ -31,9 +30,7 @@ export default function Login() {
                 setError("Invalid email or password combination.");
             } else if (res.error == "Email not verified.") {
                 setSuccess(false);
-                setError(
-                    "Please verify your email address in order to use MarkyMark."
-                );
+                setError("Please verify your email address in order to use MarkyMark.");
             } else {
                 setSuccess(true);
                 setError("");
@@ -45,6 +42,8 @@ export default function Login() {
                     email: email.value,
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
+                storeToken(res.accessToken);
+                console.log(res.accessToken);
                 navigation("texteditor");
             }
         } catch (e) {
@@ -58,27 +57,12 @@ export default function Login() {
             <Container className="child">
                 <h1 className="text-center">Login</h1>
                 <Form onSubmit={handleSubmit}>
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Email address"
-                        className="mb-3"
-                    >
-                        <Form.Control
-                            type="email"
-                            placeholder="name@example.com"
-                            ref={(c) => setEmail(c)}
-                        />
+                    <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
+                        <Form.Control type="email" placeholder="name@example.com" ref={(c) => setEmail(c)} />
                     </FloatingLabel>
 
-                    <FloatingLabel
-                        controlId="floatingPassword"
-                        label="Password"
-                    >
-                        <Form.Control
-                            type="password"
-                            placeholder="Password"
-                            ref={(c) => setPassword(c)}
-                        />
+                    <FloatingLabel controlId="floatingPassword" label="Password">
+                        <Form.Control type="password" placeholder="Password" ref={(c) => setPassword(c)} />
                     </FloatingLabel>
 
                     {success ? (
@@ -95,25 +79,17 @@ export default function Login() {
                         </div>
                     )}
 
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                        style={{ marginTop: "1em" }}
-                    >
+                    <Button type="submit" onClick={handleSubmit} style={{ marginTop: "1em" }}>
                         Submit
                     </Button>
                 </Form>
 
                 <Link to="register" className="text-decoration-none">
-                    <p style={{ marginTop: "1em" }}>
-                        Dont have an account? Create one here!
-                    </p>
+                    <p style={{ marginTop: "1em" }}>Dont have an account? Create one here!</p>
                 </Link>
 
                 <Link to="forgot" className="text-decoration-none">
-                    <p style={{ marginTop: "1em" }}>
-                        Forgot your password? Reset it here!
-                    </p>
+                    <p style={{ marginTop: "1em" }}>Forgot your password? Reset it here!</p>
                 </Link>
             </Container>
         </div>
