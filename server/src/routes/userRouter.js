@@ -18,11 +18,17 @@ const { Console } = require("console");
 
 database.connect();
 
-userRouter.get("/users/auth", async (req, res) => {
-    const { token } = req.query;
-    ret = { res: jwt.isValid(token) };
+userRouter.get("/users/createToken", async (req, res) => {
+    const { userId, email, firstName, lastName, tags } = req.body;
+    const token = jwt.createToken(userId, email, firstName, lastName, tags);
 
-    res.status(200).json(ret);
+    res.send(token);
+});
+
+userRouter.get("/users/auth", async (req, res) => {
+    const auth = jwt.authenticateToken(req.headers.authorization);
+
+    res.send(auth);
 });
 
 // user logs in to account
@@ -39,9 +45,7 @@ userRouter.get("/users", async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db
-            .collection("Users")
-            .findOne({ email: email, password: password });
+        const result = await db.collection("Users").findOne({ email: email, password: password });
 
         if (result != null) {
             userId = result._id;
@@ -52,7 +56,14 @@ userRouter.get("/users", async (req, res) => {
 
             if (verified) {
                 try {
-                    ret = jwt.createToken(userId, firstName, lastName, tags);
+                    ret = {
+                        accessToken: jwt.createAccessToken(userId, email, firstName, lastName, tags),
+                        refreshToken: jwt.createRefreshToken(userId),
+                        userId: userId,
+                        firstName: firstName,
+                        lastName: lastName,
+                        tags: tags,
+                    };
                 } catch (e) {
                     ret = { error: "Token error: " + e.toString() };
                 }
@@ -112,7 +123,7 @@ userRouter.post("/users", async (req, res) => {
 // user deletes account
 userRouter.delete("/users/:userId", async (req, res) => {
     const userId = req.params.userId;
-    const { email, accessToken } = req.body;
+    const { email } = req.body;
 
     let error;
     const deleteMe = { _id: new ObjectId(userId), email: email };
@@ -176,29 +187,17 @@ userRouter.post("/users/reset", async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db
-            .collection("Users")
-            .findOne({ _id: ObjectId(userId), resetToken: token });
+        const result = await db.collection("Users").findOne({ _id: ObjectId(userId), resetToken: token });
 
         if (result != null) {
             tokenExpires = moment(result.resetTokenExpires);
             expired = moment().diff(tokenExpires) > 0; // should work?
 
             if (!expired && type == "password") {
-                await db
-                    .collection("Users")
-                    .updateOne(
-                        { _id: ObjectId(userId) },
-                        { $set: { password: req.body.newPassword } }
-                    );
+                await db.collection("Users").updateOne({ _id: ObjectId(userId) }, { $set: { password: req.body.newPassword } });
                 error = { error: "" };
             } else if (!expired && type == "email") {
-                await db
-                    .collection("Users")
-                    .updateOne(
-                        { _id: ObjectId(userId) },
-                        { $set: { email: req.body.newEmail } }
-                    );
+                await db.collection("Users").updateOne({ _id: ObjectId(userId) }, { $set: { email: req.body.newEmail } });
                 error = { error: "" };
             } else error = { error: "Token Expired or Invalid Type" };
         } else error = { error: "No Such Records" };
@@ -215,17 +214,10 @@ userRouter.post("/users/changename", async (req, res) => {
 
     try {
         const db = database.mongoDB;
-        const result = await db
-            .collection("Users")
-            .find({ _id: ObjectId(userId) });
+        const result = await db.collection("Users").find({ _id: ObjectId(userId) });
 
         if (result != null) {
-            await db
-                .collection("Users")
-                .updateOne(
-                    { _id: ObjectId(userId) },
-                    { $set: { firstName: newFirstName, lastName: newLastName } }
-                );
+            await db.collection("Users").updateOne({ _id: ObjectId(userId) }, { $set: { firstName: newFirstName, lastName: newLastName } });
 
             error = { error: "" };
         } else error = { error: "No Such Records" };

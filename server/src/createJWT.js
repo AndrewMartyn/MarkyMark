@@ -1,46 +1,57 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
-function createToken(id, fn, ln, tags) {
-    let ret;
-
-    try {
-        const expiration = new Date();
-        const user = { userId: id, firstName: fn, lastName: ln, tags: tags };
-        const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "30m",
-        });
-        ret = {
-            token: accessToken,
-            userId: id,
-            firstName: fn,
-            lastName: ln,
+module.exports = {
+    createAccessToken: (userId, email, firstName, lastName, tags) => {
+        const user = {
+            userId: userId,
+            email: email,
+            firstName: firstName,
+            lastName: lastName,
             tags: tags,
         };
-    } catch (e) {
-        ret = { error: "Token error: " + e.toString() };
-    }
-
-    return ret;
-}
-
-module.exports = {
-    createToken: (id, fn, ln, tags) => {
-        return createToken(id, fn, ln, tags);
-    },
-    isValid: (token) => {
-        jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            console.log(err, user);
-            return err == null;
+        return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "20s",
         });
     },
-    refresh: (token) => {
-        let ud = jwt.decode(token, { complete: true });
-        let userId = ud.payload.userId;
-        let firstName = ud.payload.firstName;
-        let lastName = ud.payload.lastName;
-        let tags = ud.payload.tags;
+    createRefreshToken: (userId) => {
+        const user = {
+            userId: userId,
+        };
+        return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+            expiresIn: "1d",
+        });
+    },
+    authenticateToken: (accessToken) => {
+        let ret;
+        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+            ret = { user: user, error: "" };
 
-        return createToken(userId, firstName, lastName, tags);
+            if (err) ret = { error: "Invalid access token" };
+        });
+        return ret;
+    },
+    refresh: (refreshToken, accessToken) => {
+        jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, token) => {
+            const decoded = jwt.decode(accessToken, { complete: true });
+            console.log(decoded);
+            let newAccessToken = jwt.sign(
+                {
+                    userId: decoded.payload.userId,
+                    email: decoded.payload.email,
+                    firstName: decoded.payload.firstName,
+                    lastName: decoded.payload.lastName,
+                    tags: decoded.payload.tags,
+                },
+                process.env.ACCESS_TOKEN_SECRET,
+                { expiresIn: "20s" }
+            );
+
+            ret = { accessToken: newAccessToken, error: "" };
+            console.log(err);
+            if (err) ret = { error: "Invalid refresh token" };
+        });
+
+        return ret;
     },
 };
