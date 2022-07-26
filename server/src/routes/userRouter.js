@@ -15,6 +15,7 @@ userRouter.use(bodyParser.json());
 
 const { sendVerificationEmail, sendResetEmail } = require("../nodemailer");
 const { Console } = require("console");
+const { refresh } = require("../createJWT");
 
 database.connect();
 
@@ -26,9 +27,24 @@ userRouter.get("/users/createToken", async (req, res) => {
 });
 
 userRouter.get("/users/auth", async (req, res) => {
-    const auth = jwt.authenticateToken(req.headers.authorization);
+    const { accessToken } = req.query;
+    try {
+        if (jwt.isExpired(accessToken)) {
+            res.send("token expired");
+            return;
+        }
+    } catch (e) {
+        console.log(e.message);
+    }
 
-    res.send(auth);
+    console.log("success");
+    let refreshedToken = null;
+    try {
+        refreshedToken = jwt.refresh(accessToken);
+    } catch (e) {
+        console.log(e.message);
+    }
+    res.status(200).json({ error: "", accessToken: refreshedToken });
 });
 
 // user logs in to account
@@ -57,12 +73,12 @@ userRouter.get("/users", async (req, res) => {
             if (verified) {
                 try {
                     ret = {
-                        accessToken: jwt.createAccessToken(userId, email, firstName, lastName, tags),
-                        refreshToken: jwt.createRefreshToken(userId),
+                        accessToken: jwt.createToken(userId, email, firstName, lastName, tags),
                         userId: userId,
                         firstName: firstName,
                         lastName: lastName,
                         tags: tags,
+                        error: "",
                     };
                 } catch (e) {
                     ret = { error: "Token error: " + e.toString() };
@@ -83,14 +99,6 @@ userRouter.post("/users", async (req, res) => {
 
     try {
         const db = database.mongoDB;
-
-        if (userId != null) {
-            await db.collection("Users").updateOne({ _id: new ObjectId(userId), email: email }, { $set: { password: password } });
-            error = "PUT request sent";
-            console.log("Password changed");
-            res.status(300).json({ error: error });
-            return;
-        }
 
         // first validate that email is unique and does not already exist in database
         const result = await db.collection("Users").findOne({ email: email });

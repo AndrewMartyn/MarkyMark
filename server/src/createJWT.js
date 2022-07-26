@@ -1,57 +1,38 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const _createToken = (userId, email, firstName, lastName, tags) => {
+    const user = {
+        userId: userId,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        tags: tags,
+    };
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30m",
+    });
+};
 
 module.exports = {
-    createAccessToken: (userId, email, firstName, lastName, tags) => {
-        const user = {
-            userId: userId,
-            email: email,
-            firstName: firstName,
-            lastName: lastName,
-            tags: tags,
-        };
-        return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "20s",
-        });
+    createToken: (userId, email, firstName, lastName, tags) => {
+        return _createToken(userId, email, firstName, lastName, tags);
     },
-    createRefreshToken: (userId) => {
-        const user = {
-            userId: userId,
-        };
-        return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-            expiresIn: "1d",
+
+    isExpired: (token) => {
+        var isError = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, verified) => {
+            if (err) return true;
+            else return false;
         });
+        return isError;
     },
-    authenticateToken: (accessToken) => {
-        let ret;
-        jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-            ret = { user: user, error: "" };
+    refresh: (token) => {
+        let ud = jwt.decode(token, { complete: true });
+        let userId = ud.payload.userId;
+        let email = ud.payload.email;
+        let firstName = ud.payload.firstName;
+        let lastName = ud.payload.lastName;
+        let tags = ud.payload.tags;
 
-            if (err) ret = { error: "Invalid access token" };
-        });
-        return ret;
-    },
-    refresh: (refreshToken, accessToken) => {
-        jwt.verify(refreshToken, process.env.ACCESS_TOKEN_SECRET, (err, token) => {
-            const decoded = jwt.decode(accessToken, { complete: true });
-            console.log(decoded);
-            let newAccessToken = jwt.sign(
-                {
-                    userId: decoded.payload.userId,
-                    email: decoded.payload.email,
-                    firstName: decoded.payload.firstName,
-                    lastName: decoded.payload.lastName,
-                    tags: decoded.payload.tags,
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: "20s" }
-            );
-
-            ret = { accessToken: newAccessToken, error: "" };
-            console.log(err);
-            if (err) ret = { error: "Invalid refresh token" };
-        });
-
-        return ret;
+        return _createToken(userId, email, firstName, lastName, tags);
     },
 };

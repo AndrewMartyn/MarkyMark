@@ -17,26 +17,33 @@ export default function ForgotPassword() {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        try {
-            const response = await fetch(
-                `http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`
-            );
-            let res = JSON.parse(await response.text());
+        var emailRegEx = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
-            console.log(res);
+        if (email.value.match(emailRegEx)) {
+            try {
+                const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`);
+                let res = JSON.parse(await response.text());
 
-            if (res.error == "No Such Records") {
-                setSuccess(false);
-                setError("Invalid Email");
-            } else {
-                setSuccess(true);
-                setError("");
+                console.log(res);
+
+                if (res.error == "") {
+                    setSuccess(true);
+                    setError("Success! Check your email for further action!");
+                } else if (res.error == "No Such Records") {
+                    setSuccess(false);
+                    setError("Invalid Email");
+                } else {
+                    setSuccess(false);
+                    setError("Uh oh! Something went wrong...");
+                }
+            } catch (e) {
+                console.log(e.toString());
+                return;
             }
-        } catch (e) {
-            console.log(e.toString());
-            return;
+        } else {
+            setSuccess(false);
+            setError("Invalid email format");
         }
-        navigation("/");
     };
 
     return (
@@ -44,20 +51,20 @@ export default function ForgotPassword() {
             <Container className="child">
                 <h1 className="text-center">Request Password Reset</h1>
                 <Form onSubmit={handleSubmit}>
-                    <FloatingLabel
-                        controlId="floatingInput"
-                        label="Email address"
-                        className="mb-3"
-                    >
-                        <Form.Control
-                            type="email"
-                            placeholder="name@example.com"
-                            ref={(c) => setEmail(c)}
-                        />
+                    <FloatingLabel controlId="floatingInput" label="Email address" className="mb-3">
+                        <Form.Control type="email" placeholder="name@example.com" ref={(c) => setEmail(c)} required />
                     </FloatingLabel>
 
                     {success ? (
-                        <></>
+                        <div
+                            style={{
+                                marginTop: "1em",
+                                color: "green",
+                                fontSize: ".9rem",
+                            }}
+                        >
+                            <span>{error}</span>
+                        </div>
                     ) : (
                         <div
                             style={{
@@ -70,19 +77,13 @@ export default function ForgotPassword() {
                         </div>
                     )}
 
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                        style={{ marginTop: "1em" }}
-                    >
+                    <Button type="submit" onClick={handleSubmit} style={{ marginTop: "1em" }}>
                         Submit
                     </Button>
                 </Form>
 
                 <Link to="/" className="text-decoration-none">
-                    <p style={{ marginTop: "1em" }}>
-                        Remember your login? Click here to go back
-                    </p>
+                    <p style={{ marginTop: "1em" }}>Remember your login? Login here!</p>
                 </Link>
             </Container>
         </div>

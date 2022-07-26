@@ -27,8 +27,7 @@ export default function Reset() {
         event.preventDefault();
 
         var passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
-        var emailRegEx =
-            /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var emailRegEx = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
         let obj = {
             userId: userId,
@@ -36,17 +35,11 @@ export default function Reset() {
             type: type,
         };
 
-        type == "password"
-            ? (obj.newPassword = newPassword.value)
-            : (obj.newEmail = newEmail.value);
+        type == "password" ? (obj.newPassword = newPassword.value) : (obj.newEmail = newEmail.value);
 
         if (
-            (type == "password" &&
-                newPassword.value.match(passwordRegEx) &&
-                newPassword.value == confirmNewPassword.value) ||
-            (type == "email" &&
-                newEmail.value.match(emailRegEx) &&
-                newEmail.value == confirmNewEmail.value)
+            (type == "password" && newPassword.value.match(passwordRegEx) && newPassword.value == confirmNewPassword.value) ||
+            (type == "email" && newEmail.value.match(emailRegEx) && newEmail.value == confirmNewEmail.value)
         )
             setValid(true);
         else setValid(false);
@@ -55,33 +48,25 @@ export default function Reset() {
 
         try {
             if (valid) {
-                const response = await fetch(
-                    "http://localhost:5001/api/users/reset",
-                    {
-                        method: "POST",
-                        body: json,
-                        headers: { "Content-Type": "application/json" },
-                    }
-                );
+                const response = await fetch("http://localhost:5001/api/users/reset", {
+                    method: "POST",
+                    body: json,
+                    headers: { "Content-Type": "application/json" },
+                });
 
                 let res = JSON.parse(await response.text());
 
                 console.log(res);
 
-                if (
-                    res.error == "Token Expired or Invalid Type" ||
-                    res.error === "No Such Records"
-                ) {
+                if (res.error == "Token Expired or Invalid Type" || res.error === "No Such Records") {
                     setSuccess(false);
-                    setError(
-                        type == "password"
-                            ? "Password"
-                            : "Email" + " Reset Failed"
-                    );
+                    setError(type == "password" ? "Password" : "Email" + " Reset Failed");
                 } else {
                     setSuccess(true);
-                    setError("");
-                    navigation("/");
+                    setError("Success! Redirecting to login page...");
+                    setTimeout(() => {
+                        navigation("/");
+                    }, 2000);
                 }
             } else {
                 setSuccess(false);
@@ -96,65 +81,39 @@ export default function Reset() {
     return (
         <div className="parent">
             <Container className="child">
-                <h1 className="text-center">
-                    {type == "password"
-                        ? "Password Reset"
-                        : "Change Email Address"}
-                </h1>
+                <h1 className="text-center">{type == "password" ? "Password Reset" : "Change Email Address"}</h1>
                 <Form onSubmit={handleSubmit}>
                     {type == "password" ? (
                         <div>
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="New Password"
-                                className="mb-3"
-                            >
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    ref={(c) => setNewPassword(c)}
-                                />
+                            <FloatingLabel controlId="floatingInput" label="New Password" className="mb-3">
+                                <Form.Control type="password" placeholder="Password" ref={(c) => setNewPassword(c)} />
                             </FloatingLabel>
 
-                            <FloatingLabel
-                                controlId="floatingPassword"
-                                label="Confirm New Password"
-                            >
-                                <Form.Control
-                                    type="password"
-                                    placeholder="Password"
-                                    ref={(c) => setConfirmNewPassword(c)}
-                                />
+                            <FloatingLabel controlId="floatingPassword" label="Confirm New Password">
+                                <Form.Control type="password" placeholder="Password" ref={(c) => setConfirmNewPassword(c)} />
                             </FloatingLabel>
                         </div>
                     ) : (
                         <div>
-                            <FloatingLabel
-                                controlId="floatingInput"
-                                label="New Email address"
-                                className="mb-3"
-                            >
-                                <Form.Control
-                                    type="email"
-                                    placeholder="name@example.com"
-                                    ref={(c) => setNewEmail(c)}
-                                />
+                            <FloatingLabel controlId="floatingInput" label="New Email address" className="mb-3">
+                                <Form.Control type="email" placeholder="name@example.com" ref={(c) => setNewEmail(c)} />
                             </FloatingLabel>
 
-                            <FloatingLabel
-                                controlId="floatingPassword"
-                                label="Confirm New Email Address"
-                            >
-                                <Form.Control
-                                    type="email"
-                                    placeholder="name@example.com"
-                                    ref={(c) => setConfirmNewEmail(c)}
-                                />
+                            <FloatingLabel controlId="floatingPassword" label="Confirm New Email Address">
+                                <Form.Control type="email" placeholder="name@example.com" ref={(c) => setConfirmNewEmail(c)} />
                             </FloatingLabel>
                         </div>
                     )}
                     {success ? (
-                        <></>
+                        <div
+                            style={{
+                                marginTop: "1em",
+                                color: "green",
+                                fontSize: ".9rem",
+                            }}
+                        >
+                            <span>{error}</span>
+                        </div>
                     ) : (
                         <div
                             style={{
@@ -167,19 +126,13 @@ export default function Reset() {
                         </div>
                     )}
 
-                    <Button
-                        type="submit"
-                        onClick={handleSubmit}
-                        style={{ marginTop: "1em" }}
-                    >
+                    <Button type="submit" onClick={handleSubmit} style={{ marginTop: "1em" }}>
                         Submit
                     </Button>
                 </Form>
 
                 <Link to="/" className="text-decoration-none">
-                    <p style={{ marginTop: "1em" }}>
-                        Remember your credentials? Login here!
-                    </p>
+                    <p style={{ marginTop: "1em" }}>Remember your credentials? Login here!</p>
                 </Link>
             </Container>
         </div>

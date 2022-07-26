@@ -22,14 +22,7 @@ export default function Account() {
     const handleSaveChanges = async (event) => {
         event.preventDefault();
 
-        console.log(firstName.value, lastName.value);
-
-        if (
-            firstName != null &&
-            lastName != null &&
-            firstName.value.length > 0 &&
-            lastName.value.length > 0
-        ) {
+        if (firstName != null && lastName != null && firstName.value.length > 0 && lastName.value.length > 0) {
             let obj = {
                 userId: userId,
                 newFirstName: firstName.value,
@@ -39,22 +32,17 @@ export default function Account() {
             let json = JSON.stringify(obj);
 
             try {
-                const response = await fetch(
-                    "http://localhost:5001/api/users/changename",
-                    {
-                        method: "POST",
-                        body: json,
-                        headers: { "Content-Type": "application/json" },
-                    }
-                );
+                const response = await fetch("http://localhost:5001/api/users/changename", {
+                    method: "POST",
+                    body: json,
+                    headers: { "Content-Type": "application/json" },
+                });
 
                 let res = JSON.parse(await response.text());
 
                 if (res.error == "") {
-                    setError("");
                     setSuccess(true);
-
-                    console.log("success");
+                    setError("Successfully saved changes!");
                 } else {
                     setError("Uh oh! Something went wrong!");
                     setSuccess(false);
@@ -72,17 +60,13 @@ export default function Account() {
         event.preventDefault();
 
         try {
-            const response = await fetch(
-                `http://localhost:5001/api/users/requestreset?email=${email.value}&type=email`
-            );
+            const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=email`);
 
             let res = JSON.parse(await response.text());
 
             if (res.error == "") {
-                setError("");
                 setSuccess(true);
-
-                console.log("sent");
+                setError("Success! Please check your email for further action.");
             } else {
                 setError("Uh oh! Something went wrong!");
                 setSuccess(false);
@@ -95,9 +79,7 @@ export default function Account() {
     const handleRequestPasswordReset = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(
-                `http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`
-            );
+            const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`);
 
             console.log(email);
 
@@ -106,10 +88,8 @@ export default function Account() {
             console.log(res);
 
             if (res.error == "") {
-                setError("");
+                setError("Success! Please check your email for further action.");
                 setSuccess(true);
-
-                console.log("sent");
             } else {
                 setError("Uh oh! Something went wrong!");
                 setSuccess(false);
@@ -126,47 +106,33 @@ export default function Account() {
                 <Form className="form" onSubmit={handleSaveChanges}>
                     <Form.Group className="mb-3" controlId="firstName">
                         <Form.Label>First Name</Form.Label>
-                        <Form.Control
-                            type="username"
-                            defaultValue={firstName}
-                            placeholder="Enter Firstname"
-                            ref={(c) => (firstName = c)}
-                        />
+                        <Form.Control type="username" defaultValue={firstName} placeholder="Enter Firstname" ref={(c) => (firstName = c)} />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="lastName">
                         <Form.Label>Last Name</Form.Label>
-                        <Form.Control
-                            type="username"
-                            defaultValue={lastName}
-                            placeholder="Enter Lastname"
-                            ref={(c) => (lastName = c)}
-                        />
+                        <Form.Control type="username" defaultValue={lastName} placeholder="Enter Lastname" ref={(c) => (lastName = c)} />
                     </Form.Group>
                     <Form.Group className="mb-3 flex" controlId="email">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control
-                            type="email"
-                            defaultValue={email}
-                            placeholder="email@email.com"
-                            ref={(c) => (email = c)}
-                            disabled
-                        />
+                        <Form.Control type="email" defaultValue={email} placeholder="email@email.com" ref={(c) => (email = c)} disabled />
                     </Form.Group>
 
                     <Form.Group className="mb-3" controlId="password">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control
-                            type="password"
-                            defaultValue="xxxxxxx"
-                            placeholder="Password"
-                            disabled
-                        />
+                        <Form.Control type="password" defaultValue="xxxxxxx" placeholder="Password" disabled />
                         <Form.Text className="text-muted">
-                            At least 6 characters long and must contain 1
-                            uppercase and 1 number
+                            At least 6 characters long and must contain 1 uppercase and 1 number
                             {success ? (
-                                <></>
+                                <div
+                                    style={{
+                                        marginTop: "0.5em",
+                                        color: "green",
+                                        fontSize: ".9rem",
+                                    }}
+                                >
+                                    <span>{error}</span>
+                                </div>
                             ) : (
                                 <div
                                     style={{
@@ -182,27 +148,18 @@ export default function Account() {
                     </Form.Group>
 
                     <div className="d-flex justify-content-between">
-                        <Button
-                            type="submit"
-                            onClick={handleSaveChanges}
-                            style={{ marginTop: "1em" }}
-                        >
+                        <Button type="submit" onClick={handleSaveChanges} style={{ marginTop: "1em" }}>
                             Save Changes
                         </Button>
                         <div>
-                            <Button
-                                type="submit"
-                                variant="outline-primary"
-                                onClick={handleRequestEmailReset}
-                                style={{ marginTop: "1em", marginRight: "1em" }}
-                            >
+                            <Button type="submit" variant="outline-primary" onClick={handleRequestEmailReset} style={{ marginTop: "1em" }}>
                                 Request Email Reset
                             </Button>
                             <Button
                                 type="submit"
                                 variant="outline-danger"
                                 onClick={handleRequestPasswordReset}
-                                style={{ marginTop: "1em" }}
+                                style={{ marginTop: "1em", marginLeft: "2px" }}
                             >
                                 Request Password Reset
                             </Button>

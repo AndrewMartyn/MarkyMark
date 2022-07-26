@@ -14,51 +14,56 @@ database.connect();
 // user searches through their notes based on title and tags
 noteRouter.get("/users/:userId/notes", async (req, res) => {
     const userId = req.params.userId;
-    const { searchText, tags } = req.query;
-    let accessToken = req.headers.accesstoken;
-    let refreshToken = req.headers.refreshtoken;
+    const { searchText, tags, accessToken } = req.query;
 
-    let error;
+    try {
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
+            return;
+        }
+    } catch (e) {
+        console.log(e.message);
+    }
+
     let searchResults = [];
     let search = searchText.trim();
+    let error = "";
 
-    const auth = jwt.authenticateToken(accessToken);
-    if (auth.error == "") {
-        let query = {
-            userId: { _id: userId },
-            noteName: { $regex: search + ".*", $options: "i" },
-        };
-        if (tags.toString() !== "") query.noteTags = { $all: tags };
+    let query = {
+        userId: { _id: userId },
+        noteName: { $regex: search + ".*", $options: "i" },
+    };
+    if (tags.toString() !== "") query.noteTags = { $all: tags };
 
-        try {
-            const db = database.mongoDB;
-            const results = await db.collection("Notes").find(query).toArray();
+    try {
+        const db = database.mongoDB;
+        const results = await db.collection("Notes").find(query).toArray();
 
-            if (results.length > 0) {
-                for (let i = 0; i < results.length; i++)
-                    searchResults.push({
-                        noteId: results[i]._id,
-                        noteName: results[i].noteName,
-                        noteBody: results[i].noteBody,
-                        noteTags: results[i].noteTags,
-                    });
-                error = "Note(s) found";
-            } else error = "No notes found";
-        } catch (e) {
-            error = "Server error: " + e.toString();
-        }
-    } else {
-        console.log("access token expired, attempting to use refresh token");
-        // refresh token before sending response
-        const refresh = jwt.refresh(refreshToken, accessToken);
-        if (refresh.error == "") accessToken = refresh.accessToken;
-        else error = "Failed to refresh token";
+        if (results.length > 0) {
+            for (let i = 0; i < results.length; i++)
+                searchResults.push({
+                    noteId: results[i]._id,
+                    noteName: results[i].noteName,
+                    noteBody: results[i].noteBody,
+                    noteTags: results[i].noteTags,
+                });
+            error = "Note(s) found";
+        } else error = "No notes found";
+    } catch (e) {
+        error = "Server error: " + e.toString();
+    }
+
+    let refreshedToken = null;
+    try {
+        refreshedToken = jwt.refresh(accessToken);
+    } catch (e) {
+        console.log(e.message);
     }
 
     let ret = {
         results: searchResults,
         error: error,
-        accessToken: accessToken,
+        accessToken: refreshedToken,
     };
     res.status(200).json(ret);
 });
@@ -66,7 +71,7 @@ noteRouter.get("/users/:userId/notes", async (req, res) => {
 // user deletes a note
 noteRouter.delete("/users/:userId/notes", async (req, res) => {
     const userId = req.params.userId;
-    const accessToken = req.header.authorization;
+    const { accessToken } = req.query;
 
     let { noteIds } = req.body;
     if (noteIds == null) {
@@ -78,13 +83,11 @@ noteRouter.delete("/users/:userId/notes", async (req, res) => {
     noteIds.forEach((element, index) => {
         noteIds[index] = new ObjectId(element);
     });
-    const { jwtToken } = req.body;
 
     // check for token first
     try {
-        if (token.isExpired(jwtToken)) {
-            let r = { error: "JWT no longer valid ", jwtToken: "" };
-            res.status(200).json(r);
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
             return;
         }
     } catch (e) {
@@ -107,14 +110,14 @@ noteRouter.delete("/users/:userId/notes", async (req, res) => {
     }
 
     // refresh token before sending response
-    let refreshedToken;
+    let refreshedToken = null;
     try {
-        refreshedToken = token.refresh(jwtToken);
+        refreshedToken = jwt.refresh(accessToken);
     } catch (e) {
         console.log(e.message);
     }
 
-    res.status(200).json({ error: error, jwtToken: refreshedToken });
+    res.status(200).json({ error: error, accessToken: refreshedToken });
 });
 
 // user creates a new note or saves updates to an old note
@@ -124,20 +127,20 @@ noteRouter.put("/users/:userId/notes/", async (req, res) => {
     let noteId = new ObjectId(req.query.noteId);
 
     // !!! New note should not have empty name !!!
-    const { name, body, tags, jwtToken } = req.body;
+    const { name, body, tags } = req.body;
+    const { accessToken } = req.query;
 
     // check for token first
     try {
-        if (token.isExpired(jwtToken)) {
-            let r = { error: "JWT no longer valid", jwtToken: "" };
-            res.status(200).json(r);
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
             return;
         }
     } catch (e) {
         console.log(e.message);
     }
 
-    let error;
+    let error = "";
 
     let edits = {};
     if (name != null) edits.noteName = name;
@@ -167,14 +170,14 @@ noteRouter.put("/users/:userId/notes/", async (req, res) => {
     }
 
     // refresh token before sending response
-    let refreshedToken;
+    let refreshedToken = null;
     try {
-        refreshedToken = token.refresh(jwtToken);
+        refreshedToken = jwt.refresh(accessToken);
     } catch (e) {
         console.log(e.message);
     }
 
-    res.status(200).json({ error: error, jwtToken: refreshedToken });
+    res.status(200).json({ error: error, accessToken: refreshedToken });
 });
 
 database.close();
