@@ -24,9 +24,7 @@ verificationRouter.get("/verification", async (req, res) => {
         if (result != null) {
             verified = result.verified;
             if (!verified) {
-                await db
-                    .collection("Users")
-                    .updateOne({ email: email }, { $set: { verified: true } });
+                await db.collection("Users").updateOne({ email: email }, { $set: { verified: true } });
 
                 verified = true;
                 ret = `<meta http-equiv="Refresh" content="5; url='http://localhost:3000/" />Success!<br>Redirecting in 5 seconds...<br><br>or click <a href="http://localhost:3000">here</a> to be redirected immediately.`;

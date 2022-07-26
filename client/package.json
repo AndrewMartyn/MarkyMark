@@ -54,7 +54,7 @@
         "unified": "^10.1.2"
     },
     "scripts": {
-        "build": "npx tailwindcss -i ./src/index.css -o ./src/tailwind.css --watch",
+        "build": "react-scripts build",
         "start": "react-scripts start"
     },
     "browserslist": {

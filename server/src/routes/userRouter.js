@@ -84,6 +84,14 @@ userRouter.post("/users", async (req, res) => {
     try {
         const db = database.mongoDB;
 
+        if (userId != null) {
+            await db.collection("Users").updateOne({ _id: new ObjectId(userId), email: email }, { $set: { password: password } });
+            error = "PUT request sent";
+            console.log("Password changed");
+            res.status(300).json({ error: error });
+            return;
+        }
+
         // first validate that email is unique and does not already exist in database
         const result = await db.collection("Users").findOne({ email: email });
 
