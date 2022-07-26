@@ -16,8 +16,7 @@ function TextEditor() {
     const [clickedFile, setClickedFile] = useState("nothing");
 
     const fileClicked = clickedFile === "nothing" ? true : false;
-    // var mins = 1, the_interval = mins * 60 * 1000
-
+    
     const handleDocChange = useCallback((newDoc) => {
         setDoc(newDoc);
     }, []);
@@ -126,7 +125,7 @@ function TextEditor() {
                 >
                     <Editor
                         onChange={handleDocChange}
-                        doc={doc}
+                        initialDoc = {doc}
                         clicked={fileClicked}
                     />
                     <Preview doc={doc} />

@@ -68,7 +68,7 @@ export default function Register() {
                     localStorage.setItem("user_data", JSON.stringify(user));
                 }
 
-                navigate("/");
+                // navigate("/");
             } catch (e) {
                 alert(e.toString());
                 return;
