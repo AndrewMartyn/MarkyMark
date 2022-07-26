@@ -1,5 +1,8 @@
 import { useRef, useEffect } from "react";
 
+
+let view;
+
 // @deprecated
 export const findNodeById = (nodes, id) => {
   let final;
@@ -74,6 +77,22 @@ export const useDidMountEffect = (func, deps) => {
     else didMount.current = true;
   }, deps);
 };
+
+const init = (editorView) => {
+  view = editorView;
+}
+
+const editDoc = (doc) =>{
+  const currentDoc = getCurrentDoc()
+  const end = currentDoc.length;
+  view.dispatch({changes:{from:0,to:end,insert:doc}})
+}
+
+const getCurrentDoc = () => {
+  return view.state.doc.toString();
+}
+
+export {init, editDoc , getCurrentDoc}
 
 export const createFile = ({ name }) => ({ name, type: "file" });
 export const createFolder = ({ name }) => ({ name, type: "folder", files: [] });
