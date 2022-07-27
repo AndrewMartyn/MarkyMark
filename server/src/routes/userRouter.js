@@ -19,33 +19,33 @@ const { refresh } = require("../createJWT");
 
 database.connect();
 
-userRouter.get("/users/createToken", async (req, res) => {
-    const { userId, email, firstName, lastName, tags } = req.body;
-    const token = jwt.createToken(userId, email, firstName, lastName, tags);
+// userRouter.get("/users/createToken", async (req, res) => {
+//     const { userId, email, firstName, lastName, tags } = req.body;
+//     const token = jwt.createToken(userId, email, firstName, lastName, tags);
 
-    res.send(token);
-});
+//     res.send(token);
+// });
 
-userRouter.get("/users/auth", async (req, res) => {
-    const { accessToken } = req.query;
-    try {
-        if (jwt.isExpired(accessToken)) {
-            res.send("token expired");
-            return;
-        }
-    } catch (e) {
-        console.log(e.message);
-    }
+// userRouter.get("/users/auth", async (req, res) => {
+//     const { accessToken } = req.query;
+//     try {
+//         if (jwt.isExpired(accessToken)) {
+//             res.send("token expired");
+//             return;
+//         }
+//     } catch (e) {
+//         console.log(e.message);
+//     }
 
-    console.log("success");
-    let refreshedToken = null;
-    try {
-        refreshedToken = jwt.refresh(accessToken);
-    } catch (e) {
-        console.log(e.message);
-    }
-    res.status(200).json({ error: "", accessToken: refreshedToken });
-});
+//     console.log("success");
+//     let refreshedToken = null;
+//     try {
+//         refreshedToken = jwt.refresh(accessToken);
+//     } catch (e) {
+//         console.log(e.message);
+//     }
+//     res.status(200).json({ error: "", accessToken: refreshedToken });
+// });
 
 // user logs in to account
 userRouter.get("/users", async (req, res) => {
