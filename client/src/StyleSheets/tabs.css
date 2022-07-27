@@ -1,0 +1,27 @@
+.dropdownContainer{
+    display: inline-block;
+}
+
+.super-colors{
+    background-color: none;
+}
+
+.dropdown-toggle::after {
+    display: none !important; 
+}
+
+.dropdown-toggle:hover{
+    background-color: lightgrey;
+}
+
+.clickedFile{
+    color: white;
+    text-align: center !important;
+    background-color: red;
+}
+
+/* .container{
+    padding: 0;
+    margin: 0;
+    width: 100% !important;
+} */

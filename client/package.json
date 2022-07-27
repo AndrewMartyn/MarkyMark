@@ -1,0 +1,81 @@
+{
+    "name": "client",
+    "version": "0.1.0",
+    "private": true,
+    "type": "module",
+    "dependencies": {
+        "@codemirror/autocomplete": "^6.0.3",
+        "@codemirror/lang-markdown": "^6.0.0",
+        "@codemirror/language": "^6.2.0",
+        "@codemirror/language-data": "^6.1.0",
+        "@codemirror/matchbrackets": "^0.19.4",
+        "@codemirror/search": "^6.0.0",
+        "@codemirror/state": "^6.1.0",
+        "@codemirror/theme-one-dark": "^6.0.0",
+        "@codemirror/view": "^6.0.2",
+        "@emotion/react": "^11.9.3",
+        "@emotion/styled": "^11.9.3",
+        "@mui/icons-material": "^5.8.4",
+        "@mui/lab": "^5.0.0-alpha.89",
+        "@mui/material": "^5.8.7",
+        "axios": "^0.27.2",
+        "bootstrap": "^5.1.3",
+        "codemirror": "^6.0.1",
+        "flowbite": "^1.4.7",
+        "flowbite-react": "^0.1.3",
+        "github-markdown-css": "^5.1.0",
+        "highlight.js": "^11.5.1",
+        "jquery": "^3.6.0",
+        "lodash": "^4.17.21",
+        "lodash.clonedeep": "^4.5.0",
+        "mermaid.cli": "^0.5.1",
+        "react": "^18.2.0",
+        "react-bootstrap": "^2.4.0",
+        "react-codemirror-runmode": "^1.0.5",
+        "react-complex-tree": "^1.1.9",
+        "react-dom": "^18.2.0",
+        "react-icons": "^4.4.0",
+        "react-markdown": "^8.0.3",
+        "react-router-dom": "^6.3.0",
+        "react-scripts": "^5.0.1",
+        "react-split-pane": "^0.1.92",
+        "react-treebeard": "^3.2.4",
+        "rehype-highlight": "^5.0.2",
+        "rehype-react": "^7.1.1",
+        "rehype-sanitize": "^5.0.1",
+        "rehype-stringify": "^9.0.3",
+        "remark-gfm": "^3.0.1",
+        "remark-highlight.js": "^7.0.1",
+        "remark-mermaid": "^0.2.0",
+        "remark-parse": "^10.0.1",
+        "remark-react": "^9.0.1",
+        "remark-rehype": "^10.1.0",
+        "styled-components": "^5.3.5",
+        "tw-elements": "^1.0.0-alpha12",
+        "unified": "^10.1.2"
+    },
+    "scripts": {
+        "build": "react-scripts build",
+        "start": "react-scripts start"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.16"
+    },
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": ""
+}
