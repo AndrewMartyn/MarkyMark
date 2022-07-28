@@ -9,7 +9,7 @@ const _createToken = (userId, email, firstName, lastName, tags) => {
         tags: tags,
     };
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15min",
+        expiresIn: "50min",
     });
 };
 

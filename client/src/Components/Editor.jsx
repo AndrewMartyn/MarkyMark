@@ -32,8 +32,9 @@ const Editor = ({ initialDoc, onChange, clicked, setChange,changed }) => {
                 try {
                     let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
 
+                    // `${url}api/users/${userInfo.userId}/notes?searchText=${fileName}&tags[]=&accessToken=${accessToken}`
                     const response = await fetch(
-                        `${url}api/users/${userInfo.userId}/notes?searchText=${fileName}&tags[]=&accessToken=${accessToken}`,
+                        `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${fileName}&tags[]=&accessToken=${accessToken}`,
                         { method: "GET", headers: { "Content-Type": "application/json" }}
                     );
 

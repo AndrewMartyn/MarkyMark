@@ -40,11 +40,12 @@ export default function Tabs(props) {
         }
 
         let js = JSON.stringify(object)
+        // ${url}api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}
         
-        const response = await fetch(`${url}api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
+        const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
 
         let res = JSON.parse(await response.text())
-
+        props.setChange(true)
         setShow(false)
     
     }
@@ -57,12 +58,13 @@ export default function Tabs(props) {
 
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       
-      const response = await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}
+      const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let res = JSON.parse(await response.text())
 
       console.log('We did the GET request')
-      console.log(res)
+      
 
       let user = { fileName:res.name,body:res.body,tags:res.tags,type:'file'}
       localStorage.setItem('user_files', JSON.stringify(user));
@@ -83,8 +85,9 @@ export default function Tabs(props) {
     try{
     
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
-      
-      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}
+
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:props.clickedFile.node.name,
@@ -93,8 +96,8 @@ export default function Tabs(props) {
       }
 
       let js = JSON.stringify(object)
-      
-      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
@@ -114,8 +117,8 @@ export default function Tabs(props) {
     console.log(newFileName)
     
     try{     
-
-      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:newFileName,
@@ -124,8 +127,8 @@ export default function Tabs(props) {
       }
 
       let js = JSON.stringify(object)
-      
-      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 

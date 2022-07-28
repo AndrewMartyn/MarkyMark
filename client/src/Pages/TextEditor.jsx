@@ -23,17 +23,17 @@ function TextEditor() {
         setDoc(newDoc);
     }, []);
 
-    // useEffect(()=>{
-    //     TreeFile()
-    // },[change === true])
+    useEffect(()=>{
+        TreeFile()
+    },[change === true])
 
-    // const TreeFile = ()=>{
-    //     return(
-    //         <div className="fileContainer">
-    //             <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
-    //         </div>
-    //     )
-    // }
+    const TreeFile = ()=>{
+        return(
+            <div className="fileContainer">
+                <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
+            </div>
+        )
+    }
 
     return (
         <div className="texteditor">
@@ -47,6 +47,7 @@ function TextEditor() {
                                 openFile="Open File"
                                 save="Save"
                                 saveAs="Save as"
+                                setChange={setChange}
                                 clickedFile={clickedFile}
                             />
                             <Tabs name="Edit" undo="Undo" redo="Redo" cut="Cut" copy="Copy" paste="Paste" clickedFile={clickedFile} />
@@ -66,9 +67,7 @@ function TextEditor() {
             </div>
 
             <SplitPane split="vertical" minSize="0" defaultSize="10%" className="splitpaneContainer">
-               <div className="fileContainer">
-                    <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
-               </div>
+               <TreeFile/>
                 <SplitPane split="vertical" minSize="50%" defaultSize="50%" className="splitpaneContainer">
                     <div className="editor">
                         <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />

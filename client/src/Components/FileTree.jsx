@@ -5,18 +5,17 @@ import { storeToken, retrieveToken } from "../utils";
 
 export default function FileTree(props) {
 
-    window.onload = onLoad();
     const url = 'https://marky-mark-clone.herokuapp.com/'
     const [allFiles, setFiles] = useState([]);
 
     const onLoad = async ()=>{
         try {
-            setFiles([])//use this for the next useState
+    
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
-
+            // `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`
             const response = await fetch(
-                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
+                `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}` ,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -24,7 +23,8 @@ export default function FileTree(props) {
             );
 
             let res = JSON.parse(await response.text());
-            res.results.map((file) => {
+
+            res.results?.map((file) => {
                 const container = { type: "", name: "", id: "" };
 
                 container.type = "file";
@@ -32,7 +32,7 @@ export default function FileTree(props) {
                 container.id = `${file.noteId}`;
 
                 setFiles((files) => [...files, container]);
-            });
+            });            
         } catch (e) {
             console.log(e.toString());
             return;
@@ -44,9 +44,9 @@ export default function FileTree(props) {
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
 
             console.log(userInfo);
-
+            // ${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}
             const response = await fetch(
-                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
+                `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -69,10 +69,9 @@ export default function FileTree(props) {
         }
     }
 
-    // useEffect(()=>{
-    //     onLoad();
-    // },[props.change === true])
-
+    useEffect(()=>{
+        onLoad();
+    },[])
 
     const handleClick = (node) => {
         props.clicked(node);

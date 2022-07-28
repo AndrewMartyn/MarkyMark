@@ -29,8 +29,9 @@ const File = ({ name, id, node,setDoc,changed}) => {
         }
 
         let js = JSON.stringify(obj)
+        // ${url}api/users/${userInfo.userId}/notes?accessToken=${token}
 
-        await fetch(`${url}api/users/${userInfo.userId}/notes?accessToken=${token}`, {method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
+        await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?accessToken=${token}`, {method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
         changed(true)
 
       }catch(e){
@@ -51,8 +52,8 @@ const File = ({ name, id, node,setDoc,changed}) => {
         let token = retrieveToken()
 
         console.log(userInfo)
-        
-        const response = await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+        // ${url}api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}
+        const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
   
         let res = JSON.parse(await response.text())
 
@@ -75,8 +76,8 @@ const File = ({ name, id, node,setDoc,changed}) => {
     
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       let token = retrieveToken()
-      
-      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&accessToken=${token}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:node.name,
@@ -87,8 +88,8 @@ const File = ({ name, id, node,setDoc,changed}) => {
       let js = JSON.stringify(object)
 
       // console.log(body)
-      
-      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${node.id}&accessToken=${token}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      // ${url}api/users/${userInfo.userId}/notes?noteId=${node.id}&accessToken=${token}
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${node.id}&accessToken=${token}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
       changed(true)
