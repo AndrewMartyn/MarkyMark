@@ -28,11 +28,11 @@ verificationRouter.get("/verification", async (req, res) => {
                 await db.collection("Users").updateOne({ email: email }, { $set: { verified: true } });
 
                 verified = true;
-                ret = `<meta http-equiv="Refresh" content="5; url=${url} />Success!<br>Redirecting in 5 seconds...<br><br>or click <a href=${url}>here</a> to be redirected immediately.`;
+                ret = `<meta http-equiv="Refresh" content="5; url='${url}" />Success!<br>Redirecting in 5 seconds...<br><br>or click <a href="${url}">here</a> to be redirected immediately.`;
             } else
-                ret = `<meta http-equiv="Refresh" content="5; url=${url} />Success!<br>Redirecting in 5 seconds...<br>or click <a href=${url}">here</a> to be redirected immediately.`;
+                ret = `<meta http-equiv="Refresh" content="5; url='${url}" />Success!<br>Redirecting in 5 seconds...<br>or click <a href="${url}">here</a> to be redirected immediately.`;
         } else
-            ret = `<meta http-equiv="Refresh" content="10; url=${url} />Uh oh! Something went wrong :(<br>Redirecting in 10 seconds...<br>or click <a href=${url}>here</a> to be redirected immediately.`;
+            ret = `<meta http-equiv="Refresh" content="10; url='${url}" />Uh oh! Something went wrong :(<br>Redirecting in 10 seconds...<br>or click <a href="${url}">here</a> to be redirected immediately.`;
     } catch (e) {
         ret = "Server error: " + e.toString();
     }
