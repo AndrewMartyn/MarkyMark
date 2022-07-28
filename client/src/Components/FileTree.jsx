@@ -4,9 +4,10 @@ import "../StyleSheets/FileTree.css";
 import { storeToken, retrieveToken } from "../utils";
 
 export default function FileTree(props) {
+    window.onload = onLoad
 
     const url = 'https://marky-mark-clone.herokuapp.com/'
-    const [allFiles, setFiles] = useState('empty');
+    const [allFiles, setFiles] = useState([]);
 
     const onLoad = async ()=>{
         try {
@@ -21,28 +22,17 @@ export default function FileTree(props) {
                 }
             );
 
-            if(allFiles === 'empty'){
-                let res = JSON.parse(await response.text());
+            let res = JSON.parse(await response.text());
 
-                res.results.map((file) => {
-                    const container = { type: "", name: "", id: "" };
-    
-                    container.type = "file";
-                    container.name = `${file.noteName}`;
-                    container.id = `${file.noteId}`;
-    
-                    setFiles((files) => [...files, container]);
-                });
-            }else{
-                let res = JSON.parse(await response.text());
-                console.log('res')
-                console.log(res)
-                
-                res.results.map((file) => {
-                    setFiles([...file,{type:'file',name:file.noteName,id:file.noteId}])
-                })
-            }
-            
+            res.results.map((file) => {
+                const container = { type: "", name: "", id: "" };
+
+                container.type = "file";
+                container.name = `${file.noteName}`;
+                container.id = `${file.noteId}`;
+
+                setFiles((files) => [...files, container]);
+            });
         } catch (e) {
             console.log(e.toString());
             return;
@@ -82,6 +72,7 @@ export default function FileTree(props) {
     useEffect(()=>{
         onLoad();
     },[props.change === true])
+
 
     const handleClick = (node) => {
         props.clicked(node);
