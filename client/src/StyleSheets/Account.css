@@ -17,4 +17,22 @@
     border: none;
     border-radius: 10px;
     padding: 2em !important;
+    max-width: 1000px;
+}
+
+.saveChanges {
+    padding: 0.5em !important;
+}
+
+.buttons {
+    border: none !important;
+    background: none !important;
+}
+
+.buttons:hover {
+    color: rgb(13, 110, 253) !important;
+}
+
+.container {
+    width: 25vw !important;
 }

@@ -2,14 +2,15 @@ import React from "react";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import "../StyleSheets/Register.css";
+import "../StyleSheets/Account.css";
 import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 export default function Account() {
     var userData = JSON.parse(localStorage.getItem("user_data"));
-    const url = 'https://marky-mark-clone.herokuapp.com/'
+    const url = "https://marky-mark-clone.herokuapp.com/";
     let email = userData.email;
     let firstName = userData.firstName;
     let lastName = userData.lastName;
@@ -48,7 +49,6 @@ export default function Account() {
                     setSuccess(false);
                 }
             } catch (e) {
-                
                 console.log(e.toString());
             }
         } else {
@@ -102,93 +102,73 @@ export default function Account() {
 
     return (
         <>
-        <div className="parent">
-            <Container className="childs">
-                <h1 className="text-center">Manage your Account</h1>
-                <Form className="form" onSubmit={handleSaveChanges}>
-                    <Form.Group className="mb-3" controlId="firstName">
-                        <Form.Label>First Name</Form.Label>
-                        <Form.Control type="username" defaultValue={firstName} placeholder="Enter Firstname" ref={(c) => (firstName = c)} />
-                    </Form.Group>
+            <div className="parent">
+                <Container className="childs">
+                    <Row>
+                        <h1 className="text-center">Manage your Account</h1>
+                        <Form className="form" onSubmit={handleSaveChanges}>
+                            <Form.Group className="mb-3" controlId="firstName">
+                                <Form.Label>First Name</Form.Label>
+                                <Form.Control type="username" defaultValue={firstName} placeholder="Enter Firstname" ref={(c) => (firstName = c)} />
+                            </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="lastName">
-                        <Form.Label>Last Name</Form.Label>
-                        <Form.Control type="username" defaultValue={lastName} placeholder="Enter Lastname" ref={(c) => (lastName = c)} />
-                    </Form.Group>
-                    <Form.Group className="mb-3 flex" controlId="email">
-                        <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" defaultValue={email} placeholder="email@email.com" ref={(c) => (email = c)} disabled />
-                    </Form.Group>
+                            <Form.Group className="mb-3" controlId="lastName">
+                                <Form.Label>Last Name</Form.Label>
+                                <Form.Control type="username" defaultValue={lastName} placeholder="Enter Lastname" ref={(c) => (lastName = c)} />
+                            </Form.Group>
+                            <Form.Group className="mb-3 flex" controlId="email">
+                                <Form.Label>Email</Form.Label>
+                                <Form.Control type="email" defaultValue={email} placeholder="email@email.com" ref={(c) => (email = c)} disabled />
+                            </Form.Group>
 
-                    <Form.Group className="mb-3" controlId="password">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control type="password" defaultValue="xxxxxxx" placeholder="Password" disabled />
-                        <Form.Text className="text-muted">
-                            At least 6 characters long and must contain 1 uppercase and 1 number
-                            {success ? (
-                                <div
-                                    style={{
-                                        marginTop: "0.5em",
-                                        color: "green",
-                                        fontSize: ".9rem",
-                                    }}
-                                >
-                                    <span>{error}</span>
-                                </div>
-                            ) : (
-                                <div
-                                    style={{
-                                        marginTop: "0.5em",
-                                        color: "red",
-                                        fontSize: ".9rem",
-                                    }}
-                                >
-                                    <span>{error}</span>
-                                </div>
-                            )}
-                        </Form.Text>
-                    </Form.Group>
-
-                    <div>
-                        <Button className="saveChanges" type="submit" onClick={handleSaveChanges}>
-                            Save Changes
+                            <Form.Group className="mb-3" controlId="password">
+                                <Form.Label>Password</Form.Label>
+                                <Form.Control type="password" defaultValue="xxxxxxx" placeholder="Password" disabled />
+                                <Form.Text className="text-muted">
+                                    At least 6 characters long and must contain 1 uppercase and 1 number
+                                    {success ? (
+                                        <div
+                                            style={{
+                                                marginTop: "0.5em",
+                                                color: "green",
+                                                fontSize: ".9rem",
+                                            }}
+                                        >
+                                            <span>{error}</span>
+                                        </div>
+                                    ) : (
+                                        <div
+                                            style={{
+                                                marginTop: "0.5em",
+                                                color: "red",
+                                                fontSize: ".9rem",
+                                            }}
+                                        >
+                                            <span>{error}</span>
+                                        </div>
+                                    )}
+                                </Form.Text>
+                            </Form.Group>
+                            <div className="d-flex justify-content-between">
+                                <Button className="saveChanges" type="submit" onClick={handleSaveChanges}>
+                                    Save Changes
+                                </Button>
+                                <Button className="deleteAccount" type="submit" variant="danger" onClick={handleRequestPasswordReset}>
+                                    Delete Account
+                                </Button>
+                            </div>
+                        </Form>
+                    </Row>
+                    <Row>
+                        <Button className="buttons" type="submit" variant="secondary" onClick={handleRequestEmailReset}>
+                            Request Email Reset
                         </Button>
-                    </div>
-                </Form>
-            </Container>
-        </div>
-        <div className="parent">
-            <Container className="childs">
-                <h1 className="text-center">Manage your Account</h1>
-                <div className="buttonContainer">
-                    <Button className="buttons" 
-                        type="submit" 
-                        variant="secondary" 
-                        onClick={handleRequestEmailReset} 
-                    >
-                        Request Email Reset
-                    </Button>
-                    <Button
-                        className="buttons"
-                        type="submit"
-                        variant="secondary"
-                        onClick={handleRequestPasswordReset}
-                    >
-                        Request Password Reset
-                    </Button>
-                    <Button
-                        className="buttons deleteAccount"
-                        type="submit"
-                        variant="secondary"
-                        onClick={handleRequestPasswordReset}
-                    >
-                        Delete Account
-                    </Button>
-                </div>
-            </Container>
-        </div>
-
-                        
+                        <Button className="buttons" type="submit" variant="secondary" onClick={handleRequestPasswordReset}>
+                            Request Password Reset
+                        </Button>
+                    </Row>
+                </Container>
+            </div>
         </>
     );
 }
