@@ -32,7 +32,6 @@ export default function FileTree(props) {
 
                 setFiles((files) => [...files, container]);
             });
-            setTest(1)
         } catch (e) {
             console.log(e.toString());
             return;
@@ -73,6 +72,14 @@ export default function FileTree(props) {
         onLoad();
     },[])
 
+    const TreeFile = useEffect(()=>{
+        return(
+            <div className="App">
+                <Tree data={allFiles} changed={props.changed} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
+            </div>
+        )
+    },[allFiles])
+
     const handleClick = (node) => {
         props.clicked(node);
     };
@@ -90,8 +97,6 @@ export default function FileTree(props) {
     };
 
     return (
-        <div className="App">
-            <Tree data={allFiles} changed={props.changed} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
-        </div>
+        <TreeFile/>
     );
 }
