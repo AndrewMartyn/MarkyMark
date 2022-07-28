@@ -14,7 +14,7 @@ export default function Login() {
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const url = 'https://marky-mark-clone.herokuapp.com/'
-    var navigation = useNavigate("");
+    const [isTrue,setTrue] = useState(false)
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -38,7 +38,7 @@ export default function Login() {
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
                 console.log(res);
-                navigation("texteditor");
+                setTrue(true)
             } else if (res.error == "No Such Records") {
                 setSuccess(false);
                 setError("Invalid email or password combination.");
@@ -85,6 +85,7 @@ export default function Login() {
                     <Button type="submit" onClick={handleSubmit} style={{ marginTop: "1em" }}>
                         Submit
                     </Button>
+                    {isTrue ? <Link to='texteditor'/> : <></>}
                 </Form>
 
                 <Link to="register" className="text-decoration-none">
