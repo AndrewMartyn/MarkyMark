@@ -8,6 +8,7 @@ import FileTree from "../Components/FileTree.jsx";
 import Container from "react-bootstrap/esm/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { useEffect } from "react";
 
 function TextEditor() {
     const [doc, setDoc] = useState(`test`);
@@ -20,6 +21,18 @@ function TextEditor() {
     const handleDocChange = useCallback((newDoc) => {
         setDoc(newDoc);
     }, []);
+
+    useEffect(()=>{
+        TreeFile()
+    },[change])
+
+    const TreeFile = ()=>{
+        return(
+            <div className="fgit ileContainer">
+                <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
+            </div>
+        )
+    }
 
     return (
         <div className="texteditor">
@@ -52,9 +65,7 @@ function TextEditor() {
             </div>
 
             <SplitPane split="vertical" minSize="0" defaultSize="10%" className="splitpaneContainer">
-                <div className="fileContainer">
-                    <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
-                </div>
+                    {TreeFile}
                 <SplitPane split="vertical" minSize="50%" defaultSize="50%" className="splitpaneContainer">
                     <div className="editor">
                         <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />
