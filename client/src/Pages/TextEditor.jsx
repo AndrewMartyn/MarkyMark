@@ -16,25 +16,23 @@ function TextEditor() {
     const [change,setChange] = useState(false);
     const [clickedFile, setClickedFile] = useState("nothing");
     
-    console.log(change)
-
     const fileClicked = clickedFile === "nothing" ? true : false;
 
     const handleDocChange = useCallback((newDoc) => {
         setDoc(newDoc);
     }, []);
 
-    useEffect(()=>{
-        TreeFile()
-    },[change === true])
+    // useEffect(()=>{
+    //     TreeFile()
+    // },[change === true])
 
-    const TreeFile = ()=>{
-        return(
-            <div className="fileContainer">
-                <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
-            </div>
-        )
-    }
+    // const TreeFile = ()=>{
+    //     return(
+    //         <div className="fileContainer">
+    //             <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
+    //         </div>
+    //     )
+    // }
 
     return (
         <div className="texteditor">
@@ -67,7 +65,9 @@ function TextEditor() {
             </div>
 
             <SplitPane split="vertical" minSize="0" defaultSize="10%" className="splitpaneContainer">
-                    <TreeFile/>
+               <div className="fileContainer">
+                    <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
+               </div>
                 <SplitPane split="vertical" minSize="50%" defaultSize="50%" className="splitpaneContainer">
                     <div className="editor">
                         <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />

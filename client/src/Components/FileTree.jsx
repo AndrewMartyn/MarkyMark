@@ -21,17 +21,30 @@ export default function FileTree(props) {
                 }
             );
 
-            let res = JSON.parse(await response.text());
+            if(allFiles === []){
+                let res = JSON.parse(await response.text());
 
-            res.results.map((file) => {
-                const container = { type: "", name: "", id: "" };
+                res.results.map((file) => {
+                    const container = { type: "", name: "", id: "" };
+    
+                    container.type = "file";
+                    container.name = `${file.noteName}`;
+                    container.id = `${file.noteId}`;
+    
+                    setFiles((files) => [...files, container]);
+                });
+            }else{
+                let res = JSON.parse(await response.text());
+                console.log('res')
+                console.log(res)
+                
+                res.results.map((file) => {
+                    console.log('file')
+                    console.log(file)
+                })
+            }
 
-                container.type = "file";
-                container.name = `${file.noteName}`;
-                container.id = `${file.noteId}`;
-
-                setFiles((files) => [...files, container]);
-            });
+           
             
         } catch (e) {
             console.log(e.toString());
@@ -71,9 +84,7 @@ export default function FileTree(props) {
 
     useEffect(()=>{
         onLoad();
-    },[])
-
-
+    },[props.change === true])
 
     const handleClick = (node) => {
         props.clicked(node);
