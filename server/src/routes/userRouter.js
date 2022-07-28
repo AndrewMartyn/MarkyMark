@@ -28,6 +28,7 @@ userRouter.get("/users/createToken", async (req, res) => {
 
 userRouter.get("/users/auth", async (req, res) => {
     const { accessToken } = req.query;
+    
     // try {
     //     if (jwt.isExpired(accessToken)) {
     //         res.send("token expired");

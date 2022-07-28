@@ -48,7 +48,6 @@
     border-color: transparent;
 }
 
-
 .fileContainer::-webkit-scrollbar-thumb{
     background-color: rgb(30,34,39);
 }
@@ -59,3 +58,33 @@
     overflow-x:hidden;
     overflow-y: auto;
 }
+
+.editor{
+    overflow: auto;
+}
+
+.editor::-webkit-scrollbar{
+    display: none;
+}
+
+.editor{
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+.preview{
+    overflow: auto;
+}
+
+.preview::-webkit-scrollbar{
+    display: none;
+}
+
+.preview{
+    -ms-overflow-style: none !important;
+    scrollbar-width: none !important;
+}
+
+
+
+

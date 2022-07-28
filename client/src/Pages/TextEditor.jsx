@@ -2,7 +2,6 @@ import React, { useCallback, useState } from "react";
 import SplitPane from "react-split-pane";
 import Preview from "../Components/Preview";
 import Editor from "../Components/Editor";
-import "../StyleSheets/App.css";
 import "../StyleSheets/splitpane.css";
 import Tabs from "../Components/Tabs";
 import FileTree from "../Components/FileTree.jsx";
@@ -15,7 +14,6 @@ function TextEditor() {
     const [name, setName] = useState(`test`);
     const [change,setChange] = useState(false);
     const [clickedFile, setClickedFile] = useState("nothing");
-
     
     const fileClicked = clickedFile === "nothing" ? true : false;
 
@@ -24,7 +22,7 @@ function TextEditor() {
     }, []);
 
     return (
-        <div className="App">
+        <div className="texteditor">
             <div style={{ backgroundColor: "rgb(30,34,39)" }}>
                 <Container fluid>
                     <Row class="row">
@@ -53,13 +51,15 @@ function TextEditor() {
                 </Container>
             </div>
 
-            <SplitPane split="vertical" minSize="0" defaultSize="10%" style={{ position: "static" }}>
+            <SplitPane split="vertical" minSize="0" defaultSize="10%" className="splitpaneContainer">
                 <div className="fileContainer">
                     <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
                 </div>
-                <SplitPane split="vertical" minSize="50%" defaultSize="50%" style={{ position: "static" }}>
-                    <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />
-                    <Preview doc={doc} />
+                <SplitPane split="vertical" minSize="50%" defaultSize="50%" className="splitpaneContainer">
+                    <div className="editor">
+                        <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />
+                    </div>
+                    <Preview  doc={doc} />
                 </SplitPane>
             </SplitPane>
         </div>

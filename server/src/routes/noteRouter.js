@@ -85,14 +85,14 @@ noteRouter.delete("/users/:userId/notes", async (req, res) => {
     });
 
     // check for token first
-    // try {
-    //     if (jwt.isExpired(accessToken)) {
-    //         res.status(200).json({ error: "Token is no longer valid" });
-    //         return;
-    //     }
-    // } catch (e) {
-    //     console.log(e.message);
-    // }
+    try {
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
+            return;
+        }
+    } catch (e) {
+        console.log(e.message);
+    }
 
     let error;
     const deleteMe = { userId: { _id: userId }, _id: { $in: noteIds } };

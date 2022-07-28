@@ -48,6 +48,8 @@ const File = ({ name, id, node,setDoc,changed}) => {
       try{
 
         let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
+
+        console.log(userInfo)
         
         const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${node.name}&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
   
@@ -63,8 +65,7 @@ const File = ({ name, id, node,setDoc,changed}) => {
   });
 
   const handleNodeSave = React.useCallback(async()=>{
-
-
+    
     let body = JSON.parse(window.localStorage.getItem('user_body'))
 
     console.log(body)
@@ -83,7 +84,7 @@ const File = ({ name, id, node,setDoc,changed}) => {
 
       let js = JSON.stringify(object)
 
-      console.log(body)
+      // console.log(body)
       
       await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${node.id}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       

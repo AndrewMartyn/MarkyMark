@@ -1,7 +1,7 @@
 .preview.markdown-body {
     flex: 0 0 50%;
     padding: 10px;
-    font-size: 30px;
+    font-size: 1em;
     box-sizing: border-box;
     overflow: auto;
     background-color:rgb(40,44,52);

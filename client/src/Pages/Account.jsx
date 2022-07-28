@@ -100,6 +100,7 @@ export default function Account() {
     };
 
     return (
+        <>
         <div className="parent">
             <Container className="childs">
                 <h1 className="text-center">Manage your Account</h1>
@@ -147,26 +148,46 @@ export default function Account() {
                         </Form.Text>
                     </Form.Group>
 
-                    <div className="d-flex justify-content-between">
-                        <Button type="submit" onClick={handleSaveChanges} style={{ marginTop: "1em" }}>
+                    <div>
+                        <Button className="saveChanges" type="submit" onClick={handleSaveChanges}>
                             Save Changes
                         </Button>
-                        <div>
-                            <Button type="submit" variant="outline-primary" onClick={handleRequestEmailReset} style={{ marginTop: "1em" }}>
-                                Request Email Reset
-                            </Button>
-                            <Button
-                                type="submit"
-                                variant="outline-danger"
-                                onClick={handleRequestPasswordReset}
-                                style={{ marginTop: "1em", marginLeft: "2px" }}
-                            >
-                                Request Password Reset
-                            </Button>
-                        </div>
                     </div>
                 </Form>
             </Container>
         </div>
+        <div className="parent">
+            <Container className="childs">
+                <h1 className="text-center">Manage your Account</h1>
+                <div className="buttonContainer">
+                    <Button className="buttons" 
+                        type="submit" 
+                        variant="secondary" 
+                        onClick={handleRequestEmailReset} 
+                    >
+                        Request Email Reset
+                    </Button>
+                    <Button
+                        className="buttons"
+                        type="submit"
+                        variant="secondary"
+                        onClick={handleRequestPasswordReset}
+                    >
+                        Request Password Reset
+                    </Button>
+                    <Button
+                        className="buttons deleteAccount"
+                        type="submit"
+                        variant="secondary"
+                        onClick={handleRequestPasswordReset}
+                    >
+                        Delete Account
+                    </Button>
+                </div>
+            </Container>
+        </div>
+
+                        
+        </>
     );
 }

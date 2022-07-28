@@ -1,5 +1,5 @@
-.parents {
-    height: 100vh;
+.parent {
+    height: 100vh !important; 
     background-color: rgb(40, 44, 52);
     display: flex;
     align-items: center;
@@ -16,7 +16,24 @@
     background-color: rgb(30, 34, 39);
     border: none;
     border-radius: 10px;
-    padding: 3em !important;
+    padding: 2em !important;
+}
+
+.saveChanges{
+    padding: 0.5em !important;
+}
+
+.buttons{
+    border: none !important;
+    background: none !important;
+}
+
+.buttons:hover{
+    color: rgb(13, 110, 253) !important;
+}
+
+.deleteAccount:hover{
+    color: rgb(220,53,69) !important;
 }
 
 .container {

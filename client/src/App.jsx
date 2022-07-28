@@ -9,14 +9,16 @@ import { Routes, Route } from "react-router-dom";
 
 function App() {
     return (
-        <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="forgot" element={<ForgotPassword />} />
-            <Route path="reset" element={<Reset />} />
-            <Route path="account" element={<Account />} />
-            <Route path="texteditor" element={<TextEditor />} />
-        </Routes>
+        <div className="">
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="register" element={<Register />} />
+                <Route path="forgot" element={<ForgotPassword />} />
+                <Route path="reset" element={<Reset />} />
+                <Route path="account" element={<Account />} />
+                <Route path="texteditor" element={<TextEditor />} />
+            </Routes>
+        </div>
     );
 }
 export default App;
