@@ -5,13 +5,15 @@ import { storeToken, retrieveToken } from "../utils";
 
 export default function FileTree(props) {
 
+    window.onload = onLoad()
+
     const url = 'https://marky-mark-clone.herokuapp.com/'
     const [allFiles, setFiles] = useState([]);
     const [setTreeFile, setTreeFiles] = useState();
+    let vars = 0
 
     const onLoad = async ()=>{
         try {
-            
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
 
@@ -34,6 +36,10 @@ export default function FileTree(props) {
 
                 setFiles((files) => [...files, container]);
             });
+
+            if(vars === 0){
+                setTreeFiles(allFiles)
+            }
         } catch (e) {
             console.log(e.toString());
             return;
@@ -69,11 +75,6 @@ export default function FileTree(props) {
             return;
         }
     }
-
-    useEffect(()=>{
-        onLoad();
-        setTreeFiles(allFiles)
-    },[])
 
     useEffect(()=>{
         onLoad();
