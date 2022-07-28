@@ -11,7 +11,7 @@ function App() {
     return (
         <div className="">
             <Routes>
-                <Route exact path="/" element={<Login />} />
+                <Route path="/" element={<Login />} />
                 <Route path="register" element={<Register />} />
                 <Route path="forgot" element={<ForgotPassword />} />
                 <Route path="reset" element={<Reset />} />
