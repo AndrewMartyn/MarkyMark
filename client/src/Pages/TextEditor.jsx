@@ -16,6 +16,8 @@ function TextEditor() {
     const [change,setChange] = useState(false);
     const [clickedFile, setClickedFile] = useState("nothing");
     
+    console.log(change)
+
     const fileClicked = clickedFile === "nothing" ? true : false;
 
     const handleDocChange = useCallback((newDoc) => {
@@ -24,11 +26,11 @@ function TextEditor() {
 
     useEffect(()=>{
         TreeFile()
-    },[change])
+    },[change === true])
 
     const TreeFile = ()=>{
         return(
-            <div className="fgit ileContainer">
+            <div className="fileContainer">
                 <FileTree clicked={setClickedFile} change={change} changed ={setChange} doc={doc} setDoc={setDoc} />
             </div>
         )
