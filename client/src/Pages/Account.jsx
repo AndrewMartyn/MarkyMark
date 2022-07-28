@@ -42,6 +42,15 @@ export default function Account() {
                 let res = JSON.parse(await response.text());
 
                 if (res.error == "") {
+                    let user = {
+                        firstName: firstName.value,
+                        lastName: lastName.value,
+                        id: userId,
+                        email: email.value,
+                    };
+
+                    console.log(user);
+                    localStorage.setItem("user_data", JSON.stringify(user));
                     setSuccess(true);
                     setError("Successfully saved changes!");
                 } else {
@@ -100,6 +109,40 @@ export default function Account() {
         }
     };
 
+    const handleDeleteAccount = async (event) => {
+        event.preventDefault();
+        var userData = JSON.parse(localStorage.getItem("user_data"));
+        const userId = userData.id;
+        const email = userData.email;
+
+        try {
+            let obj = {
+                email: email,
+            };
+            let json = JSON.stringify(obj);
+            const response = await fetch(`${url}api/users/${userId}`, {
+                method: "DELETE",
+                body: json,
+                headers: { "Content-Type": "application/json" },
+            });
+
+            let res = JSON.parse(await response.text());
+
+            if (res.error == "DELETE request sent") {
+                setSuccess(true);
+                setError("You have successfully deleted your account! Redirecting to login...");
+                setTimeout(() => {
+                    navigate("/");
+                }, 3000);
+            } else {
+                setSuccess(false);
+                setError("Uh oh! Something went wrong.");
+            }
+        } catch (e) {
+            console.log(e.message);
+        }
+    };
+
     return (
         <>
             <div className="parent">
@@ -153,7 +196,7 @@ export default function Account() {
                                 <Button className="saveChanges" type="submit" onClick={handleSaveChanges}>
                                     Save Changes
                                 </Button>
-                                <Button className="deleteAccount" type="submit" variant="danger" onClick={handleRequestPasswordReset}>
+                                <Button className="deleteAccount" type="submit" variant="danger" onClick={handleDeleteAccount}>
                                     Delete Account
                                 </Button>
                             </div>

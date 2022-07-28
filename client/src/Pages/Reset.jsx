@@ -25,7 +25,7 @@ export default function Reset() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        const url = 'https://marky-mark-clone.herokuapp.com/'
+        const url = "https://marky-mark-clone.herokuapp.com/";
         var passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         var emailRegEx = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 

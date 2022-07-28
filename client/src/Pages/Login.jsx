@@ -13,8 +13,8 @@ export default function Login() {
     var [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
-    const url = 'https://marky-mark-clone.herokuapp.com/'
-    const [isTrue,setTrue] = useState(false)
+    const url = "https://marky-mark-clone.herokuapp.com/";
+    const [isTrue, setTrue] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -23,8 +23,8 @@ export default function Login() {
             const response = await fetch(`${url}api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
 
-            console.log(res)
-            
+            console.log(res);
+
             if (res.error == "") {
                 setSuccess(true);
                 setError("");
@@ -32,13 +32,12 @@ export default function Login() {
                 let user = {
                     firstName: res.firstName,
                     lastName: res.lastName,
-                    tags: res.tags,
                     id: res.userId,
                     email: email.value,
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
                 console.log(res);
-                location.href = 'texteditor'
+                location.href = "texteditor";
             } else if (res.error == "No Such Records") {
                 setSuccess(false);
                 setError("Invalid email or password combination.");
