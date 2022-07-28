@@ -31,7 +31,6 @@ const File = ({ name, id, node,setDoc,changed}) => {
         let js = JSON.stringify(obj)
 
         await fetch(`${url}api/users/${userInfo.userId}/notes?accessToken=${token}`, {method:'DELETE',body:js,headers:{'Content-Type': 'application/json'}});
-
         changed(true)
 
       }catch(e){
