@@ -13,9 +13,9 @@ export default function FileTree(props) {
     
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
-            // `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`
+        
             const response = await fetch(
-                `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}` ,
+                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}` ,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -44,9 +44,9 @@ export default function FileTree(props) {
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
 
             console.log(userInfo);
-            // ${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}
+          
             const response = await fetch(
-                `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
+                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },

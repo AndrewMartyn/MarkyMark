@@ -20,8 +20,7 @@ export default function Login() {
         event.preventDefault();
 
         try {
-            // ${url}api/users/?email=${email.value}&password=${password.value}
-            const response = await fetch(`http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`);
+            const response = await fetch(`${url}api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
 
             console.log(res)
