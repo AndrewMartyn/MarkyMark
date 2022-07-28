@@ -15,7 +15,6 @@ function TextEditor() {
     const [name, setName] = useState(`test`);
     const [change,setChange] = useState(false);
     const [clickedFile, setClickedFile] = useState("nothing");
-    
 
     console.log(change)
     const fileClicked = clickedFile === "nothing" ? true : false;

@@ -5,8 +5,7 @@ import { storeToken, retrieveToken } from "../utils";
 
 export default function FileTree(props) {
 
-    window.onload = onLoad()
-
+    window.onload = onLoad();
     const url = 'https://marky-mark-clone.herokuapp.com/'
     const [allFiles, setFiles] = useState([]);
 
@@ -25,7 +24,6 @@ export default function FileTree(props) {
             );
 
             let res = JSON.parse(await response.text());
-            setFiles([])
             res.results.map((file) => {
                 const container = { type: "", name: "", id: "" };
 
@@ -71,9 +69,9 @@ export default function FileTree(props) {
         }
     }
 
-    useEffect(()=>{
-        onLoad();
-    },[props.change === true])
+    // useEffect(()=>{
+    //     onLoad();
+    // },[props.change === true])
 
 
     const handleClick = (node) => {
