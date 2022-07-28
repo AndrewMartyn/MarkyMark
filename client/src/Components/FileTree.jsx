@@ -6,7 +6,7 @@ import { storeToken, retrieveToken } from "../utils";
 export default function FileTree(props) {
 
     const url = 'https://marky-mark-clone.herokuapp.com/'
-    const [allFiles, setFiles] = useState([]);
+    const [allFiles, setFiles] = useState('empty');
 
     const onLoad = async ()=>{
         try {
@@ -21,7 +21,7 @@ export default function FileTree(props) {
                 }
             );
 
-            if(allFiles === []){
+            if(allFiles === 'empty'){
                 let res = JSON.parse(await response.text());
 
                 res.results.map((file) => {
@@ -39,12 +39,9 @@ export default function FileTree(props) {
                 console.log(res)
                 
                 res.results.map((file) => {
-                    console.log('file')
-                    console.log(file)
+                    setFiles([...file,{type:'file',name:file.noteName,id:file.noteId}])
                 })
             }
-
-           
             
         } catch (e) {
             console.log(e.toString());
