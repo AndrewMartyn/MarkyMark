@@ -11,6 +11,7 @@ verificationRouter.use(cors());
 verificationRouter.use(bodyParser.json());
 
 database.connect();
+const url = 'https://marky-mark-clone.herokuapp.com/'
 
 verificationRouter.get("/verification", async (req, res) => {
     const { email } = req.query;
@@ -27,11 +28,11 @@ verificationRouter.get("/verification", async (req, res) => {
                 await db.collection("Users").updateOne({ email: email }, { $set: { verified: true } });
 
                 verified = true;
-                ret = `<meta http-equiv="Refresh" content="5; url='http://localhost:3000/" />Success!<br>Redirecting in 5 seconds...<br><br>or click <a href="http://localhost:3000">here</a> to be redirected immediately.`;
+                ret = `<meta http-equiv="Refresh" content="5; url=${url} />Success!<br>Redirecting in 5 seconds...<br><br>or click <a href=${url}>here</a> to be redirected immediately.`;
             } else
-                ret = `<meta http-equiv="Refresh" content="5; url='http://localhost:3000/" />Success!<br>Redirecting in 5 seconds...<br>or click <a href="http://localhost:3000">here</a> to be redirected immediately.`;
+                ret = `<meta http-equiv="Refresh" content="5; url=${url} />Success!<br>Redirecting in 5 seconds...<br>or click <a href=${url}">here</a> to be redirected immediately.`;
         } else
-            ret = `<meta http-equiv="Refresh" content="10; url='http://localhost:3000/" />Uh oh! Something went wrong :(<br>Redirecting in 10 seconds...<br>or click <a href="http://localhost:3000">here</a> to be redirected immediately.`;
+            ret = `<meta http-equiv="Refresh" content="10; url=${url} />Uh oh! Something went wrong :(<br>Redirecting in 10 seconds...<br>or click <a href=${url}>here</a> to be redirected immediately.`;
     } catch (e) {
         ret = "Server error: " + e.toString();
     }
