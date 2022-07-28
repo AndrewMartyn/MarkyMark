@@ -18,7 +18,6 @@ export default function Tabs(props) {
   const [saveAs,setSaveAs] = useState(false)
   const handleCloseSave = () => setSaveAs(false)
   const handleShowSave = ()=> setSaveAs(true)
-  var navigation = useNavigate("");
 
   let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
 
@@ -130,6 +129,7 @@ export default function Tabs(props) {
       
       console.log('we saved the body')
 
+      props.setChange(true)
       setSaveAs(false)
     }
     catch(e){
@@ -213,7 +213,7 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="#" onClick={handleNavigation("account")}>
+            <Dropdown.Item href="/account">
               Manage Account
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >
@@ -251,7 +251,6 @@ export default function Tabs(props) {
           </Button>
         </Modal.Footer>
       </Modal>
-
 
       <Modal show={saveAs} onHide={handleCloseSave} >
         <Modal.Header closeButton>
