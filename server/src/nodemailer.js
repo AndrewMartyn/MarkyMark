@@ -24,7 +24,7 @@ const sendVerificationEmail = (firstName, email) => {
         subject: "Verify your MarkyMark Account!",
         text: `Hey ${firstName},
         \nThank you for registering for MarkyMark. To start using the application we worked so hard to bring you, please verify your email address by clicking the URL below:
-        \nhttps://marky-mark.herokuapp.com/api/verification?email=${email}
+        \nhttps://marky-mark-clone.herokuapp.com/api/verification?email=${email}
         \nWelcome to MarkyMark,
         \nThe MarkyMark Team`,
     };
@@ -44,7 +44,7 @@ const sendResetEmail = (email, userId, token, type) => {
         subject: "Reset Your MarkyMark Password!",
         text: `Hey MarkyMark User,
         \nSomebody requested a ${type} reset for the account attached to this email, if you didn't do this then you can ignore this email and the URL will expire in 24 hours, otherwise click the URL below to complete the process:
-        \nhttps://marky-mark.herokuapp.com/reset?userId=${userId}&token=${token}&type=${type}
+        \nhttps://marky-mark-clone.herokuapp.com/reset?userId=${userId}&token=${token}&type=${type}
         \nThanks for using MarkyMark,
         \nThe MarkyMark Team`,
     };
