@@ -22,6 +22,8 @@ export default function Login() {
         try {
             const response = await fetch(`${url}api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
+
+            console.log(res)
             
             if (res.error == "") {
                 setSuccess(true);
