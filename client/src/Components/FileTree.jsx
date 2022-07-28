@@ -72,13 +72,17 @@ export default function FileTree(props) {
         onLoad();
     },[])
 
-    const TreeFile = useEffect(()=>{
+    useEffect(()=>{
+        TreeFile()
+    },[props.change])
+
+    const TreeFile = ()=>{
         return(
             <div className="App">
                 <Tree data={allFiles} changed={props.changed} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
             </div>
         )
-    },[allFiles])
+    }
 
     const handleClick = (node) => {
         props.clicked(node);
