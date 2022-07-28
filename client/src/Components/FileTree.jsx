@@ -11,6 +11,7 @@ export default function FileTree(props) {
 
     const onLoad = async ()=>{
         try {
+            setFiles([])
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
 
