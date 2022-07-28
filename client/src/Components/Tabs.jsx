@@ -208,7 +208,7 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="/account" >
+            <Dropdown.Item href="#" >
               Manage Account
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >
