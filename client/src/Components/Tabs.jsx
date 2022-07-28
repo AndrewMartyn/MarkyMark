@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { AiOutlineUser } from "react-icons/ai";
 import { storeToken, retrieveToken } from "../utils";
-import { useNavigate} from "react-router-dom";
+import { Link} from "react-router-dom";
 export default function Tabs(props) {
 
   const url = 'https://marky-mark-clone.herokuapp.com/'
@@ -213,8 +213,10 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="account">
-              Manage Account
+            <Dropdown.Item href="#">
+              <Link to='account' className="text-decoration-none">
+                Manage Account
+              </Link>
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >
                 Sign Out
