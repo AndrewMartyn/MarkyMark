@@ -10,11 +10,11 @@ export default function FileTree(props) {
     const onLoad = async ()=>{
         try {
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
-
+            const url = 'https://marky-mark-clone.herokuapp.com/'
             console.log(userInfo);
 
             const response = await fetch(
-                `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
+                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },

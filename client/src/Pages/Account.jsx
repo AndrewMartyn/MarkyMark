@@ -9,7 +9,7 @@ import { useState } from "react";
 
 export default function Account() {
     var userData = JSON.parse(localStorage.getItem("user_data"));
-
+    const url = 'https://marky-mark-clone.herokuapp.com/'
     let email = userData.email;
     let firstName = userData.firstName;
     let lastName = userData.lastName;
@@ -32,7 +32,7 @@ export default function Account() {
             let json = JSON.stringify(obj);
 
             try {
-                const response = await fetch("http://localhost:5001/api/users/changename", {
+                const response = await fetch(`${url}api/users/changename`, {
                     method: "POST",
                     body: json,
                     headers: { "Content-Type": "application/json" },
@@ -60,7 +60,7 @@ export default function Account() {
         event.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=email`);
+            const response = await fetch(`${url}api/users/requestreset?email=${email.value}&type=email`);
 
             let res = JSON.parse(await response.text());
 
@@ -79,7 +79,7 @@ export default function Account() {
     const handleRequestPasswordReset = async (event) => {
         event.preventDefault();
         try {
-            const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`);
+            const response = await fetch(`${url}api/users/requestreset?email=${email.value}&type=password`);
 
             console.log(email);
 

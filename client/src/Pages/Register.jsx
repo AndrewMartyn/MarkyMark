@@ -21,7 +21,7 @@ export default function Register() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        const url = 'https://marky-mark-clone.herokuapp.com/'
         var passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         var emailRegEx = /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -36,7 +36,7 @@ export default function Register() {
             let json = JSON.stringify(obj);
 
             try {
-                const response = await fetch("http://localhost:5001/api/users", {
+                const response = await fetch(`${url}api/users`, {
                     method: "POST",
                     body: json,
                     headers: { "Content-Type": "application/json" },

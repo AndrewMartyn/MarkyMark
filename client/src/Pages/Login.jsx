@@ -13,14 +13,14 @@ export default function Login() {
     var [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
-
+    const url = 'https://marky-mark-clone.herokuapp.com/'
     var navigation = useNavigate("");
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await fetch(`http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`);
+            const response = await fetch(`${url}api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
             
             if (res.error == "") {

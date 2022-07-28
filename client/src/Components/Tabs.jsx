@@ -10,6 +10,7 @@ import { storeToken, retrieveToken } from "../utils";
 
 export default function Tabs(props) {
 
+  const url = 'https://marky-mark-clone.herokuapp.com/'
   const [show, setShow] = useState(false);
   const [fileName,setFileName] = useState('')
   const handleClose = () => setShow(false);
@@ -83,7 +84,7 @@ export default function Tabs(props) {
     
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:props.clickedFile.node.name,
@@ -114,7 +115,7 @@ export default function Tabs(props) {
     
     try{     
 
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:newFileName,
@@ -124,7 +125,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
