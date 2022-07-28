@@ -14,16 +14,19 @@ database.connect();
 // user searches through their notes based on title and tags
 noteRouter.get("/users/:userId/notes", async (req, res) => {
     const userId = req.params.userId;
-    const { searchText, tags, accessToken } = req.query;
+    const { searchText, accessToken } = req.query;
+    
+    const tags = Array.isArray(req.query.tags) ? req.query.tags: req.query.tags.split(',');
 
-    // try {
-    //     if (jwt.isExpired(accessToken)) {
-    //         res.status(200).json({ error: "Token is no longer valid" });
-    //         return;
-    //     }
-    // } catch (e) {
-    //     console.log(e.message);
-    // }
+    try {
+        console.log(accessToken);
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
+            return;
+        }
+    } catch (e) {
+        console.log(e.message);
+    }
 
     let searchResults = [];
     let search = searchText.trim();
@@ -131,14 +134,14 @@ noteRouter.put("/users/:userId/notes/", async (req, res) => {
     const { accessToken } = req.query;
 
     // check for token first
-    // try {
-    //     if (jwt.isExpired(accessToken)) {
-    //         res.status(200).json({ error: "Token is no longer valid" });
-    //         return;
-    //     }
-    // } catch (e) {
-    //     console.log(e.message);
-    // }
+    try {
+        if (jwt.isExpired(accessToken)) {
+            res.status(200).json({ error: "Token is no longer valid" });
+            return;
+        }
+    } catch (e) {
+        console.log(e.message);
+    }
 
     let error = "";
 
@@ -183,3 +186,4 @@ noteRouter.put("/users/:userId/notes/", async (req, res) => {
 database.close();
 
 module.exports = noteRouter;
+

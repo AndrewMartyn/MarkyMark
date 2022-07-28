@@ -22,12 +22,11 @@ export default function Login() {
         try {
             const response = await fetch(`http://localhost:5001/api/users/?email=${email.value}&password=${password.value}`);
             let res = JSON.parse(await response.text());
-
-            console.log(res);
-
+            
             if (res.error == "") {
                 setSuccess(true);
                 setError("");
+                storeToken(res.accessToken);
                 let user = {
                     firstName: res.firstName,
                     lastName: res.lastName,
@@ -36,7 +35,7 @@ export default function Login() {
                     email: email.value,
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
-                storeToken(res.accessToken);
+                console.log(res);
                 navigation("texteditor");
             } else if (res.error == "No Such Records") {
                 setSuccess(false);

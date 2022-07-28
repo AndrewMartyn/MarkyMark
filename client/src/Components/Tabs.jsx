@@ -6,6 +6,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { AiOutlineUser } from "react-icons/ai";
+import { storeToken, retrieveToken } from "../utils";
 
 export default function Tabs(props) {
 
@@ -39,7 +40,7 @@ export default function Tabs(props) {
 
         let js = JSON.stringify(object)
         
-        const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
+        const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
 
         let res = JSON.parse(await response.text())
 
@@ -55,7 +56,7 @@ export default function Tabs(props) {
 
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       
-      const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let res = JSON.parse(await response.text())
 
@@ -82,7 +83,7 @@ export default function Tabs(props) {
     
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:props.clickedFile.node.name,
@@ -92,7 +93,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
@@ -113,7 +114,7 @@ export default function Tabs(props) {
     
     try{     
 
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&jwtToken=`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:newFileName,
@@ -123,7 +124,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 

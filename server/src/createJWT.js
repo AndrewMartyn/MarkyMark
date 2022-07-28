@@ -9,7 +9,7 @@ const _createToken = (userId, email, firstName, lastName, tags) => {
         tags: tags,
     };
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        // expiresIn: "30m",
+        expiresIn: "",
     });
 };
 
@@ -26,13 +26,20 @@ module.exports = {
         return isError;
     },
     refresh: (token) => {
+        let userId, email, firstName, lastName, tags;
         let ud = jwt.decode(token, { complete: true });
-        let userId = ud.payload.userId;
-        let email = ud.payload.email;
-        let firstName = ud.payload.firstName;
-        let lastName = ud.payload.lastName;
-        let tags = ud.payload.tags;
-
-        return _createToken(userId, email, firstName, lastName, tags);
+        if (ud != null) {
+            try {
+                userId = ud.payload.userId;
+                email = ud.payload.email;
+                firstName = ud.payload.firstName;
+                lastName = ud.payload.lastName;
+                tags = ud.payload.tags;
+            } catch (e) {
+                console.log(e.message);
+            }
+            return _createToken(userId, email, firstName, lastName, tags);
+        }
+        return null;
     },
 };
