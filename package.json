@@ -14,5 +14,8 @@
     "mongoose": "^6.4.1",
     "nodemailer": "^6.7.7",
     "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "moment": "^2.29.4"
   }
 }
