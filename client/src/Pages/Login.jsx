@@ -38,7 +38,7 @@ export default function Login() {
                 };
                 localStorage.setItem("user_data", JSON.stringify(user));
                 console.log(res);
-                setTrue(true)
+                location.href = 'texteditor'
             } else if (res.error == "No Such Records") {
                 setSuccess(false);
                 setError("Invalid email or password combination.");
@@ -85,7 +85,6 @@ export default function Login() {
                     <Button type="submit" onClick={handleSubmit} style={{ marginTop: "1em" }}>
                         Submit
                     </Button>
-                    {isTrue ? <Link to='texteditor'/> : <></>}
                 </Form>
 
                 <Link to="register" className="text-decoration-none">
