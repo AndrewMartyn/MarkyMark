@@ -41,7 +41,7 @@ export default function Tabs(props) {
 
         let js = JSON.stringify(object)
         
-        const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
+        const response = await fetch(`${url}api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
 
         let res = JSON.parse(await response.text())
 
@@ -57,7 +57,7 @@ export default function Tabs(props) {
 
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
       
-      const response = await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      const response = await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let res = JSON.parse(await response.text())
 
@@ -94,7 +94,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
       
-      await fetch(`http://localhost:5001/api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
