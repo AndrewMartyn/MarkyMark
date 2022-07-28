@@ -9,11 +9,10 @@ export default function FileTree(props) {
 
     const url = 'https://marky-mark-clone.herokuapp.com/'
     const [allFiles, setFiles] = useState([]);
-    const [setTreeFile, setTreeFiles] = useState();
-    let vars = 0
 
     const onLoad = async ()=>{
         try {
+            setFiles([])//use this for the next useState
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
 
@@ -36,10 +35,6 @@ export default function FileTree(props) {
 
                 setFiles((files) => [...files, container]);
             });
-
-            if(vars === 0){
-                setTreeFiles(allFiles)
-            }
         } catch (e) {
             console.log(e.toString());
             return;
@@ -78,7 +73,6 @@ export default function FileTree(props) {
 
     useEffect(()=>{
         onLoad();
-        setTreeFiles(allFiles)
     },[props.change === true])
 
 
@@ -100,7 +94,7 @@ export default function FileTree(props) {
 
     return (
         <div className="App">
-            <Tree data={setTreeFile} changed={props.changed} setChange={props.setChange} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
+            <Tree data={allFiles} changed={props.changed} setChange={props.setChange} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
         </div>
     );
 }
