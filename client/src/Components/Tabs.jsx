@@ -145,7 +145,7 @@ export default function Tabs(props) {
   }
 
   function handleNavigation(){
-    location.href = 'account'
+    
   }
 
   const Display = ()=>{
@@ -214,7 +214,7 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="#" onClick={handleNavigation()}>
+            <Dropdown.Item href="account" onClick={handleNavigation()}>
                 Manage Account
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >
