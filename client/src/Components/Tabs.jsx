@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { AiOutlineUser } from "react-icons/ai";
 import { storeToken, retrieveToken } from "../utils";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 export default function Tabs(props) {
 
   const url = 'https://marky-mark-clone.herokuapp.com/'
