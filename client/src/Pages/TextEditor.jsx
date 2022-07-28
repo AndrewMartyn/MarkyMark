@@ -65,7 +65,7 @@ function TextEditor() {
             </div>
 
             <SplitPane split="vertical" minSize="0" defaultSize="10%" className="splitpaneContainer">
-                    {TreeFile}
+                    <TreeFile/>
                 <SplitPane split="vertical" minSize="50%" defaultSize="50%" className="splitpaneContainer">
                     <div className="editor">
                         <Editor clicked={clickedFile} changed={change} setChange={setChange} onChange={handleDocChange} initialDoc={doc} />
