@@ -4,7 +4,6 @@ import "../StyleSheets/FileTree.css";
 import { storeToken, retrieveToken } from "../utils";
 
 export default function FileTree(props) {
-    window.onload = onLoad
 
     const url = 'https://marky-mark-clone.herokuapp.com/'
     const [allFiles, setFiles] = useState([]);
@@ -32,7 +31,7 @@ export default function FileTree(props) {
                 container.name = `${file.noteName}`;
                 container.id = `${file.noteId}`;
 
-                setFiles((files) => [...files, container]);
+                setFiles((files) =>{[...files, container]});
             });
         } catch (e) {
             console.log(e.toString());
@@ -40,7 +39,7 @@ export default function FileTree(props) {
         }
     }
 
-    const onChange = async ()=>{
+    const onReload = async ()=>{
         try {
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
 
@@ -72,8 +71,21 @@ export default function FileTree(props) {
 
     useEffect(()=>{
         onLoad();
+        Trees()
+    },[])
+
+    useEffect(()=>{
+        onLoad();
+        Trees()
     },[props.change === true])
 
+    const Trees = ()=>{
+        return(
+            <div className="App">
+                <Tree data={allFiles} changed={props.changed} setChange={props.setChange} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
+            </div>
+        )
+    }
 
     const handleClick = (node) => {
         props.clicked(node);
@@ -92,8 +104,6 @@ export default function FileTree(props) {
     };
 
     return (
-        <div className="App">
-            <Tree data={allFiles} changed={props.changed} onUpdate={handleUpdate} onNodeClick={handleClick} setDoc={props.setDoc} doc={props.doc} />
-        </div>
+        <Trees/>
     );
 }

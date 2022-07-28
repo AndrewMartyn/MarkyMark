@@ -16,6 +16,8 @@ function TextEditor() {
     const [change,setChange] = useState(false);
     const [clickedFile, setClickedFile] = useState("nothing");
     
+
+    console.log(change)
     const fileClicked = clickedFile === "nothing" ? true : false;
 
     const handleDocChange = useCallback((newDoc) => {
