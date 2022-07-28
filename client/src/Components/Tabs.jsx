@@ -144,6 +144,9 @@ export default function Tabs(props) {
       localStorage.setItem('user_data', JSON.stringify(user));
   }
 
+  function handleNavigation(){
+    location.href = 'account'
+  }
 
   const Display = ()=>{
 
@@ -211,7 +214,7 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="#" onclick="location.href='/account'">
+            <Dropdown.Item href="#" onclick={handleNavigation()}>
                 Manage Account
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >
