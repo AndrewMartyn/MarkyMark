@@ -48,6 +48,7 @@ export default function Account() {
                     setSuccess(false);
                 }
             } catch (e) {
+                
                 console.log(e.toString());
             }
         } else {
