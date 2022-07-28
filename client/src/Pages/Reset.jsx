@@ -25,7 +25,7 @@ export default function Reset() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        const url = 'https://marky-mark-clone.herokuapp.com/'
         var passwordRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,20}$/;
         var emailRegEx = /^[a-zA-Z0-9.!#$%&*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 
@@ -48,7 +48,7 @@ export default function Reset() {
 
         try {
             if (valid) {
-                const response = await fetch("http://localhost:5001/api/users/reset", {
+                const response = await fetch(`${url}api/users/reset`, {
                     method: "POST",
                     body: json,
                     headers: { "Content-Type": "application/json" },

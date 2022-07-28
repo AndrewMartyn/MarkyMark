@@ -11,7 +11,7 @@ export default function ForgotPassword() {
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
-
+    const url = 'https://marky-mark-clone.herokuapp.com/'
     var navigation = useNavigate("");
 
     const handleSubmit = async (event) => {
@@ -21,7 +21,7 @@ export default function ForgotPassword() {
 
         if (email.value.match(emailRegEx)) {
             try {
-                const response = await fetch(`http://localhost:5001/api/users/requestreset?email=${email.value}&type=password`);
+                const response = await fetch(`${url}api/users/requestreset?email=${email.value}&type=password`);
                 let res = JSON.parse(await response.text());
 
                 console.log(res);

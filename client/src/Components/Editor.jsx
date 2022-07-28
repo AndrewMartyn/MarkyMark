@@ -4,6 +4,8 @@ import useCodeMirror from "./useCodeMirror";
 import "../StyleSheets/Editor.css";
 
 const Editor = ({ initialDoc, onChange, clicked, setChange,changed }) => {
+
+    const url = 'https://marky-mark-clone.herokuapp.com/'
     const handleChange = useCallback(
         (state) => {
             onChange(state.doc.toString(), localStorage.setItem("user_body", JSON.stringify(state.doc.toString())));
@@ -31,7 +33,7 @@ const Editor = ({ initialDoc, onChange, clicked, setChange,changed }) => {
                     let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
 
                     const response = await fetch(
-                        `http://localhost:5001/api/users/${userInfo.userId}/notes?searchText=${fileName}&tags[]=&accessToken=${accessToken}`,
+                        `${url}api/users/${userInfo.userId}/notes?searchText=${fileName}&tags[]=&accessToken=${accessToken}`,
                         { method: "GET", headers: { "Content-Type": "application/json" }}
                     );
 
