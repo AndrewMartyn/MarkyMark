@@ -7,7 +7,7 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import { AiOutlineUser } from "react-icons/ai";
 import { storeToken, retrieveToken } from "../utils";
-
+import { useNavigate} from "react-router-dom";
 export default function Tabs(props) {
 
   const url = 'https://marky-mark-clone.herokuapp.com/'
@@ -18,6 +18,7 @@ export default function Tabs(props) {
   const [saveAs,setSaveAs] = useState(false)
   const handleCloseSave = () => setSaveAs(false)
   const handleShowSave = ()=> setSaveAs(true)
+  var navigation = useNavigate("");
 
   let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
 
@@ -41,7 +42,7 @@ export default function Tabs(props) {
 
         let js = JSON.stringify(object)
         
-        const response = await fetch(`${url}api/users/${userInfo.userId}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
+        const response = await fetch(`${url}api/users/${userInfo.id}/notes?accessToken=${retrieveToken()}`,{method:'PUT',body : js,headers:{'Content-Type': 'application/json'}});
 
         let res = JSON.parse(await response.text())
         props.setChange(true)
@@ -57,7 +58,7 @@ export default function Tabs(props) {
 
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
     
-      const response = await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      const response = await fetch(`${url}api/users/${userInfo.id}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let res = JSON.parse(await response.text())
 
@@ -84,7 +85,7 @@ export default function Tabs(props) {
     
       let userInfo = JSON.parse(window.localStorage.getItem('user_data'))
 
-      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.id}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:props.clickedFile.node.name,
@@ -94,7 +95,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
   
-      await fetch(`${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.id}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
@@ -115,7 +116,7 @@ export default function Tabs(props) {
     
     try{     
   
-      await fetch(`${url}api/users/${userInfo.userId}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
+      await fetch(`${url}api/users/${userInfo.id}/notes?searchText=${props.clickedFile.node.name}&tags[]=&accessToken=${retrieveToken()}`,{method:'GET',headers:{'Content-Type': 'application/json'}});
 
       let object = {
           name:newFileName,
@@ -125,7 +126,7 @@ export default function Tabs(props) {
 
       let js = JSON.stringify(object)
     
-      await fetch(` ${url}api/users/${userInfo.userId}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
+      await fetch(` ${url}api/users/${userInfo.id}/notes?noteId=${props.clickedFile.node.id}&accessToken=${retrieveToken()}`,{method:'PUT',body :js,headers:{'Content-Type': 'application/json'}});
       
       console.log('we saved the body')
 
@@ -140,6 +141,10 @@ export default function Tabs(props) {
   function logOut(){
       let user = { userId:'',firstName:'',lastName:'',tags:''}
       localStorage.setItem('user_data', JSON.stringify(user));
+  }
+
+  function handleNavigation(value){
+    navigation(value)
   }
 
   const Display = ()=>{
@@ -208,7 +213,7 @@ export default function Tabs(props) {
             <Dropdown.Item href="#">
               {userInfo.firstName} {userInfo.lastName}
             </Dropdown.Item>
-            <Dropdown.Item href="#" >
+            <Dropdown.Item href="#" onClick={handleNavigation("account")}>
               Manage Account
             </Dropdown.Item>
             <Dropdown.Item href="/" onClick={logOut} >

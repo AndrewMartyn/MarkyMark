@@ -13,9 +13,10 @@ export default function FileTree(props) {
     
             let userInfo = JSON.parse(window.localStorage.getItem("user_data"));
             console.log(userInfo);
+
         
             const response = await fetch(
-                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}` ,
+                `${url}api/users/${userInfo.id}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
@@ -46,7 +47,7 @@ export default function FileTree(props) {
             console.log(userInfo);
           
             const response = await fetch(
-                `${url}api/users/${userInfo.userId}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
+                `${url}api/users/${userInfo.id}/notes?searchText=&tags[]=&accessToken=${retrieveToken()}`,
                 {
                     method: "GET",
                     headers: { "Content-Type": "application/json" },
